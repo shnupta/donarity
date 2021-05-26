@@ -1,4 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;800&display=swap');
 /* Set min-height to avoid page reflow while session loading */
+.navBar {
+    background-color: var(--donarity-light-gray);
+    font-family: 'Dosis', sans-serif;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.navBar .title {
+    font-size: 2rem;
+    font-weight:800;
+    color: var(--donarity-green);
+}
+
+.navBar .navbar-nav .nav-link {
+  color: var(--donarity-green);
+}
+
+.navBar button {
+  color: #FFFFFF;
+  background-color: var(--donarity-green);
+  border-color: var(--donarity-green);
+}
+
 .signedInStatus {
     display: block;
     min-height: 4rem;

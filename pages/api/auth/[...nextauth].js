@@ -11,32 +11,6 @@ export default NextAuth({
         clientSecret: process.env.AUTH0_SECRET,
         domain: process.env.AUTH0_DOMAIN,
       }),
-    Providers.Email({
-      server: process.env.EMAIL_SERVER,
-      from: process.env.EMAIL_FROM,
-    }),
-    Providers.Credentials({
-        name: 'Credentials',
-        credentials: {
-            email: { label: "Email", type: "email", placeholder: "friendly@donator.com" },
-            password: { label: "Password", type: "password", placeholder: "password" }
-        },
-        async authorize(credentials, req) {
-          // Add logic here to look up the user from the credentials supplied
-          const user = { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-    
-          if (user) {
-            // Any object returned will be saved in `user` property of the JWT
-            return user
-          } else {
-            // If you return null or false then the credentials will be rejected
-            return null
-            // You can also Reject this callback with an Error or with a URL:
-            // throw new Error('error message') // Redirect to error page
-            // throw '/path/to/redirect'        // Redirect to a URL
-          }
-        }
-    }),
   ],
   // Database optional. MySQL, Maria DB, Postgres and MongoDB are supported.
   // https://next-auth.js.org/configuration/databases

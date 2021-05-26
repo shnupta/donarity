@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <Layout>
       <div className={styles.container}>
-      <h1>NextAuth.js Example</h1>
+      <h1>Donarity</h1>
       <p>
         This is an example site to demonstrate how to use <a href={`https://next-auth.js.org`}>NextAuth.js</a> for authentication.
         </p>
