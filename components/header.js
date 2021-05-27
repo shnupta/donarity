@@ -17,15 +17,19 @@ export default function Header() {
     const [session, loading] = useSession()
 
     return (
-        <Navbar className={styles.navBar} bg="{styles.headerBg}" variant="light" style={{ minWidth: 700 }}>
-            <Navbar.Brand className={styles.title} href="#home">Donarity</Navbar.Brand>
-            <Nav className="mr-auto links">
-                <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href="#features">Features</Nav.Link>
-                <Nav.Link href="#pricing">Pricing</Nav.Link>
+        <Navbar className={styles.navBar} variant="light" style={{ minWidth: 700 }}>
+            <Navbar.Brand className={styles.title} href="/">Donarity</Navbar.Brand>
+            <Nav className="ml-auto links">
+                {!session && (
+                <Nav.Link onClick={() => signIn("auth0", { callbackUrl: 'http://localhost:3000/feed' })}>Login / Signup</Nav.Link>
+                )}
+                {session && (
+                <Nav.Link onClick={() => signOut({ callbackUrl: 'http://localhost:3000/' })}>Sign Out</Nav.Link>
+                )}
+                <Nav.Link href="/about">About</Nav.Link>
+                <Nav.Link href="/charities">Charities</Nav.Link>
+                <Nav.Link href="/contact">Contact Us</Nav.Link>
             </Nav>
-            <Button href="/api/auth/signin" variant="outline-dark">Login</Button>
-            <Button variant="outline-dark">Signup</Button>
         </Navbar>
     )
 }

@@ -6,11 +6,11 @@ import Providers from "next-auth/providers"
 export default NextAuth({
   // https://next-auth.js.org/configuration/providers
   providers: [
-      Providers.Auth0({
-        clientId: process.env.AUTH0_ID,
-        clientSecret: process.env.AUTH0_SECRET,
-        domain: process.env.AUTH0_DOMAIN,
-      }),
+    Providers.Auth0({
+      clientId: process.env.AUTH0_ID,
+      clientSecret: process.env.AUTH0_SECRET,
+      domain: process.env.AUTH0_DOMAIN,
+    }),
   ],
   // Database optional. MySQL, Maria DB, Postgres and MongoDB are supported.
   // https://next-auth.js.org/configuration/databases

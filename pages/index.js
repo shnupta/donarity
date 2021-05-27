@@ -2,9 +2,18 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Layout from '../components/layout'
+import { useSession } from 'next-auth/client'
 
 export default function Home() {
+  const [session, loading] = useSession()
+
+  if (loading) return null
+
   return (
+    <>
+    <Head>
+      <title>Donarity</title>
+    </Head>
     <Layout>
       <div className={styles.container}>
       <h1>Donarity</h1>
@@ -13,5 +22,6 @@ export default function Home() {
         </p>
       </div>
     </Layout>
+    </>
   )
 }
