@@ -10,6 +10,7 @@ export default NextAuth({
       clientId: process.env.AUTH0_ID,
       clientSecret: process.env.AUTH0_SECRET,
       domain: process.env.AUTH0_DOMAIN,
+      authorizationUrl: `https://${process.env.AUTH0_DOMAIN}/authorize?response_type=code&prompt=login`,
     }),
   ],
   // Database optional. MySQL, Maria DB, Postgres and MongoDB are supported.

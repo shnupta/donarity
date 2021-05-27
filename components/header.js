@@ -24,7 +24,7 @@ export default function Header() {
                 <Nav.Link onClick={() => signIn("auth0", { callbackUrl: 'http://localhost:3000/feed' })}>Login / Signup</Nav.Link>
                 )}
                 {session && (
-                <Nav.Link onClick={() => signOut({ callbackUrl: 'http://localhost:3000/' })}>Sign Out</Nav.Link>
+                <Nav.Link onClick={() => signOut({ callbackUrl: 'http://localhost:3000/'})}>Sign Out</Nav.Link>
                 )}
                 <Nav.Link href="/about">About</Nav.Link>
                 <Nav.Link href="/charities">Charities</Nav.Link>
