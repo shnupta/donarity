@@ -1,0 +1,44 @@
+.tile {
+  position: relative;
+  border-radius: 20px;
+  background-color: var(--donarity-light-gray);
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.25); 
+  box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.25);
+}
+.tile h1 {
+  font-weight: 800;
+  font-size: 1.4em;
+}
+.tile h2 {
+  font-weight: 700;
+  font-size: 1.2em;
+  color: var(--donarity-off-black);
+}
+.tile p {
+  color: var(--donarity-off-black);
+  line-height: 1.2;
+}
+.tile img {
+  width: 100%;
+  border-radius: 20px;
+}
+.blurb_container {
+  padding: 20px 50px;
+}
+
+
+.horizontal.tile img {
+  float: left;
+  height:100%;
+  width:auto;
+}
+.horizontal .blurb_container {
+  overflow: hidden;
+  position: relative;
+  top:50%;
+  transform: translateY(-50%);
+}
+.horizontal.tile h1 {
+  font-size: 2em;
+  margin-bottom: 0;
+}
