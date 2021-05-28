@@ -1,22 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;800&display=swap');
 /* Set min-height to avoid page reflow while session loading */
 .navBar {
     background-color: var(--donarity-light-gray);
-    font-family: 'Dosis', sans-serif;
     position: sticky;
     top: 0;
     left: 0;
     right: 0;
+    z-index: 100000;
 }
 
 .navBar .title {
+    font-family: 'Dosis', sans-serif;
     font-size: 2rem;
     font-weight:800;
     color: var(--donarity-green);
 }
+.links {
+  margin-left: auto;
+}
+.navBar .title:hover {
+  color: var(--donarity-green-darkened);
+}
 
-.navBar .navbar-nav .nav-link {
+.navBar .links .navLink {
   color: var(--donarity-green);
+}
+
+.navBar .links .navLink:hover {
+  color: var(--donarity-green-darkened);
 }
 
 .navBar button {
@@ -24,95 +34,28 @@
   background-color: var(--donarity-green);
   border-color: var(--donarity-green);
 }
+  
+.navItems {
+  margin-bottom: 2rem;
+  padding: 0;
+  list-style: none;
+}
 
-.signedInStatus {
-    display: block;
-    min-height: 4rem;
-    width: 100%;
-  }
-  
-  .loading,
-  .loaded {
-    position: relative;
-    top: 0;
-    opacity: 1;
-    overflow: hidden;
-    border-radius: 0 0 .6rem .6rem;
-    padding: .6rem 1rem;
-    margin: 0;
-    background-color: rgba(0,0,0,.05);
-    transition: all 0.2s ease-in;
-  }
-  
-  .loading {
-    top: -2rem;
-    opacity: 0;
-  }
-  
-  .signedInText,
-  .notSignedInText {
-    position: absolute;
-    padding-top: .8rem;
-    left: 1rem;
-    right: 6.5rem;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: inherit;  
-    z-index: 1;
-    line-height: 1.3rem;
-  }
-  
-  .signedInText {
-    padding-top: 0rem;
-    left: 4.6rem;
-  }
-  
-  .avatar {
-    border-radius: 2rem;
-    float: left;
-    height: 2.8rem;
-    width: 2.8rem;
-    background-color: white;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-  
-  .button,
-  .buttonPrimary {
-    float: right;
-    margin-right: -.4rem;
-    font-weight: 500;
-    border-radius: .3rem;
-    cursor: pointer;
-    font-size: 1rem;
-    line-height: 1.4rem;
-    padding: .7rem .8rem;
-    position: relative;
-    z-index: 10;
-    background-color: transparent;
-    color: #555;
-  }
-  
-  .buttonPrimary {
-    background-color: #346df1;
-    border-color: #346df1;
-    color: #fff;
-    text-decoration: none;
-    padding: .7rem 1.4rem;
-  }
-  
-  .buttonPrimary:hover {
-    box-shadow: inset 0 0 5rem rgba(0,0,0,0.2)
-  }
-  
-  .navItems {
-    margin-bottom: 2rem;
-    padding: 0;
-    list-style: none;
-  }
-  
-  .navItem {
-    display: inline-block;
-    margin-right: 1rem;
-  }
+.navItem {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+.curve {
+  background-color:var(--donarity-light-gray);
+  width:100%;
+  height:20px;
+  border-bottom-left-radius:100%;
+  border-bottom-right-radius:100%;
+  transform: translateY(-50%);
+  position:fixed;
+}
+
+.active {
+  font-weight: 700;
+}

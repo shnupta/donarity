@@ -1,19 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;800&display=swap');
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Dosis', sans-serif; 
+  font-family: filson-pro, sans-serif; 
 }
 
 a {
   color: inherit;
   text-decoration: none;
 }
+h1 {
+  font-weight: 700;
+}
 
 :root {
   --donarity-green: #40b661;
+  --donarity-green-darkened: #3ca554;
   --donarity-light-gray: #ededed;
   --donarity-dark-gray: #a5a5a5;
+  --donarity-off-black: #5b5b5b;
 }
 
 * {
