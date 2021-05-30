@@ -29,6 +29,7 @@ export default function Header() {
                 <Nav.Link className={styles.navLink + (path === "/about" ? " " + styles.active : "")} href="/about">About</Nav.Link>
                 <Nav.Link className={styles.navLink + (path === "/charities" ? " " + styles.active : "")} href="/charities">Charities</Nav.Link>
                 <Nav.Link className={styles.navLink + (path === "/contact" ? " " + styles.active : "")} href="/contact">Contact Us</Nav.Link>
+                <Nav.Link className={styles.navLink + (path === "/profile" ? " " + styles.active : "")} href="/profile">Profile</Nav.Link>
             </Nav>
         </Navbar>
         <div className={styles.curve}></div>
