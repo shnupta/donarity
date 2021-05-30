@@ -11,18 +11,20 @@ export default function ProfilePage() {
             </Head>
             <Layout>
                 <section className={styles.section}>
-                    <h1>Bella Moraru</h1>
-                    <h2 className={styles.subcomponent_title}>Vertical Explore Tile:</h2>
-                    <ExploreTile img="/test/dog.png" charityPage="#" width="400px">
-                        <h1>Dogs Trust</h1>
-                        <p>Our mission is to bring about the day when all dogs can enjoy a happy life, free from the threat of unnecessary destruction</p>
-                    </ExploreTile>
-                    <h2 className={styles.subcomponent_title}>Horizontal Explore Tile:</h2>
-                    <ExploreTile img="/test/red-cross.png" charityPage="#" width="90%" height="300px" horizontal>
-                        <h1>British Red Cross</h1>
-                        <h2>UK Coronavirus Response</h2>
-                        <p>The coronavirus outbreak is the greatest global health emergency in living memory. It is affecting the way we all go about our daily lives. In these uncertain times, small acts of kindness can make a huge difference.</p>
-                    </ExploreTile>
+                    <div className="row m-b-r m-t-3">
+                        <div className="col-md-2 offset-md-1">
+                            <img src="/test/red-cross.png" alt=""
+                                 className="img-circle img-fluid" />
+                        </div>
+                        <div>
+                            <h2>Bella Moraru</h2>
+                            <h5>Animal lover!!</h5>
+                        </div>
+                    </div>
+                    <h2 className={styles.subcomponent_title}>£10 monthly donations</h2>
+                    <h2 className={styles.subcomponent_title}>Following 8 charities</h2>
+                    <h2 className={styles.subcomponent_title}>Interests</h2>
+                    <h2 className={styles.subcomponent_title}>Donation History</h2>
                 </section>
             </Layout>
         </>
