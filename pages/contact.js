@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Layout from '../components/layout'
 import styles from '../styles/PageTitle.module.css'
+import PageTitle from "../components/page-title";
 
 export default function ContactPage() {
     return (
@@ -9,7 +10,7 @@ export default function ContactPage() {
                 <title>Contact Us</title>
             </Head>
             <Layout>
-                <section className={styles.section}>
+                <PageTitle>
                     <p><h1>Contact Us</h1></p>
                     <p><h4>For any enquiries you have, please e-mail or call us on</h4>
                     </p>
@@ -17,7 +18,7 @@ export default function ContactPage() {
                         <h4>hello@donarity.co.uk</h4>
                         <h4>+447896541235</h4>
                     </p>
-                </section>
+                </PageTitle>
             </Layout>
         </>
     )

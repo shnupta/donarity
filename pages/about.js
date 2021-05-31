@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Layout from '../components/layout'
 import styles from '../styles/PageTitle.module.css'
+import PageTitle from '../components/page-title'
 
 export default function AboutPage() {
     return (
@@ -9,7 +10,7 @@ export default function AboutPage() {
                 <title>About</title>
             </Head>
             <Layout>
-                <section className={styles.section}>
+                <PageTitle>
                     <h1>About</h1>
                     <br></br>
                     <h3>Donarity. A place for making donating easier.</h3>
@@ -35,7 +36,7 @@ export default function AboutPage() {
                         can go onto your feed to see the progress on the projects you have contributed to.
                         </p>
                         </h5>
-                </section>
+                </PageTitle>
             </Layout>
         </>
     )

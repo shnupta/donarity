@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Layout from '../components/layout'
 import styles from '../styles/PageTitle.module.css'
+import PageTitle from "../components/page-title";
 
 export default function ProfilePage() {
     return (
@@ -9,7 +10,7 @@ export default function ProfilePage() {
                 <title>My Profile</title>
             </Head>
             <Layout>
-                <section className={styles.section}>
+                <PageTitle>
                     <div className="row m-b-r m-t-3">
                         <div className="col-md-2 offset-md-1">
                             <img src="/test/red-cross.png" alt=""
@@ -24,7 +25,7 @@ export default function ProfilePage() {
                     <h2 className={styles.subcomponent_title}>Following 8 charities</h2>
                     <h2 className={styles.subcomponent_title}>Interests</h2>
                     <h2 className={styles.subcomponent_title}>Donation History</h2>
-                </section>
+                </PageTitle>
             </Layout>
         </>
     )
