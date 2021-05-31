@@ -1,7 +1,7 @@
 import Head from 'next/head'
-import ExploreTile from '../components/explore-tile'
-import Layout from '../components/layout'
-import styles from '../styles/ComponentDemos.module.css'
+import ExploreTile from '../../components/explore-tile'
+import Layout from '../../components/layout'
+import styles from '../../styles/ComponentDemos.module.css'
 
 export default function ProfilePage() {
     return (

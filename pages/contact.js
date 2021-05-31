@@ -11,6 +11,8 @@ export default function ContactPage()  {
         </Head>
         <Layout>
             <h1>Contact Us</h1>
+            <h4>johndoe@gmail.com</h4>
+            <h4>+447896541235</h4>
         </Layout>
         </>
     )
