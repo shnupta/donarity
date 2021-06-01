@@ -4,7 +4,7 @@ import Layout from '../../components/layout'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
-import styles from '../../styles/FeedDemo.module.css'
+import styles from '../../styles/Feed.module.css'
 
 export default function ComponentDemos() {
     return (
