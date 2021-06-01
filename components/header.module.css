@@ -48,7 +48,7 @@
 
 .curve {
   background-color:var(--donarity-light-gray);
-  width:100%;
+  width:auto;
   height:20px;
   border-bottom-left-radius:100%;
   border-bottom-right-radius:100%;

@@ -10,14 +10,14 @@ export default function ComponentDemos() {
     return (
     <>
     <Head>
-        <title>Welcome to your feed</title>
+        <title>My Feed</title>
     </Head>
     <Layout>
             <section className={styles.component_title}>
-                <h1 style={{fontSize: '60px'}}>Your Feed</h1>
+                <h1 style={{fontSize: '60px'}}>My Feed</h1>
             </section>
-        <Row>
-            <Col sm={3} style={{paddingLeft:'5rem', paddingRight:'1rem'}}>
+        <Row style={{width:'100%', marginLeft:'0px', marginRight:'0px'}}>
+            <Col sm={3} style={{paddingLeft:'4rem', paddingRight:'1rem'}}>
                 <section className={styles.subscriptions}>
                 <h1>Your Charities</h1>
                 <ul>
