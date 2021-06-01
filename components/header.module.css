@@ -48,12 +48,13 @@
 
 .curve {
   background-color:var(--donarity-light-gray);
-  width:100%;
+  width:auto;
   height:20px;
   border-bottom-left-radius:100%;
   border-bottom-right-radius:100%;
   transform: translateY(-50%);
   position:fixed;
+  z-index: 1000;
 }
 
 .active {

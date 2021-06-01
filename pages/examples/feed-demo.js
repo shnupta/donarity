@@ -1,13 +1,13 @@
 import Head from 'next/head'
-import FeedTile from '../components/feed/feed-tile'
-import Layout from '../components/layout'
+import FeedTile from '../../components/feed/feed-tile'
+import Layout from '../../components/layout'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
-import styles from '../styles/Feed.module.css'
+import styles from '../../styles/Feed.module.css'
 
-export default function FeedPage() {
-    return  (
+export default function ComponentDemos() {
+    return (
     <>
     <Head>
         <title>My Feed</title>
@@ -16,8 +16,8 @@ export default function FeedPage() {
             <section className={styles.component_title}>
                 <h1 style={{fontSize: '60px'}}>My Feed</h1>
             </section>
-        <Row>
-            <Col sm={3} style={{paddingLeft:'5rem', paddingRight:'1rem'}}>
+        <Row style={{width:'100%', marginLeft:'0px', marginRight:'0px'}}>
+            <Col sm={3} style={{paddingLeft:'4rem', paddingRight:'1rem'}}>
                 <section className={styles.subscriptions}>
                 <h1>Your Charities</h1>
                 <ul>
