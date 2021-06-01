@@ -30,7 +30,7 @@ export default function ComponentDemos() {
                 </ul>
                 </section>
             </Col>
-            <Col sm={9}>
+            <Col sm={6}>
                 <FeedTile title="Dogs Trust" img="https://marketingweek.imgix.net/content/uploads/2013/11/dogs-trust-paws-2013-460.jpeg?auto=compress,format&q=60&w=460&h=341">
                     <p>Our mission is to bring about the day when all dogs can enjoy a happy life, free from the threat of unnecessary destruction</p>
                 </FeedTile>
@@ -64,6 +64,8 @@ export default function ComponentDemos() {
                     <section style={{ display: 'flex', justifyContent: 'flex-end' }}>
                      <Button className={styles.button}>Click To See More</Button>
                     </section>
+            </Col>
+            <Col sm={3}>
             </Col>
         </Row>
     </Layout>
