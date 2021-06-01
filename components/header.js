@@ -18,7 +18,12 @@ export default function Header() {
     return (
         <>
             <Navbar className={styles.navBar} variant="light" style={{ minWidth: 700 }}>
+                {!session && (
                 <Navbar.Brand className={styles.title} href="/">Donarity</Navbar.Brand>
+                )}
+                {session && (
+                <Navbar.Brand className={styles.title} href="/feed">Donarity</Navbar.Brand>
+                )}
                 <Nav className={styles.links}>
                     {!session && (
                         <>
