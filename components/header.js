@@ -17,22 +17,28 @@ export default function Header() {
 
     return (
         <>
-        <Navbar className={styles.navBar} variant="light" style={{ minWidth: 700 }}>
-            <Navbar.Brand className={styles.title} href="/">Donarity</Navbar.Brand>
-            <Nav className={styles.links}>
-                {!session && (
-                <Nav.Link className={styles.navLink} onClick={() => signIn("auth0", { callbackUrl: 'http://localhost:3000/feed' })}>Login / Signup</Nav.Link>
-                )}
-                {session && (
-                <Nav.Link className={styles.navLink} onClick={() => signOut({ callbackUrl: 'http://localhost:3000/'})}>Sign Out</Nav.Link>
-                )}
-                <Nav.Link className={styles.navLink + (path === "/about" ? " " + styles.active : "")} href="/about">About</Nav.Link>
-                <Nav.Link className={styles.navLink + (path === "/charities" ? " " + styles.active : "")} href="/charities">Charities</Nav.Link>
-                <Nav.Link className={styles.navLink + (path === "/contact" ? " " + styles.active : "")} href="/contact">Contact Us</Nav.Link>
-                <Nav.Link className={styles.navLink + (path === "/profile" ? " " + styles.active : "")} href="/profile">Profile</Nav.Link>
-            </Nav>
-        </Navbar>
-        <div className={styles.curve}></div>
+            <Navbar className={styles.navBar} variant="light" style={{ minWidth: 700 }}>
+                <Navbar.Brand className={styles.title} href="/">Donarity</Navbar.Brand>
+                <Nav className={styles.links}>
+                    {!session && (
+                        <>
+                            <Nav.Link className={styles.navLink} onClick={() => signIn("auth0", { callbackUrl: 'http://localhost:3000/feed' })}>Login / Signup</Nav.Link>
+                            <Nav.Link className={styles.navLink + (path === "/about" ? " " + styles.active : "")} href="/about">About</Nav.Link>
+                            <Nav.Link className={styles.navLink + (path === "/charities" ? " " + styles.active : "")} href="/charities">Charities</Nav.Link>
+                            <Nav.Link className={styles.navLink + (path === "/contact" ? " " + styles.active : "")} href="/contact">Contact Us</Nav.Link>
+                        </>
+                    )}
+                    {session && (
+                        <>
+                            <Nav.Link className={styles.navLink + (path === "/feed" ? " " + styles.active : "")} href="/feed">My Feed</Nav.Link>
+                            <Nav.Link className={styles.navLink + (path === "/explore" ? " " + styles.active : "")} href="/explore">Explore</Nav.Link>
+                            <Nav.Link className={styles.navLink + (path === "/profile" ? " " + styles.active : "")} href="/profile">Profile</Nav.Link>
+                            <Nav.Link className={styles.navLink} onClick={() => signOut({ callbackUrl: 'http://localhost:3000/' })}>Sign Out</Nav.Link>
+                        </>
+                    )}
+                </Nav>
+            </Navbar>
+            <div className={styles.curve}></div>
         </>
     )
 }
