@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import FeedTile from '../components/feed/feed-tile'
 import Layout from '../components/layout'
-<<<<<<< HEAD
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
