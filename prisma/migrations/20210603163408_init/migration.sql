@@ -1,19 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Account` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `User` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropForeignKey
-ALTER TABLE "Account" DROP CONSTRAINT "Account_userId_fkey";
-
--- DropTable
-DROP TABLE "Account";
-
--- DropTable
-DROP TABLE "User";
-
 -- CreateTable
 CREATE TABLE "accounts" (
     "id" SERIAL NOT NULL,
@@ -65,6 +49,15 @@ CREATE TABLE "verification_requests" (
     "expires" TIMESTAMP(3) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "charities" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "image" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
 );

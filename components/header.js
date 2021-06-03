@@ -15,6 +15,8 @@ export default function Header() {
     const router = useRouter();
     const path = router.asPath;
 
+    if (loading) return null
+
     return (
         <>
             <Navbar className={styles.navBar} variant="light" style={{ minWidth: 700 }}>
@@ -22,7 +24,7 @@ export default function Header() {
                 <Navbar.Brand className={styles.title} href="/">Donarity</Navbar.Brand>
                 )}
                 {session && (
-                <Navbar.Brand className={styles.title} href="/feed">Donarity</Navbar.Brand>
+                <Navbar.Brand className={styles.title} href="/explore">Donarity</Navbar.Brand>
                 )}
                 <Nav className={styles.links}>
                     {!session && (
@@ -35,9 +37,8 @@ export default function Header() {
                     )}
                     {session && (
                         <>
-                            <Nav.Link className={styles.navLink + (path === "/feed" ? " " + styles.active : "")} href="/feed">My Feed</Nav.Link>
                             <Nav.Link className={styles.navLink + (path === "/explore" ? " " + styles.active : "")} href="/explore">Explore</Nav.Link>
-                            <Nav.Link className={styles.navLink + (path === "/profile" ? " " + styles.active : "")} href="/profile">Profile</Nav.Link>
+                            <Nav.Link className={styles.navLink + (path === "/manage" ? " " + styles.active : "")} href="/manage">Manage Donations</Nav.Link>
                             <Nav.Link className={styles.navLink} onClick={() => signOut({ callbackUrl: 'http://localhost:3000/' })}>Sign Out</Nav.Link>
                         </>
                     )}
