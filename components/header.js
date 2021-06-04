@@ -19,13 +19,15 @@ export default function Header() {
 
     return (
         <>
-            <Navbar className={styles.navBar} variant="light" style={{ minWidth: 700 }}>
+            <Navbar className={styles.navBar} expand="lg" variant="light">
                 {!session && (
                 <Navbar.Brand className={styles.title} href="/">Donarity</Navbar.Brand>
                 )}
                 {session && (
                 <Navbar.Brand className={styles.title} href="/explore">Donarity</Navbar.Brand>
                 )}
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className={styles.links}>
                     {!session && (
                         <>
@@ -43,6 +45,7 @@ export default function Header() {
                         </>
                     )}
                 </Nav>
+                </Navbar.Collapse>
             </Navbar>
             <div className={styles.curve}></div>
         </>
