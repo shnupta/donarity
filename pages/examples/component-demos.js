@@ -1,7 +1,9 @@
 import Head from 'next/head'
 import ExploreTile from '../../components/explore-tile'
 import Layout from '../../components/layout'
+import PageTitle from '../../components/page-title'
 import styles from '../../styles/ComponentDemos.module.css'
+import PageTitle from '../components/page-title'
 
 export default function ComponentDemos() {
   return (
@@ -10,7 +12,7 @@ export default function ComponentDemos() {
       <title>Component Demo</title>
     </Head>
     <Layout>
-      <h1>Component Demos</h1>
+      <PageTitle>Component Demos</PageTitle>
       <section className={styles.section}>
         <h1>Explore Tile:</h1>
         <h2 className={styles.subcomponent_title}>Vertical Explore Tile:</h2>

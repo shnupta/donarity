@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Layout from '../components/layout'
+import PageTitle from '../components/page-title'
 
 export default function AboutPage() {
     return (
@@ -8,7 +9,7 @@ export default function AboutPage() {
             <title>About</title>
         </Head>
         <Layout>
-            <h1>About</h1>
+            <PageTitle>About</PageTitle>
             <h3>Donarity. A place for making donating easier.</h3>
             <p>
                 Donarity was created as a group software engineering project by 4 Computing students at Imperial

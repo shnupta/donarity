@@ -1,9 +1,11 @@
 .main {
   width: 80%;
   margin: 40px auto 0 auto;
+  max-width: 1200px;
 }
 
-.main h1 {
-  font-family: 'Dosis', sans-serif;
-  font-size: 3.5em;
+@media only screen and (max-width: 600px) {
+  .main {
+    width: 95%;
+  }
 }

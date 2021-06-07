@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Layout from '../components/layout'
+import PageTitle from '../components/page-title'
 import { useSession } from 'next-auth/client'
 
 export default function Home() {
@@ -14,7 +15,7 @@ export default function Home() {
       <title>Donarity | Home</title>
     </Head>
     <Layout>
-      <h1>Donarity</h1>
+      <PageTitle>Donarity</PageTitle>
       <p>Welcome to donarity!!</p>
     </Layout>
     </>
