@@ -10,6 +10,7 @@ export default function ComponentDemos() {
       <title>Component Demo</title>
     </Head>
     <Layout>
+      <h1>Component Demos</h1>
       <section className={styles.section}>
         <h1>Explore Tile:</h1>
         <h2 className={styles.subcomponent_title}>Vertical Explore Tile:</h2>

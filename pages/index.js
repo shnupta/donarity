@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Layout from '../components/layout'
 import { useSession } from 'next-auth/client'
@@ -12,15 +11,11 @@ export default function Home() {
   return (
     <>
     <Head>
-      <title>Donarity</title>
+      <title>Donarity | Home</title>
     </Head>
     <Layout>
-      <div className={styles.container}>
       <h1>Donarity</h1>
-      <p>
-        This is an example site to demonstrate how to use <a href={`https://next-auth.js.org`}>NextAuth.js</a> for authentication.
-        </p>
-      </div>
+      <p>Welcome to donarity!!</p>
     </Layout>
     </>
   )
