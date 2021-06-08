@@ -65,3 +65,9 @@ model Charity {
   description String @default("")
   @@map(name: "charities")
 }
+
+enum DonationFrequency {
+  SINGLE
+  MONTHLY
+  ANUALLY
+}
