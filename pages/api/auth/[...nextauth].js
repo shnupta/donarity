@@ -1,9 +1,9 @@
-import NextAuth from "next-auth"
-import Providers from "next-auth/providers"
-import { PrismaClient } from "@prisma/client"
-import Adapters from "next-auth/adapters"
+import NextAuth from "next-auth";
+import Providers from "next-auth/providers";
+import { PrismaClient } from "@prisma/client";
+import Adapters from "next-auth/adapters";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -25,7 +25,7 @@ export default NextAuth({
   // * The Email provider requires a database (OAuth providers do not)
   // database: process.env.DATABASE_URL,
   adapter: Adapters.Prisma.Adapter({
-    prisma
+    prisma,
   }),
 
   // The secret should be set to a reasonably long random string.
@@ -81,8 +81,16 @@ export default NextAuth({
   callbacks: {
     // async signIn(user, account, profile) { return true },
     // async redirect(url, baseUrl) { return baseUrl },
-    // async session(session, user) { return session },
-    // async jwt(token, user, account, profile, isNewUser) { return token }
+    async session(session, token) {
+      session.userId = token.userId;
+      return session;
+    },
+    async jwt(token, user, account, profile, isNewUser) {
+      if (user?.id) {
+        token.userId = user.id;
+      }
+      return token;
+    },
   },
 
   // Events are useful for logging
@@ -91,4 +99,4 @@ export default NextAuth({
 
   // Enable debug messages in the console if you are having problems
   debug: false,
-})
+});
