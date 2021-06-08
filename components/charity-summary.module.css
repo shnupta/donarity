@@ -1,0 +1,32 @@
+.charityHeader {
+  display: flex;
+  align-items: center;
+}
+
+.charityName {
+  display: inline-block;
+  margin: 0;
+}
+
+.logo {
+  height: 3em;
+  display: inline-block;
+  margin-left: 2rem;
+}
+
+.description {
+  font-weight: 700;
+  color: var(--donarity-dark-gray);
+  font-size: 1.1em;
+  margin: 10px 0 5px 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .charityName {
+    width: 80%;
+  }
+  .logo {
+      width: 19%;
+      margin:0;
+  }
+}

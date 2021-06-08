@@ -6,6 +6,7 @@
     left: 0;
     right: 0;
     z-index: 100000;
+    padding: 5px 5%;
 }
 
 .navBar .title {
@@ -30,9 +31,7 @@
 }
 
 .navBar button {
-  color: #FFFFFF;
-  background-color: var(--donarity-green);
-  border-color: var(--donarity-green);
+  border:none;
 }
   
 .navItems {
@@ -48,7 +47,7 @@
 
 .curve {
   background-color:var(--donarity-light-gray);
-  width:auto;
+  width:100%;
   height:20px;
   border-bottom-left-radius:100%;
   border-bottom-right-radius:100%;

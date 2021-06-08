@@ -1,6 +1,8 @@
 import Header from '../components/header'
 import Head from 'next/head'
 
+import styles from './layout.module.css'
+
 export default function Layout({ children }) {
     return (
         <>
@@ -9,7 +11,7 @@ export default function Layout({ children }) {
                 <link rel="stylesheet" href="https://use.typekit.net/cma0rju.css" />
             </Head>
             <Header />
-            <main>
+            <main className={styles.main}>
                 {children}
             </main>
         </>
