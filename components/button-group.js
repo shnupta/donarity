@@ -1,7 +1,7 @@
 import { useState } from "react"
 import styles from './button-group.module.css'
 
-export default function ButtonGroup({ buttons, handler }) {
+export default function ButtonGroup({ buttons, handler, className, active }) {
     const [clickedId, setClickedId] = useState(0);
 
     const handleClick = (event, id) => {
@@ -10,19 +10,17 @@ export default function ButtonGroup({ buttons, handler }) {
     }
 
     return (
-      <div>
-        <div className={styles.buttonGroup}>
-          {buttons.map((buttonLabel, i) => (
-            <button 
-              key={i} 
-              name={buttonLabel} 
-              onClick={(event) => handleClick(event, i)}
-              className={i == clickedId ? styles.active : ""}
-            >
-              {buttonLabel} 
-            </button>
-          ))}
-        </div>
+      <div className={styles.buttonGroup + (className ? " " + className : "")}>
+        {buttons.map((buttonLabel, i) => (
+          <button 
+            key={i} 
+            name={buttonLabel} 
+            onClick={(event) => handleClick(event, i)}
+            className={(i == clickedId && active) ? styles.active : ""}
+          >
+            {buttonLabel} 
+          </button>
+        ))}
       </div>
     )
 }

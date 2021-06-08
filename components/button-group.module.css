@@ -3,7 +3,6 @@
   border-radius: 10px;
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25); 
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
-  margin-top: 20px;
   display: inline-block;
 }
 
@@ -15,6 +14,7 @@
   font-weight: 700;
   color: var(--donarity-dark-gray);
   font-size: 1.2em;
+  position: relative;
 }
 
 .buttonGroup button:first-child {
@@ -29,6 +29,9 @@
 .buttonGroup .active {
   background-color: var(--donarity-green);
   color: white;
+  z-index:2;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25); 
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
 }
 
 @media only screen and (max-width: 425px) {
