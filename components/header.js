@@ -18,7 +18,7 @@ export default function Header() {
 
     return (
         <>
-            <Navbar className={styles.navBar} expand="lg" variant="light">
+            <Navbar className={styles.navBar} expand="md" variant="light">
                 {loading && null}
                 {!session && (
                 <Navbar.Brand className={styles.title} href="/">Donarity</Navbar.Brand>

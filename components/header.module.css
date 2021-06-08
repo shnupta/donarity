@@ -31,9 +31,7 @@
 }
 
 .navBar button {
-  color: #FFFFFF;
-  background-color: var(--donarity-green);
-  border-color: var(--donarity-green);
+  border:none;
 }
   
 .navItems {
