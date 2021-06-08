@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "test":"jest"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^0.4.4",
@@ -21,6 +22,8 @@
     "sass": "^1.34.0"
   },
   "devDependencies": {
+    "babel-jest": "^27.0.2",
+    "jest": "^27.0.4",
     "prisma": "^2.23.0"
   }
 }
