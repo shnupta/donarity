@@ -1,14 +1,12 @@
-import { PrismaClient } from '@prisma/client'
 import Layout from '../../components/layout'
 import { useSession } from 'next-auth/client'
 import styles from '../../styles/Donate.module.css'
 import Button from 'react-bootstrap/Button'
 import CharitySummary from '../../components/charity-summary'
-import ButtonGroup from '../../components/button-group'
 import PaymentForm from '../../components/payment-form'
+import prisma from '../../lib/prisma'
 
 export const getServerSideProps = async (context) => {
-    const prisma = new PrismaClient()
     // Find the model in prisma/schema.prisma
     const charity = await prisma.charity.findUnique({
         where: {

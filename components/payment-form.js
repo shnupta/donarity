@@ -1,5 +1,6 @@
 import React from 'react'
 import ButtonGroup from './button-group'
+import TextInput from './text-input'
 
 const frequency = {
   SINGLE: "Single",
@@ -42,6 +43,7 @@ class PaymentForm extends React.Component {
       <>
       <ButtonGroup buttons={[frequency.SINGLE, frequency.MONTHLY, frequency.ANNUALLY]} handler={this.handleFrequencyChange} state={this.state} />
       <ButtonGroup buttons={["£5", "£10", "£20", "£50"]} handler={this.handleAmountChange} state={this.state} />
+      <TextInput active placeholder="other" number icon="/pound.svg" />
       <a onClick={() => console.log("Freq: " + this.state.frequency + "\nAmount: " + this.state.amount)}>Click to get info</a>
       </>
     )
