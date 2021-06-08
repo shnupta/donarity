@@ -22,11 +22,19 @@
   color: var(--donarity-green-darkened);
 }
 
+.navBar .title:focus {
+  color: var(--donarity-green-darkened);
+}
+
 .navBar .links .navLink {
   color: var(--donarity-green);
 }
 
 .navBar .links .navLink:hover {
+  color: var(--donarity-green-darkened);
+}
+
+.navBar .links .navLink:focus {
   color: var(--donarity-green-darkened);
 }
 
