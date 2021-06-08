@@ -1,9 +1,8 @@
 import Head from 'next/head'
 import ExploreTile from '../../components/explore-tile'
 import Layout from '../../components/layout'
-import PageTitle from '../../components/page-title'
 import styles from '../../styles/ComponentDemos.module.css'
-import PageTitle from '../components/page-title'
+import PageTitle from '../../components/page-title'
 
 export default function ComponentDemos() {
   return (
