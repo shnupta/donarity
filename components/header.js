@@ -54,7 +54,7 @@ export default function Header() {
 
                     {session && isCharity && (
                         <>
-                          <Nav.Link className={styles.navLink + (path === "/explore" ? " " + styles.active : "")} href="/my-charity">My Charity</Nav.Link>
+                          <Nav.Link className={styles.navLink + (path === "/my-charity" ? " " + styles.active : "")} href="/my-charity">My Charity</Nav.Link>
                         </>
                     )}
                     {session && (
