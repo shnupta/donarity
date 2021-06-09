@@ -60,7 +60,10 @@
   border-bottom-left-radius:100%;
   border-bottom-right-radius:100%;
   transform: translateY(-50%);
-  position:fixed;
+  position:sticky;
+  top: 68px;
+  left: 0;
+  right: 0;
   z-index: 1000;
 }
 
