@@ -7,6 +7,8 @@ import Button from '../components/button'
 import ArrowLink from '../components/arrow-link'
 import CharityInfo from '../components/charity-info'
 import Link from 'next/link'
+import Modal from '../components/modal'
+import React from 'react'
 
 import styles from '../styles/MyCharity.module.css'
 
@@ -56,18 +58,32 @@ export const getServerSideProps = async ({ req, res }) => {
 
 export default function MyCharityPage({ charity }) {
 
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [settingsOpen, setSettingsOpen] = React.useState(false);
+  const [editSummaryOpen, setEditSummaryOpen] = React.useState(false);
+  const [editInfoOpen, setEditInfoOpen] = React.useState(false);
 
-  function openModal() {
-    setIsOpen(true);
+  function openSettings() {
+    setSettingsOpen(true);
   }
 
-  function afterOpenModal() {
-
+  function closeSettings() {
+    setSettingsOpen(false);
   }
 
-  function closeModal() {
-    setIsOpen(false);
+  function openEditSummary() {
+    setEditSummaryOpen(true);
+  }
+
+  function closeEditSummary() {
+    setEditSummaryOpen(false);
+  }
+
+  function openEditInfo() {
+    setEditInfoOpen(true);
+  }
+
+  function closeEditInfo() {
+    setEditInfoOpen(false);
   }
 
   return (
@@ -90,9 +106,24 @@ export default function MyCharityPage({ charity }) {
         </div>
         }
       </div>
-      <button onClick={openModal}>Open modal</button>
+      <button onClick={openSettings}>Open settings</button>
+      <button onClick={openEditSummary}>Open edit summary</button>
+      <button onClick={openEditInfo}>Open edit info</button>
       
+      <Modal open={settingsOpen} onClose={closeSettings}>
+        <h1>Settings</h1>
+        <p>Manage your settings!!</p>
+      </Modal>
 
+      <Modal open={editSummaryOpen} onClose={closeEditSummary}>
+        <h1>Edit Summary</h1>
+        <p>Edit your summary!!</p>
+      </Modal>
+
+      <Modal open={editInfoOpen} onClose={closeEditInfo}>
+        <h1>Edit Info</h1>
+        <p>Edit your info!!</p>
+      </Modal>
     </Layout>
   )
 }
