@@ -6,7 +6,7 @@ export const getServerSideProps = async ({ req, res }) => {
     // Get the user's session based on the request
     const session = await userSession(req);
   
-    if (!session) {
+    if (JSON.stringify(session) === '{}') {
       return {
         redirect: {
           destination: "/",
