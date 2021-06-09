@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_DEV_URL")
 }
 
 generator client {
@@ -47,8 +47,14 @@ model User {
   createdAt     DateTime   @default(now()) @map(name: "created_at")
   updatedAt     DateTime   @default(now()) @map(name: "updated_at")
   donations     Donation[]
+  userRole      UserRole   @default(User) @map(name: "user_role")
 
   @@map(name: "users")
+}
+
+enum UserRole {
+  User
+  Charity
 }
 
 model VerificationRequest {
@@ -63,11 +69,25 @@ model VerificationRequest {
 }
 
 model Charity {
-  id          String     @id @default(cuid())
+  id          String         @id @default(cuid())
   name        String
+  tagline     String
+  logo        String
   image       String
-  description String     @default("")
+  website     String
+  facebook    String?
+  twitter     String?
+  instagram   String?
+  linkedin    String?
+  description String         @default("")
   donations   Donation[]
+  category    Category       @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+  size        Int
+  scope       CharityScope
+  city        City           @relation(fields: [cityId], references: [id])
+  cityId      Int
+  links       FeaturedLink[]
 
   @@map(name: "charities")
 }
@@ -85,8 +105,50 @@ model Donation {
   @@map(name: "donations")
 }
 
+model City {
+  id        Int               @id @default(autoincrement())
+  charities Charity[]    
+  name      String
+  country   Country           @relation(fields: [countryId], references: [id])
+  countryId Int
+
+  @@map(name: "cities")
+}
+
+model Country {
+  id        Int               @id @default(autoincrement())
+  name      String
+  cities    City[]
+}
+
+model FeaturedLink {
+  id        Int               @id @default(autoincrement())
+  charity   Charity           @relation(fields: [charityId], references: [id])
+  charityId String
+  text      String
+  url       String
+
+  @@map(name: "featured_links")
+}
+
+model Category {
+  id        Int               @id @default(autoincrement())
+  name      String
+  charities Charity[]
+}
+
 enum DonationFrequency {
   Single
   Monthly
   Annually
+}
+
+model Transaction {
+  id Int @id @default(autoincrement())
+}
+
+enum CharityScope {
+  Regional
+  National
+  International
 }

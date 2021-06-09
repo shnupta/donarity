@@ -1,9 +1,8 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
-import { PrismaClient } from "@prisma/client";
 import Adapters from "next-auth/adapters";
 
-const prisma = new PrismaClient();
+import prisma from '../../../lib/prisma'
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -83,11 +82,13 @@ export default NextAuth({
     // async redirect(url, baseUrl) { return baseUrl },
     async session(session, token) {
       session.userId = token.userId;
+      session.userRole = token.userRole;
       return session;
     },
     async jwt(token, user, account, profile, isNewUser) {
       if (user?.id) {
         token.userId = user.id;
+        token.userRole = user.userRole
       }
       return token;
     },

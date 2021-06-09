@@ -6,10 +6,10 @@ export default function CharitySummary({ className, charity }) {
     <div className={className}>
       <div className={styles.charityHeader}>
         <h1 className={styles.charityName}>{charity.name}</h1>
-        <img className={styles.logo} src={charity.image} />
+        <img className={styles.logo} src={charity.logo} />
       </div>
       <p className={styles.description}>{charity.description}</p>
-      <ArrowLink href={"/charities/" + charity.id}>Find out more</ArrowLink>
+      <ArrowLink right href={"/charities/" + charity.id}>Find out more</ArrowLink>
     </div>
   )
 }

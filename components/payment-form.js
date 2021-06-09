@@ -2,8 +2,9 @@ import React from 'react'
 import ButtonGroup from './button-group'
 import Button from './button'
 import TextInput from './text-input'
-import { DonationFrequency } from '@prisma/client'
+import { DonationFrequency, UserRole } from '@prisma/client'
 import styles from './payment-form.module.css'
+import { hasSession } from 'lib/session'
 
 class PaymentForm extends React.Component {
   constructor(props) {
@@ -16,7 +17,8 @@ class PaymentForm extends React.Component {
       frequency: DonationFrequency.Single,
       amount: 5,
       customAmount: false,
-      shareInfo: true
+      shareInfo: true,
+      session: props.session,
     };
   }
 
@@ -58,10 +60,20 @@ class PaymentForm extends React.Component {
   }
 
   render() {
+    let frequencyButton;
+    let frequencyMessage;
+    if (hasSession(this.state.session) && this.state.session.userRole !== UserRole.Charity) {
+      frequencyButton = <ButtonGroup buttons={[DonationFrequency.Single, DonationFrequency.Monthly, DonationFrequency.Annually]} handler={this.handleFrequencyChange} state={this.state} active={true} />
+    } else {
+      frequencyButton = <ButtonGroup buttons={[DonationFrequency.Single]} handler={this.handleFrequencyChange} state={this.state} active={true} />
+      frequencyMessage = <p>You must be logged in to make a recurring donation.</p>
+    }
+
     return (
       <>
       <div className={styles.buttonSection}>
-        <ButtonGroup buttons={[DonationFrequency.Single, DonationFrequency.Monthly, DonationFrequency.Annually]} handler={this.handleFrequencyChange} state={this.state} active={true} />
+        {frequencyButton}
+        {frequencyMessage}
       </div>
       <div className={styles.amountSection + " " + styles.buttonSection}>
         <ButtonGroup buttons={["£5", "£10", "£20", "£50"]} handler={this.handlePresetAmountChange} state={this.state} className={styles.amountButtons} active={!this.state.customAmount} />
