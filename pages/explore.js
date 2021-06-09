@@ -13,21 +13,13 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import { UserRole } from "@prisma/client";
 import React from "react";
+import { userSession } from "lib/session";
 
 export const getServerSideProps = async ({ req, res }) => {
   // Get the user's session based on the request
-  const response = await fetch(
-    process.env.NEXT_PUBLIC_BASE_URL + "/api/auth/session",
-    {
-      method: "GET",
-      headers: {
-        cookie: req.headers.cookie,
-      },
-    }
-  );
-  const session = await response.json();
+  const session = await userSession(req);
 
-  if (!session) {
+  if (JSON.stringify(session) === '{}') {
     return {
       redirect: {
         destination: "/",
