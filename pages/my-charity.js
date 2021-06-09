@@ -1,12 +1,12 @@
 import { UserRole } from '.prisma/client';
-import { userSession } from 'lib/session';
+import { hasSession, userSession } from 'lib/session';
 import Layout from '../components/layout'
 
 export const getServerSideProps = async ({ req, res }) => {
     // Get the user's session based on the request
     const session = await userSession(req);
   
-    if (JSON.stringify(session) === '{}') {
+    if (!hasSession(session)) {
       return {
         redirect: {
           destination: "/",
