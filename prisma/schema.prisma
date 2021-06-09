@@ -48,6 +48,8 @@ model User {
   updatedAt     DateTime   @default(now()) @map(name: "updated_at")
   donations     Donation[]
   userRole      UserRole   @default(User) @map(name: "user_role")
+  charityId     String?    @map(name: "charity_id")
+  charity       Charity?   @relation(fields: [charityId], references: [id])
 
   @@map(name: "users")
 }
@@ -88,6 +90,7 @@ model Charity {
   city        City           @relation(fields: [cityId], references: [id])
   cityId      Int
   links       FeaturedLink[]
+  user        User?
 
   @@map(name: "charities")
 }
@@ -106,24 +109,24 @@ model Donation {
 }
 
 model City {
-  id        Int               @id @default(autoincrement())
-  charities Charity[]    
+  id        Int       @id @default(autoincrement())
+  charities Charity[]
   name      String
-  country   Country           @relation(fields: [countryId], references: [id])
+  country   Country   @relation(fields: [countryId], references: [id])
   countryId Int
 
   @@map(name: "cities")
 }
 
 model Country {
-  id        Int               @id @default(autoincrement())
-  name      String
-  cities    City[]
+  id     Int    @id @default(autoincrement())
+  name   String
+  cities City[]
 }
 
 model FeaturedLink {
-  id        Int               @id @default(autoincrement())
-  charity   Charity           @relation(fields: [charityId], references: [id])
+  id        Int     @id @default(autoincrement())
+  charity   Charity @relation(fields: [charityId], references: [id])
   charityId String
   text      String
   url       String
@@ -132,7 +135,7 @@ model FeaturedLink {
 }
 
 model Category {
-  id        Int               @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
   charities Charity[]
 }

@@ -19,14 +19,7 @@ export const getServerSideProps = async ({ req, res }) => {
   // Get the user's session based on the request
   const session = await userSession(req);
 
-  if (!hasSession(session)) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  } else if (session.userRole === UserRole.Charity) {
+  if (hasSession(session) && session.userRole === UserRole.Charity) {
     return {
       redirect: {
         destination: "/my-charity",

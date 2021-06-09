@@ -25,7 +25,14 @@ export const getServerSideProps = async (context) => {
     },
   });
 
-  // TODO: Check if found if not throw 404 page
+  if (!charity) {
+    return {
+      redirect: {
+        destination: '/404',
+        permanent: false
+      }
+    }
+  }
 
   return { props: { charity } };
 };
