@@ -47,8 +47,14 @@ model User {
   createdAt     DateTime   @default(now()) @map(name: "created_at")
   updatedAt     DateTime   @default(now()) @map(name: "updated_at")
   donations     Donation[]
+  userRole      UserRole   @default(User) @map(name: "user_role")
 
   @@map(name: "users")
+}
+
+enum UserRole {
+  User
+  Charity
 }
 
 model VerificationRequest {
