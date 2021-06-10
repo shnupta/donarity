@@ -1,25 +1,50 @@
 import Head from 'next/head'
 import Layout from '../components/layout'
+import { getSession, useSession } from "next-auth/client";
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import { userSession } from "lib/session";
+import Image from 'react-bootstrap/Image'
 
-export default function ProfilePage() {
+import styles from '../styles/Manage.module.css'
+
+export async function getServerSideProps({ req, res }) {
+    const session = await userSession(req);
+
+    if (JSON.stringify(session) === '{}') {
+      return {
+        redirect: {
+          destination: "/",
+          permanent: false,
+        },
+      };
+    }
+  
+    return { props: {session} };
+};
+
+export default function ProfilePage( { session }) {
+    console.log(session);
     return (
         <>
         <Head>
-            <title>My Profile</title>
+            <title>Manage</title>
         </Head>
         <Layout>
-            <div>
-                <img src="/test/red-cross.png" alt=""
-                        className="img-circle img-fluid" />
-                <div>
-                    <h2>Bella Moraru</h2>
-                    <h5>Animal lover!!</h5>
-                </div>
-            </div>
-            <h2>£10 monthly donations</h2>
-            <h2>Following 8 charities</h2>
-            <h2>Interests</h2>
-            <h2>Donation History</h2>
+            <Row className={styles.titleSection}>
+                <h1>Manage Donations</h1>
+            </Row>
+            <Row className={styles.midSection}>
+                <Col className={styles.profilePic} md={6}>
+                    <img src={ session.user.image } alt="No Image!"/>
+                </Col>
+                <Col className={styles.userName} md={6}>
+                    <h1>{ session.user.name }</h1>
+                </Col>
+            </Row>
+            <Row className={styles.history}>
+                <h1>Donation History</h1>
+            </Row>
         </Layout>
         </>
     )
