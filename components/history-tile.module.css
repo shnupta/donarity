@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@374&display=swap');
+
 .row {
     height: 100%;
     align-items: center;
@@ -12,6 +14,7 @@
     -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25); 
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
     margin: 20px auto;
+    cursor: pointer;
 }
 
 .tile div {
@@ -43,6 +46,41 @@
 
 .name h2 {
     margin-right: 10px;
+}
+
+.transaction {
+    display:flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    margin-bottom: -12px;
+}
+
+.charityProfile {
+    width: 400px;
+    height: auto;
+}
+
+.charityName {
+    font-size: 30px;
+}
+
+.amount {
+    font-family: 'Dosis', sans-serif;
+    color: var(--donarity-green);
+    font-size: 6em;
+}
+
+.tansactionFreq {
+    font-family: 'Dosis', sans-serif;
+    color: var(--donarity-green);
+    font-size: 2.5em;
+    text-align: right;
+}
+
+.transactionMain {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px auto;
 }
 
 /* .alignRight {

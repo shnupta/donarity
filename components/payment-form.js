@@ -11,11 +11,13 @@ class PaymentForm extends React.Component {
     this.handleFrequencyChange = this.handleFrequencyChange.bind(this);
     this.handlePresetAmountChange = this.handlePresetAmountChange.bind(this);
     this.handleCustomAmountChange = this.handleCustomAmountChange.bind(this);
+    this.handleCustomAmountFocus = this.handleCustomAmountFocus.bind(this);
     this.handleData = this.handleData.bind(this);
     this.state = {
       frequency: DonationFrequency.Single,
       amount: 5,
-      customAmount: false,
+      usingCustomAmount: false,
+      customAmount: null,
       shareInfo: true,
       session: props.session,
     };
@@ -25,6 +27,7 @@ class PaymentForm extends React.Component {
     this.setState({
       frequency: frequency,
       amount: this.state.amount,
+      usingCustomAmount: this.state.usingCustomAmount,
       customAmount: this.state.customAmount,
       shareInfo: this.state.shareInfo
     });
@@ -35,16 +38,29 @@ class PaymentForm extends React.Component {
     this.setState({
       frequency: this.state.frequency,
       amount: amountInt,
-      customAmount: false,
+      usingCustomAmount: false,
+      customAmount: this.state.customAmount,
       shareInfo: this.state.shareInfo
     })
   }
 
   handleCustomAmountChange(amount) {
+    amount = parseFloat(amount);
     this.setState({
       frequency: this.state.frequency,
       amount: amount,
-      customAmount: true,
+      usingCustomAmount: true,
+      customAmount: amount,
+      shareInfo: this.state.shareInfo
+    })
+  }
+
+  handleCustomAmountFocus() {
+    this.setState({
+      frequency: this.state.frequency,
+      amount: this.state.customAmount,
+      usingCustomAmount: true,
+      customAmount: this.state.customAmount,
       shareInfo: this.state.shareInfo
     })
   }
@@ -75,9 +91,9 @@ class PaymentForm extends React.Component {
         {frequencyMessage}
       </div>
       <div className={styles.amountSection + " " + styles.buttonSection}>
-        <ButtonGroup buttons={["£5", "£10", "£20", "£50"]} handler={this.handlePresetAmountChange} state={this.state} className={styles.amountButtons} active={!this.state.customAmount} />
+        <ButtonGroup buttons={["£5", "£10", "£20", "£50"]} handler={this.handlePresetAmountChange} state={this.state} className={styles.amountButtons} active={!this.state.usingCustomAmount} />
         <div className={styles.break}></div>
-        <TextInput active placeholder="other" number icon="/pound.svg" handler={this.handleCustomAmountChange} active={this.state.customAmount} />
+        <TextInput value={this.state.cusomAmount} placeholder="other" number icon="/pound.svg" onFocus={this.handleCustomAmountFocus} onChange={this.handleCustomAmountChange} active={this.state.usingCustomAmount} />
       </div>
       <Button className={styles.payButton} onClick={this.handleData}>Proceed to payment</Button>
       </>

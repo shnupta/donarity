@@ -4,13 +4,9 @@ import Layout from '../components/layout'
 import { getSession, useSession } from "next-auth/client";
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Image from 'react-bootstrap/Image'
 import PageTitle from '../components/page-title'
-import RecurringDonationTile from '../components/recurring-donation-tile'
-import { DonationFrequency } from '@prisma/client'
 import HistoryTile from '../components/history-tile'
-import Button from '../components/button'
-import Link from 'next/link'
+import ManageRecurringDonations from '../components/manage-recurring-donations'
 
 import prisma from 'lib/prisma'
 
@@ -57,8 +53,6 @@ export async function getServerSideProps(context) {
   };
 
 export default function ProfilePage({ user, donations }) {
-
-    const recurringDonations = donations.filter(donation => donation.frequency != DonationFrequency.Single);
     
     const recentDonationTiles = (donations) => {
       if (donations.length === 0) {
@@ -69,13 +63,6 @@ export default function ProfilePage({ user, donations }) {
         recentDonations.push(<HistoryTile donation={donations[i]}/>)
       }
       return recentDonations;
-    }
-
-    const recurringDonationTiles = (donations) => {
-        if (recurringDonations.length === 0) {
-            return <p>Currently no recurring donations</p>
-        }
-        return recurringDonations.map(donation => <RecurringDonationTile className={styles.recurringDonationTile} donation={donation} />);
     }
 
     return (
@@ -94,14 +81,7 @@ export default function ProfilePage({ user, donations }) {
                 </Col>
             </Row>
             <div className={styles.section}>
-                <div className={styles.recurringTitle}>
-                    <h1>Recurring Donations</h1>
-                    <Button icon="/edit.svg"></Button>
-                </div>
-                { recurringDonationTiles(donations) }
-                <Link href={"/explore"}>
-                    <Button>Explore more charities</Button>
-                </Link>
+                <ManageRecurringDonations user={user} donations={donations} />
             </div>
             <div className={styles.section}>
                 <h1>Donation History</h1>
