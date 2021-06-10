@@ -7,7 +7,7 @@ import Router from 'next/router'
 import { getServerStripe } from 'lib/serverStripe'
 
 export async function getServerSideProps({ query }) {
-    const stripe = getServerStripe()
+    const stripe = getServerStripe();
     const session = await stripe.checkout.sessions.retrieve(query.session_id)
 
     return {

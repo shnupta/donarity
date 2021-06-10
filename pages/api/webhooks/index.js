@@ -1,9 +1,10 @@
 import Cors from 'micro-cors'
 import { buffer } from 'micro'
 import prisma from 'lib/prisma'
+import Stripe from 'stripe'
 import { getServerStripe } from 'lib/serverStripe'
 
-const stripe = getServerStripe()
+const stripe = getServerStripe(); 
 
 const cors = Cors({
 	methods: ['POST', 'HEAD']

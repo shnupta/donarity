@@ -6,7 +6,7 @@ import CharitySummary from "../../components/charity-summary";
 import PaymentForm from "../../components/payment-form";
 import prisma from "../../lib/prisma";
 
-import { getClientStripe } from "../../lib/serverStripe"
+import { getClientStripe } from "../../lib/clientStripe"
 
 export const getServerSideProps = async (context) => {
   // Find the model in prisma/schema.prisma
