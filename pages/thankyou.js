@@ -4,7 +4,7 @@ import Layout from '../components/layout'
 import PageTitle from '../components/page-title'
 import Button from '../components/button'
 import Router from 'next/router'
-import { getServerStripe } from 'lib/stripe'
+import { getServerStripe } from 'lib/serverStripe'
 
 export async function getServerSideProps({ query }) {
     const stripe = getServerStripe()
