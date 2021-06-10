@@ -1,9 +1,10 @@
+import { UserRole } from '.prisma/client';
+import { userSession } from 'lib/session';
 import Head from 'next/head'
 import Layout from '../components/layout'
 import { getSession, useSession } from "next-auth/client";
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { userSession } from "lib/session";
 import Image from 'react-bootstrap/Image'
 
 import styles from '../styles/Manage.module.css'
@@ -18,12 +19,19 @@ export async function getServerSideProps({ req, res }) {
           permanent: false,
         },
       };
+    } else if (session.userRole === UserRole.Charity) {
+      return {
+        redirect: {
+          destination: "/my-charity",
+          permanent: false,
+        },
+      };
     }
   
-    return { props: {session} };
-};
+    return { props: { session } };
+  };
 
-export default function ProfilePage( { session }) {
+export default function ProfilePage({ session }) {
     console.log(session);
     return (
         <>

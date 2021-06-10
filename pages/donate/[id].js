@@ -5,7 +5,9 @@ import Button from "../../components/button";
 import CharitySummary from "../../components/charity-summary";
 import PaymentForm from "../../components/payment-form";
 import prisma from "../../lib/prisma";
-import Router from "next/router";
+
+import getStripe from "../../lib/stripe"
+import { userSession } from "lib/session";
 
 export const getServerSideProps = async (context) => {
   // Find the model in prisma/schema.prisma
@@ -15,30 +17,50 @@ export const getServerSideProps = async (context) => {
     },
   });
 
-  // TODO: Check if found if not throw 404 page
+  if (!charity) {
+    return {
+      redirect: {
+        destination: '/404',
+        permanent: false
+      }
+    }
+  }
 
-  return { props: { charity } };
+  const session = await userSession(context.req);
+
+  return { props: { charity, session } };
 };
 
-export default function DonatePage({ charity }) {
-  const [session, loading] = useSession();
-
+export default function DonatePage({ charity, session }) {
   const submitData = async (data) => {
     const body = data;
     body.charityId = charity.id;
     if (session) {
       body.userId = session.userId;
     }
-    try {
-      await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/api/donate`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      await Router.push("/thankyou");
-    } catch (error) {
-      console.error(error);
+
+    const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/checkout_sessions', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    })
+
+    if (response.status === 500) {
+      console.error(response.statusText)
+      return
     }
+
+    const stripe = await getStripe()
+    if (!stripe) {
+      console.error("Couldn't load stripe.")
+      return
+    }
+    const resBody = await response.json() 
+    const { error } = await stripe.redirectToCheckout({
+      sessionId: await resBody.id
+    })
+
+    console.warn(error.message)
   };
 
   return (
@@ -46,7 +68,7 @@ export default function DonatePage({ charity }) {
       <CharitySummary className={styles.summary} charity={charity} />
       <h1>New Donation</h1>
 
-      <PaymentForm handler={submitData} />
+      <PaymentForm handler={submitData} session={session} />
 
       <h1 className={styles.or}>Or</h1>
       <Button className={styles.donate}>Add To Split Donations</Button>
