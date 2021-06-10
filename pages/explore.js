@@ -10,16 +10,15 @@ import styles from "../styles/Explore.module.css";
 
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import Container from "react-bootstrap/Container";
 import { UserRole } from "@prisma/client";
 import React from "react";
-import { hasSession, userSession } from "lib/session";
+import { getSession } from "next-auth/client";
 
-export const getServerSideProps = async ({ req, res }) => {
+export const getServerSideProps = async (context) => {
   // Get the user's session based on the request
-  const session = await userSession(req);
+  const session = await getSession(context);
 
-  if (hasSession(session) && session.userRole === UserRole.Charity) {
+  if (session && session.userRole === UserRole.Charity) {
     return {
       redirect: {
         destination: "/my-charity",

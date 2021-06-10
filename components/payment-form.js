@@ -4,7 +4,6 @@ import Button from './button'
 import TextInput from './text-input'
 import { DonationFrequency, UserRole } from '@prisma/client'
 import styles from './payment-form.module.css'
-import { hasSession } from 'lib/session'
 
 class PaymentForm extends React.Component {
   constructor(props) {
@@ -62,7 +61,7 @@ class PaymentForm extends React.Component {
   render() {
     let frequencyButton;
     let frequencyMessage;
-    if (hasSession(this.state.session) && this.state.session.userRole !== UserRole.Charity) {
+    if (this.state.session && this.state.session.userRole !== UserRole.Charity) {
       frequencyButton = <ButtonGroup buttons={[DonationFrequency.Single, DonationFrequency.Monthly, DonationFrequency.Annually]} handler={this.handleFrequencyChange} state={this.state} active={true} />
     } else {
       frequencyButton = <ButtonGroup buttons={[DonationFrequency.Single]} handler={this.handleFrequencyChange} state={this.state} active={true} />
