@@ -1,6 +1,5 @@
 import { UserRole } from '.prisma/client';
 import prisma from 'lib/prisma';
-import { hasSession, userSession } from 'lib/session';
 import Layout from '../components/layout'
 import ExtendedCharitySummary from '../components/extended-charity-summary'
 import Button from '../components/button'
@@ -10,12 +9,13 @@ import Link from 'next/link'
 import React from 'react'
 
 import styles from '../styles/MyCharity.module.css'
+import { getSession } from 'next-auth/client';
 
-export const getServerSideProps = async ({ req, res }) => {
+export const getServerSideProps = async (context) => {
     // Get the user's session based on the request
-    const session = await userSession(req);
+    const session = await getSession(context);
   
-    if (!hasSession(session)) {
+    if (!session) {
       return {
         redirect: {
           destination: "/",

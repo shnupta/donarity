@@ -1,5 +1,4 @@
 import { UserRole } from '.prisma/client';
-import { userSession } from 'lib/session';
 import Head from 'next/head'
 import Layout from '../components/layout'
 import { getSession, useSession } from "next-auth/client";
@@ -9,10 +8,10 @@ import Image from 'react-bootstrap/Image'
 
 import styles from '../styles/Manage.module.css'
 
-export async function getServerSideProps({ req, res }) {
-    const session = await userSession(req);
+export async function getServerSideProps(context) {
+    const session = await getSession(context);
 
-    if (JSON.stringify(session) === '{}') {
+    if (!session) {
       return {
         redirect: {
           destination: "/",

@@ -1,5 +1,5 @@
 import Layout from "../../components/layout";
-import { useSession } from "next-auth/client";
+import { getSession, useSession } from "next-auth/client";
 import styles from "../../styles/Donate.module.css";
 import Button from "../../components/button";
 import CharitySummary from "../../components/charity-summary";
@@ -7,7 +7,6 @@ import PaymentForm from "../../components/payment-form";
 import prisma from "../../lib/prisma";
 
 import { getClientStripe } from "../../lib/stripe"
-import { userSession } from "lib/session";
 
 export const getServerSideProps = async (context) => {
   // Find the model in prisma/schema.prisma
@@ -26,7 +25,7 @@ export const getServerSideProps = async (context) => {
     }
   }
 
-  const session = await userSession(context.req);
+  const session = await getSession(context);
 
   return { props: { charity, session } };
 };
