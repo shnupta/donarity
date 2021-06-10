@@ -40,7 +40,7 @@ async function handler(req, res) {
     //   handleChargeSucceeded(event.data.object)
     // }
 
-    console.log(event)
+    console.log(event.type)
     res.status(200).json({received: true})
   }
 }
