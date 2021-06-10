@@ -1,9 +1,9 @@
+import { getServerStripe } from "lib/stripe";
 
 const MIN_AMOUNT = 0.3
 const MAX_AMOUNT = 100_000
 
-import Stripe from 'stripe'
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+const stripe = getServerStripe();
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {

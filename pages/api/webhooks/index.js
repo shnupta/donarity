@@ -1,9 +1,9 @@
 import Cors from 'micro-cors'
 import { buffer } from 'micro'
-import Stripe from 'stripe'
 import prisma from 'lib/prisma'
+import { getServerStripe } from 'lib/stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+const stripe = getServerStripe()
 
 const cors = Cors({
 	methods: ['POST', 'HEAD']
@@ -40,7 +40,7 @@ async function handler(req, res) {
     //   handleChargeSucceeded(event.data.object)
     // }
 
-    console.log(event.type)
+    console.log(event)
     res.status(200).json({received: true})
   }
 }

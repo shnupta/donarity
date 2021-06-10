@@ -6,7 +6,7 @@ import CharitySummary from "../../components/charity-summary";
 import PaymentForm from "../../components/payment-form";
 import prisma from "../../lib/prisma";
 
-import getStripe from "../../lib/stripe"
+import { getClientStripe } from "../../lib/stripe"
 import { userSession } from "lib/session";
 
 export const getServerSideProps = async (context) => {
@@ -50,7 +50,7 @@ export default function DonatePage({ charity, session }) {
       return
     }
 
-    const stripe = await getStripe()
+    const stripe = await getClientStripe()
     if (!stripe) {
       console.error("Couldn't load stripe.")
       return
