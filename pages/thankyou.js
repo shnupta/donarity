@@ -10,8 +10,6 @@ export async function getServerSideProps({ query }) {
     const stripe = getServerStripe()
     const session = await stripe.checkout.sessions.retrieve(query.session_id)
 
-    console.log(session)
-
     return {
         props: {}
     }

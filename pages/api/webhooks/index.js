@@ -17,8 +17,33 @@ export const config = {
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-async function handleChargeSucceeded(charge) {
-  console.log(charge)
+async function handleCheckoutSessionCompleted(session) {
+  const checkoutSession = await prisma.checkoutSession.findUnique({
+    where: {
+      sessionId: session.id
+    }
+  })
+
+  const donation = await prisma.donation.create({
+    data: {
+      frequency: checkoutSession.donationFrequency,
+      amount: checkoutSession.amount,
+      charityId: checkoutSession.charityId,
+      userId: checkoutSession.userId
+    }
+  })
+
+
+  const updatedSession = await prisma.checkoutSession.update({
+    where: {
+      sessionId: session.id
+    },
+    data: {
+      stripeCustomerId: session.customer,
+      donationId: donation.id,
+      completed: true
+    }
+  })
 }
 
 async function handler(req, res) {
@@ -36,11 +61,9 @@ async function handler(req, res) {
       return
     }
 
-    // if (event.type === 'charge.succeeded') {
-    //   handleChargeSucceeded(event.data.object)
-    // }
-
-    console.log(event)
+    if (event.type === 'checkout.session.completed') {
+      handleCheckoutSessionCompleted(event.data.object)
+    }
     res.status(200).json({received: true})
   }
 }
