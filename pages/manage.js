@@ -93,17 +93,17 @@ export default function ProfilePage({ user, donations }) {
                     <h1>{ user.name }</h1>
                 </Col>
             </Row>
-            <div className={styles.history}>
-                <div>
+            <div className={styles.section}>
+                <div className={styles.recurringTitle}>
                     <h1>Recurring Donations</h1>
                     <Button icon="/edit.svg"></Button>
                 </div>
                 { recurringDonationTiles(donations) }
+                <Link href={"/explore"}>
+                    <Button>Explore more charities</Button>
+                </Link>
             </div>
-            <Link href={"/explore"}>
-              <Button>Explore more charities</Button>
-            </Link>
-            <div className={styles.history}>
+            <div className={styles.section}>
                 <h1>Donation History</h1>
                 { recentDonationTiles(donations) }
             </div>

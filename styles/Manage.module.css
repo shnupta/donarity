@@ -24,13 +24,18 @@
     font-size: 40px;
 }
 
-.history {
-    margin-top: 50px;
-    margin-bottom: 20px;
+.section {
+    margin: 50px 0;
 }
 
 .recurringDonationTile {
     margin: 20px 0;
+}
+
+.recurringTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
 }
 
 @media only screen and (max-width: 600px) {
