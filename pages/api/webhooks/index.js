@@ -1,7 +1,7 @@
 import Cors from 'micro-cors'
 import { buffer } from 'micro'
 import prisma from 'lib/prisma'
-import { getServerStripe } from 'lib/stripe'
+import { getServerStripe } from 'lib/serverStripe'
 
 const stripe = getServerStripe()
 
