@@ -45,6 +45,10 @@ div.smallInput {
   margin-bottom: 20px;
 }
 
+div.smallInput input {
+  color: black;
+}
+
 .button {
   margin-right: 20px;
 }
