@@ -30,7 +30,7 @@
 }
 
 .recurringDonationTile {
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 
 @media only screen and (max-width: 600px) {

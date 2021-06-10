@@ -57,23 +57,26 @@ export async function getServerSideProps(context) {
   };
 
 export default function ProfilePage({ user, donations }) {
+
+    const recurringDonations = donations.filter(donation => donation.frequency != DonationFrequency.Single);
     
-    const recentDonations = (donations) => {
+    const recentDonationTiles = (donations) => {
+      if (donations.length === 0) {
+        return <p>No previous donations</p>
+      }
       var recentDonations = []
       for (var i = 0; i < donations.length && i < 5; ++i) {
-        // recentDonations.push(<DonationTile donation={donations[i]} />)
         recentDonations.push(<HistoryTile donation={donations[i]}/>)
       }
       return recentDonations;
     }
 
-    console.log(donations);
-
-    const recurringDonations = (donations) => {
-      return donations.filter(donation => donation.frequency != DonationFrequency.Single)
-                      .map(donation => <RecurringDonationTile className={styles.recurringDonationTile} donation={donation} />);
+    const recurringDonationTiles = (donations) => {
+        if (recurringDonations.length === 0) {
+            return <p>Currently no recurring donations</p>
+        }
+        return recurringDonations.map(donation => <RecurringDonationTile className={styles.recurringDonationTile} donation={donation} />);
     }
-
 
     return (
         <>
@@ -91,15 +94,18 @@ export default function ProfilePage({ user, donations }) {
                 </Col>
             </Row>
             <div className={styles.history}>
-                <h1>Recurring Donations</h1>
-                { recurringDonations(donations) }
+                <div>
+                    <h1>Recurring Donations</h1>
+                    <Button icon="/edit.svg"></Button>
+                </div>
+                { recurringDonationTiles(donations) }
             </div>
             <Link href={"/explore"}>
               <Button>Explore more charities</Button>
             </Link>
             <div className={styles.history}>
                 <h1>Donation History</h1>
-                { recentDonations(donations) }
+                { recentDonationTiles(donations) }
             </div>
         </Layout>
         </>
