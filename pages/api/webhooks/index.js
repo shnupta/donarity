@@ -75,7 +75,7 @@ async function handler(req, res) {
     }
 
     if (event.type === "checkout.session.completed") {
-      handleCheckoutSessionCompleted(event.data.object);
+      await handleCheckoutSessionCompleted(event.data.object);
     }
     res.status(200).json({ received: true });
   }
