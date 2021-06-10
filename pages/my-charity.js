@@ -11,6 +11,8 @@ import Modal from '../components/modal'
 import React from 'react'
 
 import styles from '../styles/MyCharity.module.css'
+import TextArea from '@components/text-area';
+import TextInput from '@components/text-input';
 
 export const getServerSideProps = async ({ req, res }) => {
     // Get the user's session based on the request
@@ -88,13 +90,9 @@ export default function MyCharityPage({ charity }) {
 
   return (
     <Layout headerImg={charity.image}>
+      <Button className={styles.settings} icon="/settings.svg" onClick={openSettings}>Settings</Button>
       <ExtendedCharitySummary charity={charity} />
-      <div className={styles.donateButtons}>
-        <Link href={"/donate/" + charity.id}>
-          <Button>Donate</Button>
-        </Link>
-        <Button white>Add to split donation</Button>
-      </div>
+      <Button icon="/edit.svg" onClick={openEditSummary}>Edit Summary</Button>
       <div className={styles.extraInfo}>
         <CharityInfo charity={charity} />
         {charity.links.length && 
@@ -106,18 +104,31 @@ export default function MyCharityPage({ charity }) {
         </div>
         }
       </div>
-      <button onClick={openSettings}>Open settings</button>
-      <button onClick={openEditSummary}>Open edit summary</button>
-      <button onClick={openEditInfo}>Open edit info</button>
+      <Button icon="/edit.svg" onClick={openEditInfo}>Edit Additional Info</Button>
       
       <Modal open={settingsOpen} onClose={closeSettings}>
         <h1>Settings</h1>
         <p>Manage your settings!!</p>
       </Modal>
 
-      <Modal open={editSummaryOpen} onClose={closeEditSummary}>
+      <Modal className={styles.modal} open={editSummaryOpen} onClose={closeEditSummary}>
         <h1>Edit Summary</h1>
-        <p>Edit your summary!!</p>
+        <label>Tagline</label>
+        <TextArea handler={(text) => {}} maxChars={100} className={styles.tagline}>{charity.tagline}</TextArea>
+        <label>Description</label>
+        <TextArea handler={(text) => {}} maxChars={600} className={styles.description}>{charity.description}</TextArea>
+        <label>Website URL</label>
+        <TextInput className={styles.smallInput} handler={(text) => {}}>{charity.website}</TextInput>
+        <label>Facebook URL</label>
+        <TextInput className={styles.smallInput} handler={(text) => {}}>{charity.facebook}</TextInput>
+        <label>Twitter URL</label>
+        <TextInput className={styles.smallInput} handler={(text) => {}}>{charity.twitter}</TextInput>
+        <label>Instagram URL</label>
+        <TextInput className={styles.smallInput} handler={(text) => {}}>{charity.instagram}</TextInput>
+        <label>LinkedIn URL</label>
+        <TextInput className={styles.smallInput} handler={(text) => {}}>{charity.linkedin}</TextInput>
+        <Button className={styles.button}>Save</Button>
+        <Button className={styles.button} white onClick={closeEditSummary}>Cancel</Button>
       </Modal>
 
       <Modal open={editInfoOpen} onClose={closeEditInfo}>
