@@ -1,7 +1,6 @@
 import Cors from 'micro-cors'
 import { buffer } from 'micro'
 import prisma from 'lib/prisma'
-import Stripe from 'stripe'
 import { getServerStripe } from 'lib/serverStripe'
 
 const stripe = getServerStripe(); 
@@ -25,6 +24,9 @@ async function handleCheckoutSessionCompleted(session) {
     }
   })
 
+  console.log("Got checkout session:")
+  console.log(checkoutSession)
+
   const donation = await prisma.donation.create({
     data: {
       frequency: checkoutSession.donationFrequency,
@@ -33,6 +35,9 @@ async function handleCheckoutSessionCompleted(session) {
       userId: checkoutSession.userId
     }
   })
+
+  console.log("Created donation:")
+  console.log(donation)
 
 
   const updatedSession = await prisma.checkoutSession.update({
