@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_DEV_URL")
+  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -50,6 +50,7 @@ model User {
   userRole      UserRole   @default(User) @map(name: "user_role")
   charityId     String?    @map(name: "charity_id")
   charity       Charity?   @relation(fields: [charityId], references: [id])
+  checkoutSessions CheckoutSession[]
 
   @@map(name: "users")
 }
@@ -84,13 +85,14 @@ model Charity {
   description String         @default("")
   donations   Donation[]
   category    Category       @relation(fields: [categoryId], references: [id])
-  categoryId  Int
+  categoryId  Int @map(name: "category_id")
   size        Int
   scope       CharityScope
   city        City           @relation(fields: [cityId], references: [id])
-  cityId      Int
+  cityId      Int @map(name: "city_id")
   links       FeaturedLink[]
   user        User?
+  checkoutSessions CheckoutSession[] 
 
   @@map(name: "charities")
 }
@@ -104,6 +106,7 @@ model Donation {
   user      User?             @relation(fields: [userId], references: [id])
   userId    Int?              @map(name: "user_id")
   createdAt DateTime          @default(now()) @map(name: "created_at")
+  checkoutSession CheckoutSession?
 
   @@map(name: "donations")
 }
@@ -113,7 +116,7 @@ model City {
   charities Charity[]
   name      String
   country   Country   @relation(fields: [countryId], references: [id])
-  countryId Int
+  countryId Int @map(name: "country_id")
 
   @@map(name: "cities")
 }
@@ -127,7 +130,7 @@ model Country {
 model FeaturedLink {
   id        Int     @id @default(autoincrement())
   charity   Charity @relation(fields: [charityId], references: [id])
-  charityId String
+  charityId String @map(name: "charity_id")
   text      String
   url       String
 
@@ -146,12 +149,25 @@ enum DonationFrequency {
   Annually
 }
 
-model Transaction {
-  id Int @id @default(autoincrement())
-}
-
 enum CharityScope {
   Regional
   National
   International
+}
+
+model CheckoutSession {
+  sessionId String @id @map(name: "session_id")
+  userId Int? @map(name: "user_id")
+  user User? @relation(fields: [userId], references: [id])
+  charityId String @map(name: "charity_id")
+  charity Charity @relation(fields: [charityId], references: [id])
+  donationId Int?
+  amount Decimal
+  donationFrequency DonationFrequency @map(name: "donation_frequency")
+  donation Donation? @relation(fields: [donationId], references: [id])
+  completed Boolean @default(false)
+  createdAt DateTime          @default(now()) @map(name: "created_at")
+  stripeCustomerId String? @map(name: "stripe_customer_id")
+
+  @@map(name: "checkout_sessions")
 }

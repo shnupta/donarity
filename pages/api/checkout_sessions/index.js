@@ -1,4 +1,4 @@
-import { getServerStripe } from "lib/stripe";
+import { getServerStripe } from "lib/serverStripe";
 
 const MIN_AMOUNT = 0.3
 const MAX_AMOUNT = 100_000
@@ -28,6 +28,7 @@ export default async function handler(req, res) {
                 quantity: 1,
               },
             ],
+            client_reference_id: req.body.userId,
             mode: 'payment',
             success_url: `${req.headers.origin}/thankyou?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${req.headers.origin}/explore`, // TODO: Change this

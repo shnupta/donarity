@@ -6,7 +6,7 @@ import CharitySummary from "../../components/charity-summary";
 import PaymentForm from "../../components/payment-form";
 import prisma from "../../lib/prisma";
 
-import { getClientStripe } from "../../lib/stripe"
+import { getClientStripe } from "../../lib/clientStripe"
 
 export const getServerSideProps = async (context) => {
   // Find the model in prisma/schema.prisma
@@ -55,8 +55,30 @@ export default function DonatePage({ charity, session }) {
       return
     }
     const resBody = await response.json() 
+    // TODO: Now we have the checkout session id and can keep track of it in prisma
+    const sessionId = await resBody.id
+    const sessionBody = {
+      sessionId: sessionId,
+      userId: session ? session.userId : null,
+      charityId: charity.id,
+      amount: data.amount,
+      frequency: data.frequency
+    }
+    
+
+    const newSessionResponse = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/checkout_sessions/create',
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(sessionBody)
+    })
+
+    if (!newSessionResponse.ok) {
+      console.error(newSessionResponse.statusText)
+    }
+
     const { error } = await stripe.redirectToCheckout({
-      sessionId: await resBody.id
+      sessionId: sessionId
     })
 
     console.warn(error.message)
