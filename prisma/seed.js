@@ -2,6 +2,8 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 async function main() {
+  // TODO: Change these to prisma.xxxx.upsert and have create and update arguments so we don't get duplicates
+  // TODO: Add more details and entries
   const country = await prisma.country.create({
     data: {
       name: "United Kingdom"
