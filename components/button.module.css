@@ -12,7 +12,16 @@
   font-size: 1.2em;
 }
 
+.button img {
+  height: 25px;
+  padding: 0 20px 0 0;
+}
+
 .white {
   color: black;
   background-color: white;
+}
+
+img.iconOnly {
+  padding: 0;
 }

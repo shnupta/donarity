@@ -1,0 +1,12 @@
+.textArea {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.25); 
+  box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.25);
+  padding: 10px 20px;
+}
+
+.maxChars {
+  text-align: right;
+}

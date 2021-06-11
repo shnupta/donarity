@@ -1,0 +1,17 @@
+.recurringDonationTile {
+  margin: 20px 0;
+}
+
+.recurringTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.save {
+  margin: 20px 0;
+}
+
+.save button {
+  margin-right: 20px;
+}

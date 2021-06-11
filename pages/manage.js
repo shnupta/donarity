@@ -4,13 +4,9 @@ import Layout from '../components/layout'
 import { getSession, useSession } from "next-auth/client";
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Image from 'react-bootstrap/Image'
 import PageTitle from '../components/page-title'
-import RecurringDonationTile from '../components/recurring-donation-tile'
-import { DonationFrequency } from '@prisma/client'
 import HistoryTile from '../components/history-tile'
-import Button from '../components/button'
-import Link from 'next/link'
+import ManageRecurringDonations from '../components/manage-recurring-donations'
 
 import prisma from 'lib/prisma'
 
@@ -58,22 +54,16 @@ export async function getServerSideProps(context) {
 
 export default function ProfilePage({ user, donations }) {
     
-    const recentDonations = (donations) => {
+    const recentDonationTiles = (donations) => {
+      if (donations.length === 0) {
+        return <p>No previous donations</p>
+      }
       var recentDonations = []
       for (var i = 0; i < donations.length && i < 5; ++i) {
-        // recentDonations.push(<DonationTile donation={donations[i]} />)
         recentDonations.push(<HistoryTile donation={donations[i]}/>)
       }
       return recentDonations;
     }
-
-    console.log(donations);
-
-    const recurringDonations = (donations) => {
-      return donations.filter(donation => donation.frequency != DonationFrequency.Single)
-                      .map(donation => <RecurringDonationTile className={styles.recurringDonationTile} donation={donation} />);
-    }
-
 
     return (
         <>
@@ -90,16 +80,12 @@ export default function ProfilePage({ user, donations }) {
                     <h1>{ user.name }</h1>
                 </Col>
             </Row>
-            <div className={styles.history}>
-                <h1>Recurring Donations</h1>
-                { recurringDonations(donations) }
+            <div className={styles.section}>
+                <ManageRecurringDonations user={user} donations={donations} />
             </div>
-            <Link href={"/explore"}>
-              <Button>Explore more charities</Button>
-            </Link>
-            <div className={styles.history}>
+            <div className={styles.section}>
                 <h1>Donation History</h1>
-                { recentDonations(donations) }
+                { recentDonationTiles(donations) }
             </div>
         </Layout>
         </>
