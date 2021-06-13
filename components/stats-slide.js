@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import StatsTile from "./stats-tile";
+import BarChart from "./bar-chart";
 
 export default class SimpleSlider extends Component {
   render() {
@@ -17,22 +18,22 @@ export default class SimpleSlider extends Component {
       <div>
         <Slider {...settings}>
           <div>
-            <StatsTile total={69}/>
+            <StatsTile total={false}/>
           </div>
           <div>
-            <StatsTile total={69}/>
+            <StatsTile total={false}/>
           </div>
           <div>
-            <StatsTile total={69}/>
+            <StatsTile total={true}/>
           </div>
           <div>
-            <StatsTile total={69}/>
+            <StatsTile total={true}/>
           </div>
           <div>
-            <StatsTile total={69}/>
+            <StatsTile total={false}/>
           </div>
           <div>
-            <StatsTile total={69}/>
+            <StatsTile total={false}/>
           </div>
         </Slider>
       </div>
