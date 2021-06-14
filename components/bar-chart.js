@@ -33,8 +33,9 @@ export default class BarChart extends React.Component {
             legend:{
               display:true,
               position:'right'
-            }
+            },
           }}
+          height={100}
         />
       </div>
     );
