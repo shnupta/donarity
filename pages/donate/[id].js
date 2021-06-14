@@ -37,6 +37,8 @@ export default function DonatePage({ charity, session }) {
     if (session) {
       body.userId = session.userId;
     }
+    // Body: frequency, amount, charityId, userId?
+    // To come: projectId?
 
     const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/checkout_sessions', {
       method: "POST",
@@ -55,7 +57,6 @@ export default function DonatePage({ charity, session }) {
       return
     }
     const resBody = await response.json() 
-    // TODO: Now we have the checkout session id and can keep track of it in prisma
     const sessionId = await resBody.id
     const sessionBody = {
       sessionId: sessionId,
