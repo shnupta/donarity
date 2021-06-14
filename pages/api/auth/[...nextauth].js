@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 import Adapters from "next-auth/adapters";
 
-import prisma from '../../../lib/prisma'
+import prisma from "../../../lib/prisma";
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -78,7 +78,36 @@ export default NextAuth({
   // when an action is performed.
   // https://next-auth.js.org/configuration/callbacks
   callbacks: {
-    // async signIn(user, account, profile) { return true },
+    async signIn(user, account, profile) {
+      const dbUser = await prisma.user.findUnique({
+        where: {
+          id: user.id,
+        },
+      });
+
+      if (!dbUser) {
+        console.error(`Couldn't find the user with id: ${user.id}`)
+        return false
+      }
+
+      // If this user doesn't yet have a stripe customer id
+      // Ping the backend api to make a new customer and save it in the database
+      if (!dbUser.stripeCustomerId) {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/customers/create`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify({user: dbUser })
+          }
+        );
+
+        if (response.status === 500) {
+          console.error(response.statusText)
+          return false
+        }
+      }
+    },
     // async redirect(url, baseUrl) { return baseUrl },
     async session(session, token) {
       session.userId = token.userId;
@@ -88,7 +117,7 @@ export default NextAuth({
     async jwt(token, user, account, profile, isNewUser) {
       if (user?.id) {
         token.userId = user.id;
-        token.userRole = user.userRole
+        token.userRole = user.userRole;
       }
       return token;
     },
