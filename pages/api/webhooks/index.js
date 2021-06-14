@@ -28,6 +28,10 @@ async function handleCheckoutSessionCompleted(session) {
     console.log("Got checkout session:");
     console.log(checkoutSession);
 
+    if (session.mode === 'setup') {
+      return
+    }
+
     const donation = await prisma.donation.create({
       data: {
         frequency: checkoutSession.donationFrequency,
@@ -55,6 +59,14 @@ async function handleCheckoutSessionCompleted(session) {
   }
 }
 
+async function handlePaymentMethodAttached(paymentMethod) {
+  const customer = await stripe.customers.update(paymentMethod.customer, {
+    invoice_settings: {
+      default_payment_method: paymentMethod.id
+    }
+  })
+}
+
 async function handler(req, res) {
   if (req.method === "POST") {
     const buf = await buffer(req);
@@ -76,6 +88,8 @@ async function handler(req, res) {
 
     if (event.type === "checkout.session.completed") {
       await handleCheckoutSessionCompleted(event.data.object);
+    } else if (event.type === "payment_method.attached") {
+      await handlePaymentMethodAttached(event.data.object);
     }
     res.status(200).json({ received: true });
   }

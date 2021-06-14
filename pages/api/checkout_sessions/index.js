@@ -21,52 +21,59 @@ export default async function handler(req, res) {
       customerId = user.stripeCustomerId;
     }
 
-    let subscription
+    let subscription;
     if (frequency !== DonationFrequency.Single) {
-      const stripeCustomer = await stripe.customers.retrieve(customerId)
+      const stripeCustomer = await stripe.customers.retrieve(customerId);
       if (!stripeCustomer.invoice_settings.default_payment_method) {
         res.status(400).json({
           text: "User must setup a default payment method.",
-        })
-        return
+        });
+        return;
       }
 
+      const price = await stripe.prices.create({
+        unit_amount: amount * 100,
+        currency: "gbp",
+        recurring: {
+          interval: frequency === DonationFrequency.Monthly ? "month" : "year",
+        },
+        product:
+          frequency === DonationFrequency.Monthly
+            ? process.env.MONTHLY_PRODUCT_ID
+            : process.env.ANNUAL_PRODUCT_ID,
+      });
 
       subscription = await stripe.subscriptions.create({
         customer: customerId,
-        items: [{
-          price_data: {
-            unit_amount: amount * 100,
-            currency: 'gbp',
-            product: frequency === DonationFrequency.Monthly ? process.env.MONTHLY_PRODUCT_ID : process.env.ANNUAL_PRODUCT_ID,
-            recurring: {
-              interval: frequency === DonationFrequency.Monthly ? 'month' : 'year',
-            }
-          }
-        }]
-      })
+        items: [
+          {
+            price: price.id,
+          },
+        ],
+      });
     }
 
-    console.log(subscription)
-
-    var price_data = {
-      currency: "gbp",
-      unit_amount: amount * 100,
-    };
-    let line_items
+    let line_items;
     if (frequency === DonationFrequency.Single) {
-      line_items = [{
-        price_data: {
-          currency: 'gbp',
-          unit_amount: amount * 100,
+      line_items = [
+        {
+          price_data: {
+            currency: "gbp",
+            product_data: {
+              name: "Donation",
+            },
+            unit_amount: amount * 100,
+          },
+          quantity: 1,
         },
-        quantity: 1,
-      }]
+      ];
     } else {
-      line_items = [{
-        price: subscription.items.data[0].price.id,
-        quantity: 1,
-      }]
+      line_items = [
+        {
+          price: subscription.items.data[0].price.id,
+          quantity: 1,
+        },
+      ];
     }
 
     try {
