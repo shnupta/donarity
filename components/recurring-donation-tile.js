@@ -7,7 +7,7 @@ import Button from './button'
 import TextInput from './text-input'
 import React from 'react'
 
-export default function RecurringDonationTile({ donation, className, editing, onDelete, changeAmount, key }) {
+export default function RecurringDonationTile({ donation, className, editing, onDelete, changeAmount }) {
 
   const date = parseDate(donation.createdAt);
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -22,7 +22,7 @@ export default function RecurringDonationTile({ donation, className, editing, on
   }
 
   return (
-    <div key={key} className={styles.tileContainer + (className ? " " + className : "")}>
+    <div className={styles.tileContainer + (className ? " " + className : "")}>
       <div className={styles.tile}>
         <div className={styles.marginBottom + " " + styles.flex}>
           <h2 className={styles.charityName}>{donation.charity.name}</h2>
