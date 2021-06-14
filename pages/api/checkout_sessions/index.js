@@ -21,17 +21,9 @@ export default async function handler(req, res) {
       customerId = user.stripeCustomerId;
     }
 
-    let subscription;
+    let price;
     if (frequency !== DonationFrequency.Single) {
-      const stripeCustomer = await stripe.customers.retrieve(customerId);
-      if (!stripeCustomer.invoice_settings.default_payment_method) {
-        res.status(400).json({
-          text: "User must setup a default payment method.",
-        });
-        return;
-      }
-
-      const price = await stripe.prices.create({
+      price = await stripe.prices.create({
         unit_amount: amount * 100,
         currency: "gbp",
         recurring: {
@@ -41,15 +33,6 @@ export default async function handler(req, res) {
           frequency === DonationFrequency.Monthly
             ? process.env.MONTHLY_PRODUCT_ID
             : process.env.ANNUAL_PRODUCT_ID,
-      });
-
-      subscription = await stripe.subscriptions.create({
-        customer: customerId,
-        items: [
-          {
-            price: price.id,
-          },
-        ],
       });
     }
 
@@ -70,7 +53,7 @@ export default async function handler(req, res) {
     } else {
       line_items = [
         {
-          price: subscription.items.data[0].price.id,
+          price: price.id,
           quantity: 1,
         },
       ];
