@@ -24,7 +24,7 @@ export default function HistoryTile({ donation }) {
     }
 
     return (
-        <>
+        <div>
         <div className={styles.tile} onClick={openDetails}>
             <div className={styles.row}>
                 <Col className={styles.price} md={2}><h2>£{donation.amount}</h2></Col>
@@ -54,6 +54,6 @@ export default function HistoryTile({ donation }) {
                 <p className={styles.dateTransaction}>{date.day} {months[date.month - 1]} {date.year} - {date.hour + ":" + date.minute}</p>
             </div>
         </Modal>
-        </>
+        </div>
     )
 }

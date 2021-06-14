@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col'
 import PageTitle from '../components/page-title'
 import HistoryTile from '../components/history-tile'
 import ManageRecurringDonations from '../components/manage-recurring-donations'
+import SimpleSlider from '@components/stats-slide';
 
 import prisma from 'lib/prisma'
 
@@ -65,6 +66,10 @@ export default function ProfilePage({ user, donations }) {
       return recentDonations;
     }
 
+    const total = donations.reduce(function(a,d) {
+      return a + parseInt(d.amount); 
+    }, 0);
+
     return (
         <>
         <Head>
@@ -80,6 +85,10 @@ export default function ProfilePage({ user, donations }) {
                     <h1>{ user.name }</h1>
                 </Col>
             </Row>
+            <div className={styles.statistics}>
+              <h1>Statistics</h1>
+              <SimpleSlider/>
+            </div>
             <div className={styles.section}>
                 <ManageRecurringDonations user={user} donations={donations} />
             </div>
