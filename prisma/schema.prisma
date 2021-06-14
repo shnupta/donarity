@@ -51,6 +51,7 @@ model User {
   charityId     String?    @map(name: "charity_id")
   charity       Charity?   @relation(fields: [charityId], references: [id])
   checkoutSessions CheckoutSession[]
+  stripeCustomerId String? @map(name: "stripe_customer_id")
 
   @@map(name: "users")
 }
