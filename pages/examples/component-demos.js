@@ -27,9 +27,9 @@ export default function ComponentDemos({ charity }) {
       <section className={styles.section}>
         <h1>Explore Tile:</h1>
         <h2 className={styles.subcomponent_title}>Vertical Explore Tile:</h2>
-        <ExploreTile charity={charity} width="50%" />
+        <ExploreTile className={styles.vertical} charity={charity} />
         <h2 className={styles.subcomponent_title}>Horizontal Explore Tile:</h2>
-        <ExploreTile width="100%" horizontal charity={charity} />
+        <ExploreTile className={styles.horizontal} horizontal charity={charity} />
       </section>
     </Layout>
     </>

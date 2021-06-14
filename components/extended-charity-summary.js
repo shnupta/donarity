@@ -26,8 +26,8 @@ export default function ExtendedCharitySummary({ className, charity }) {
         </div>
       </div>
       <div className={styles.description}>
-        {charity.description.split("\n").map((paragraph) => {
-          return <p>{paragraph}</p>
+        {charity.description.split("\n").map((paragraph, key) => {
+          return <p key={key}>{paragraph}</p>
         })}
       </div>
     </div>

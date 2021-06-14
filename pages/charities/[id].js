@@ -53,8 +53,8 @@ export default function CharityPage({ charity }) {
         {charity.links.length && 
         <div>
           <h2>Featured Links:</h2>
-          {charity.links.map((link) => {
-            return <ArrowLink href={link.url}>{link.text}</ArrowLink>
+          {charity.links.map((link, key) => {
+            return <ArrowLink key={key} href={link.url}>{link.text}</ArrowLink>
           })}
         </div>
         }

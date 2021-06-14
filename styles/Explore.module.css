@@ -1,28 +1,4 @@
-.page_title {
-  margin-top: 4rem;
-  margin-bottom: 4rem;
-}
-
-.page_title h1 {
-  font-family: 'Dosis', sans-serif;
-}
-
-.page_title p {
-  font-weight: 200;
-  font-size: 1.1em;
-}
-
-.explore_section {
-  margin-bottom: 4em;
-}
-
-.explore_section h2 {
-  font-weight: 600;
-  margin-bottom: 0.8em;
-}
-
-.recently_featured_link {
-  margin-right: 4%;
-  padding-top: 0.8em;
-  text-align: right;
+.grid .exploreTile {
+  width: 100%;
+  display: block;
 }

@@ -2,9 +2,9 @@ import styles from './explore-tile.module.css'
 import ArrowLink from './arrow-link'
 import Image from 'next/image'
 
-export default function ExploreTile({ width, height, horizontal, charity }) {
+export default function ExploreTile({ width, height, horizontal, charity, className }) {
   return (
-    <div className={styles.tile + (horizontal ? " " + styles.horizontal : "")} style={{width: width, height: height}}>
+    <div className={styles.tile + (horizontal ? " " + styles.horizontal : "") + (className ? " " + className : "")}>
       <div className={styles.imageContainer}>
         <Image src={charity.image} layout="fill" objectFit="cover" />
       </div>

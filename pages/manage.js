@@ -61,7 +61,7 @@ export default function ProfilePage({ user, donations }) {
       }
       var recentDonations = []
       for (var i = 0; i < donations.length && i < 5; ++i) {
-        recentDonations.push(<HistoryTile donation={donations[i]}/>)
+        recentDonations.push(<HistoryTile key={i} donation={donations[i]}/>)
       }
       return recentDonations;
     }

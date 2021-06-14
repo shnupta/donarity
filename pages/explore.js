@@ -2,17 +2,15 @@ import Head from "next/head";
 
 import Layout from "../components/layout";
 import ExploreTile from "../components/explore-tile";
-import ArrowLink from "../components/arrow-link";
-import Carousel from "../components/carousel";
 import PageTitle from "../components/page-title";
 
 import styles from "../styles/Explore.module.css";
 
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 import { UserRole } from "@prisma/client";
 import React from "react";
 import { getSession } from "next-auth/client";
+import prisma from "lib/prisma";
+import Masonry, {ResponsiveMasonry} from "react-responsive-masonry";
 
 export const getServerSideProps = async (context) => {
   // Get the user's session based on the request
@@ -27,10 +25,36 @@ export const getServerSideProps = async (context) => {
     };
   }
 
-  return { props: {} };
+  const charities = await prisma.charity.findMany({
+    orderBy: {
+      name: 'asc',
+    },
+  })
+
+  // let charitiesJson = charities;
+  // for (var i = 0; i < charitiesJson.length; i++) {
+  //   delete charitiesJson[i].logo;
+  //   delete charitiesJson[i].image;
+  //   delete charitiesJson[i].website;
+  //   delete charitiesJson[i].facebook;
+  //   delete charitiesJson[i].twitter;
+  //   delete charitiesJson[i].linkedin;
+  //   delete charitiesJson[i].instagram;
+  //   delete charitiesJson[i].categoryId;
+  //   delete charitiesJson[i].cityId;
+  //   delete charitiesJson[i].city.id;
+  //   delete charitiesJson[i].city.countryId;
+  //   delete charitiesJson[i].city.country.id;
+  //   delete charitiesJson[i].category.id;
+  //   charitiesJson[i].objectID = charitiesJson[i].id;
+  //   delete charitiesJson[i].id;
+  // }
+  // console.log(JSON.stringify(charitiesJson));
+
+  return { props: { charities } };
 };
 
-export default function ExplorePage() {
+export default function ExplorePage({ charities }) {
   return (
     <>
       <Head>
@@ -44,33 +68,15 @@ export default function ExplorePage() {
           of various filters and explore by category!
         </p>
         <section className={styles.explore_section}>
-          <Row>
-            <Col>
-              <h2>Featured Charity</h2>
-            </Col>
-            <Col className={styles.recently_featured_link}>
-              <ArrowLink href="#">View recently featured charities</ArrowLink>
-            </Col>
-          </Row>
-          <ExploreTile
-            img="/test/red-cross.png"
-            charityPage="#"
-            height="300px"
-            horizontal
-          >
-            <h1>British Red Cross</h1>
-            <h2>UK Coronavirus Response</h2>
-            <p>
-              The coronavirus outbreak is the greatest global health emergency
-              in living memory. It is affecting the way we all go about our
-              daily lives. In these uncertain times, small acts of kindness can
-              make a huge difference.
-            </p>
-          </ExploreTile>
-        </section>
-        <section className={styles.explore_section}>
-          <h2>Popular Charities</h2>
-          <Carousel></Carousel>
+          <div className={styles.grid}>
+            <ResponsiveMasonry columnsCountBreakPoints={{350: 1, 925: 2, 1400: 3}}>
+              <Masonry gutter={"100px"}>
+                {charities.map((charity, key) => 
+                  <ExploreTile key={key} charity={charity} className={styles.exploreTile} />
+                )}
+              </Masonry>
+            </ResponsiveMasonry>
+          </div>
         </section>
       </Layout>
     </>
