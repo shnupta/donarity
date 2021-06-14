@@ -84,7 +84,7 @@ export default function ProfilePage({ user, donations }) {
                 <Col className={styles.userName} md={6}>
                     <div vertical layout>
                     <h1>{ user.name }</h1>
-                    <div style={{textAlign:"right"}}>
+                    <div style={{textAlign:"right", fontFamily:"\'Dosis\', sans-serif", color:'var(--donarity-green)'}}>
                       <h2>Total donations:</h2>
                       <h2>£{total}</h2>
                     </div>

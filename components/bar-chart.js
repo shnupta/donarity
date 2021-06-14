@@ -25,17 +25,12 @@ export default class BarChart extends React.Component {
         <Bar
           data={this.state}
           options={{
-            title:{
-              display:true,
-              text:'Average Rainfall per month',
-              fontSize:20
-            },
             legend:{
               display:true,
               position:'right'
             },
           }}
-          height={100}
+          height={90}
         />
       </div>
     );

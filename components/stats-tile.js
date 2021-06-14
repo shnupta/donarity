@@ -2,7 +2,7 @@ import styles from './stats-tile.module.css';
 import BarChart from './bar-chart';
 import DoughnutChart from './doughnut-chart';
 
-export default function StatsTile({labels, data, bar}) {
+export default function StatsTile({labels, data, bar, title}) {
 
     const content = () => {
         if (bar === true) {
@@ -18,6 +18,7 @@ export default function StatsTile({labels, data, bar}) {
 
     return(
         <div className={styles.tile}>
+            <h3>{title}</h3>
             <div className={styles.content}>
                 {content()}
             </div>

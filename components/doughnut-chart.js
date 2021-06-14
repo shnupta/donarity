@@ -20,7 +20,7 @@ export default class DoughnutChart extends React.Component {
     render() {
         console.log(this.state);
         return (
-            <div style={{maxWidth:"350px", maxHeight:"380px", margin:"0 auto"}}>
+            <div style={{maxWidth:"320px", maxHeight:"350px", margin:"0 auto"}}>
                 <Doughnut 
                     data={this.state} 
                     options={{
