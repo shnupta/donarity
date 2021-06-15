@@ -54,8 +54,8 @@ export async function getServerSideProps(context) {
         },
         include: {
           charity: true,
-        }
-      }
+        },
+      },
     },
   });
 
@@ -72,7 +72,7 @@ export async function getServerSideProps(context) {
   );
 
   delete user.donations;
-  delete user.subscriptions
+  delete user.subscriptions;
 
   const stripe = getServerStripe();
   const paymentMethods = await stripe.paymentMethods.list({
@@ -127,11 +127,11 @@ export default function ProfilePage({ user, donations, cards, subscriptions }) {
     }
     return recentDonations;
   };
-
   const total = donations.reduce(function (a, d) {
-    return a + parseInt(d.amount);
+    return a + parseFloat(d.amount);
   }, 0);
 
+  
   return (
     <>
       <Head>
@@ -144,12 +144,24 @@ export default function ProfilePage({ user, donations, cards, subscriptions }) {
             <img src={user.image} alt="No Image!" />
           </Col>
           <Col className={styles.userName} md={6}>
-            <h1>{user.name}</h1>
+            <div vertical layout>
+              <h1>{user.name}</h1>
+              <div
+                style={{
+                  textAlign: "right",
+                  fontFamily: "'Dosis', sans-serif",
+                  color: "var(--donarity-green)",
+                }}
+              >
+                <h2>Total donations:</h2>
+                <h2>£{total}</h2>
+              </div>
+            </div>
           </Col>
         </Row>
         <div className={styles.statistics}>
           <h1>Statistics</h1>
-          <SimpleSlider />
+          <SimpleSlider donations={donations} />
         </div>
         <div className={styles.section}>
           <ManageRecurringDonations user={user} subscriptions={subscriptions} />
