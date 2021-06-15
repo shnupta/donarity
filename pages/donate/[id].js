@@ -6,7 +6,7 @@ import CharitySummary from "../../components/charity-summary";
 import PaymentForm from "../../components/payment-form";
 import prisma from "../../lib/prisma";
 
-import { getClientStripe } from "../../lib/clientStripe"
+import { getClientStripe } from "../../lib/clientStripe";
 
 export const getServerSideProps = async (context) => {
   // Find the model in prisma/schema.prisma
@@ -19,10 +19,10 @@ export const getServerSideProps = async (context) => {
   if (!charity) {
     return {
       redirect: {
-        destination: '/404',
-        permanent: false
-      }
-    }
+        destination: "/404",
+        permanent: false,
+      },
+    };
   }
 
   const session = await getSession(context);
@@ -40,49 +40,57 @@ export default function DonatePage({ charity, session }) {
     // Body: frequency, amount, charityId, userId?
     // To come: projectId?
 
-    const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/checkout_sessions', {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body)
-    })
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_BASE_URL + "/api/checkout_sessions",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      }
+    );
 
     if (response.status === 500) {
-      console.error(response.statusText)
-      return
+      console.error(response.statusText);
+      return;
     }
 
-    const stripe = await getClientStripe()
+    const stripe = await getClientStripe();
     if (!stripe) {
-      console.error("Couldn't load stripe.")
-      return
+      console.error("Couldn't load stripe.");
+      return;
     }
-    const resBody = await response.json() 
-    const sessionId = await resBody.id
+    const resBody = await response.json();
+    const sessionId = await resBody.id;
+    const paymentIntentId = await resBody.payment_intent;
+    const stripeCustomerId = await resBody.customer;
     const sessionBody = {
       sessionId: sessionId,
       userId: session ? session.userId : null,
       charityId: charity.id,
       amount: data.amount,
-      frequency: data.frequency
-    }
-    
+      frequency: data.frequency,
+      paymentIntentId: paymentIntentId,
+      stripeCustomerId: stripeCustomerId,
+    };
 
-    const newSessionResponse = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/checkout_sessions/create',
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(sessionBody)
-    })
+    const newSessionResponse = await fetch(
+      process.env.NEXT_PUBLIC_BASE_URL + "/api/checkout_sessions/create",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(sessionBody),
+      }
+    );
 
     if (!newSessionResponse.ok) {
-      console.error(newSessionResponse.statusText)
+      console.error(newSessionResponse.statusText);
     }
 
     const { error } = await stripe.redirectToCheckout({
-      sessionId: sessionId
-    })
+      sessionId: sessionId,
+    });
 
-    console.warn(error.message)
+    console.warn(error.message);
   };
 
   return (

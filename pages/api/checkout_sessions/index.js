@@ -77,6 +77,8 @@ export default async function handler(req, res) {
         metadata: {
           charityId: charityId,
           userId: userId,
+          frequency: frequency,
+          amount: amount
         },
       };
       const checkoutSession = await stripe.checkout.sessions.create(params);

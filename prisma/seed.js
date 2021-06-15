@@ -4,27 +4,43 @@ const prisma = new PrismaClient()
 async function main() {
   // TODO: Change these to prisma.xxxx.upsert and have create and update arguments so we don't get duplicates
   // TODO: Add more details and entries
-  const country = await prisma.country.create({
-    data: {
+  const country = await prisma.country.upsert({
+    where: {
+      name: "United Kingdom"
+    },
+    update: {},
+    create: {
       name: "United Kingdom"
     }
   })
 
-  const city = await prisma.city.create({
-    data: {
+  const city = await prisma.city.upsert({
+    where: {
+      id: 1
+    },
+    update: {},
+    create: {
       name: "London",
       countryId: country.id
     }
   })
 
-  const category = await prisma.category.create({
-    data: {
+  const category = await prisma.category.upsert({
+    where: {
+      id: 1
+    },
+    update: {},
+    create: {
       name: "Overseas Aid and Famine Relief"
     }
   })
 
-  const charity = await prisma.charity.create({
-    data: {
+  const charity = await prisma.charity.upsert({
+    where: {
+      id: "test"
+    },
+    update: {},
+    create: {
       id: "test",
       name: "British Red Cross",
       tagline: "We help others",

@@ -41,6 +41,9 @@ export async function getServerSideProps(context) {
     },
     include: {
       donations: {
+        where: {
+          completed: true,
+        },
         include: {
           charity: true,
         },

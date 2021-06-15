@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_DEV_URL")
 }
 
 generator client {
@@ -50,8 +50,8 @@ model User {
   userRole      UserRole   @default(User) @map(name: "user_role")
   charityId     String?    @map(name: "charity_id")
   charity       Charity?   @relation(fields: [charityId], references: [id])
-  checkoutSessions CheckoutSession[]
   stripeCustomerId String? @map(name: "stripe_customer_id")
+  subscriptions Subscription[]
 
   @@map(name: "users")
 }
@@ -93,13 +93,15 @@ model Charity {
   cityId      Int @map(name: "city_id")
   links       FeaturedLink[]
   user        User?
-  checkoutSessions CheckoutSession[] 
+  subscriptions Subscription[]
 
   @@map(name: "charities")
 }
 
 model Donation {
   id        Int               @id @default(autoincrement())
+  paymentIntentId String @map(name: "payment_intent_id") @unique
+  completed Boolean @default(false)
   frequency DonationFrequency
   amount    Decimal
   charity   Charity           @relation(fields: [charityId], references: [id])
@@ -108,6 +110,9 @@ model Donation {
   userId    Int?              @map(name: "user_id")
   createdAt DateTime          @default(now()) @map(name: "created_at")
   checkoutSession CheckoutSession?
+  subscriptionId String? @map(name: "subscription_id")
+  subscription Subscription? @relation(fields: [subscriptionId], references: [subscriptionId])
+  stripeCustomerId String @map(name: "stripe_customer_id")
 
   @@map(name: "donations")
 }
@@ -124,8 +129,10 @@ model City {
 
 model Country {
   id     Int    @id @default(autoincrement())
-  name   String
+  name   String @unique
   cities City[]
+
+  @@map(name: "countries")
 }
 
 model FeaturedLink {
@@ -142,6 +149,8 @@ model Category {
   id        Int       @id @default(autoincrement())
   name      String
   charities Charity[]
+
+  @@map(name: "categories")
 }
 
 enum DonationFrequency {
@@ -158,17 +167,26 @@ enum CharityScope {
 
 model CheckoutSession {
   sessionId String @id @map(name: "session_id")
-  userId Int? @map(name: "user_id")
-  user User? @relation(fields: [userId], references: [id])
-  charityId String @map(name: "charity_id")
-  charity Charity @relation(fields: [charityId], references: [id])
-  donationId Int?
-  amount Decimal
-  donationFrequency DonationFrequency @map(name: "donation_frequency")
-  donation Donation? @relation(fields: [donationId], references: [id])
-  completed Boolean @default(false)
+  paymentIntentId String? @map(name: "payment_intent_id")
+  donation Donation? @relation(fields: [paymentIntentId], references: [paymentIntentId])
+  subscriptionId String? @map(name: "subscription_id")
+  subscription Subscription? @relation(fields: [subscriptionId], references: [subscriptionId])
   createdAt DateTime          @default(now()) @map(name: "created_at")
-  stripeCustomerId String? @map(name: "stripe_customer_id")
 
   @@map(name: "checkout_sessions")
+}
+
+model Subscription {
+  subscriptionId String @id @map(name: "subscription_id")
+  donations Donation[]
+  frequency DonationFrequency
+  amount Decimal
+  userId Int @map(name: "user_id")
+  user User @relation(fields: [userId], references: [id])
+  charityId String @map(name: "charity_id")
+  charity Charity @relation(fields: [charityId], references: [id])
+  checkoutSession CheckoutSession?
+  active Boolean @default(false)
+
+  @@map(name: "subscriptions")
 }

@@ -11,11 +11,18 @@ export async function getServerSideProps({ query }) {
       sessionId: query.session_id,
     },
     include: {
-      charity: true,
+      donation: {
+        include: {
+          charity: true
+        }
+      },
+      subscription: {
+        include: {
+          charity: true,
+        }
+      },
     },
   });
-
-  console.log(checkoutSession);
 
   checkoutSession = JSON.parse(JSON.stringify(checkoutSession, 
     (key, value) => (typeof value === 'Decimal' ? value.toString() : value)))
@@ -26,6 +33,7 @@ export async function getServerSideProps({ query }) {
 }
 
 export default function ThankYouPage({ checkoutSession }) {
+  
   return (
     <>
       <Head>
@@ -33,10 +41,10 @@ export default function ThankYouPage({ checkoutSession }) {
       </Head>
       <Layout>
         <PageTitle>
-          Thank you for your donation to {checkoutSession.charity.name}
+          Thank you for your{checkoutSession.subscription ? ` ${checkoutSession.subscription.frequency}` : ""} donation to {checkoutSession.subscription ? checkoutSession.subscription.charity.name : checkoutSession.donation.charity.name}
         </PageTitle>
         <h4>
-          Your £{checkoutSession.amount} donation will make a big difference!
+          Your £{checkoutSession.subscription ? checkoutSession.subscription.amount : checkoutSession.donation.amount} will make a big difference!
         </h4>
 
         <Button onClick={() => Router.push("/explore")}>Head Home</Button>

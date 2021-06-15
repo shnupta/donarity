@@ -78,36 +78,10 @@ export default NextAuth({
   // when an action is performed.
   // https://next-auth.js.org/configuration/callbacks
   callbacks: {
-    async signIn(user, account, profile) {
-      const dbUser = await prisma.user.findUnique({
-        where: {
-          id: user.id,
-        },
-      });
-
-      if (!dbUser) {
-        console.error(`Couldn't find the user with id: ${user.id}`)
-        return false
-      }
-
-      // If this user doesn't yet have a stripe customer id
-      // Ping the backend api to make a new customer and save it in the database
-      if (!dbUser.stripeCustomerId) {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/customers/create`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json'},
-            body: JSON.stringify({user: dbUser })
-          }
-        );
-
-        if (response.status === 500) {
-          console.error(response.statusText)
-          return false
-        }
-      }
-    },
+    // async signIn(user, account, profile) {
+    //   console.log(user);
+    //   return true;
+    // },
     // async redirect(url, baseUrl) { return baseUrl },
     async session(session, token) {
       session.userId = token.userId;
@@ -115,9 +89,26 @@ export default NextAuth({
       return session;
     },
     async jwt(token, user, account, profile, isNewUser) {
-      if (user?.id) {
+      if (user) {
         token.userId = user.id;
         token.userRole = user.userRole;
+        // If this user doesn't yet have a stripe customer id
+        // Ping the backend api to make a new customer and save it in the database
+        if (!user.stripeCustomerId) {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/customers/create`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ user: user }),
+            }
+          );
+
+          if (response.status === 500) {
+            console.error(response.statusText);
+            return false;
+          }
+        }
       }
       return token;
     },
