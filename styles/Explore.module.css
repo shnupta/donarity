@@ -1,4 +1,8 @@
-.grid .exploreTile {
-  width: 100%;
-  display: block;
+.searchBar {
+  width: 300px;
+}
+
+.searchRefinement {
+  display: flex;
+  margin: 50px 0;
 }

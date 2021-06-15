@@ -1,8 +1,9 @@
 import Head from "next/head";
 
 import Layout from "../components/layout";
-import ExploreTile from "../components/explore-tile";
+import ExploreGrid from "../components/explore-grid";
 import PageTitle from "../components/page-title";
+import SearchInput from "../components/search-input"
 
 import styles from "../styles/Explore.module.css";
 
@@ -10,7 +11,8 @@ import { UserRole } from "@prisma/client";
 import React from "react";
 import { getSession } from "next-auth/client";
 import prisma from "lib/prisma";
-import Masonry, {ResponsiveMasonry} from "react-responsive-masonry";
+import { InstantSearch, SortBy } from 'react-instantsearch-dom';
+import algolia from 'lib/algolia';
 
 export const getServerSideProps = async (context) => {
   // Get the user's session based on the request
@@ -69,13 +71,20 @@ export default function ExplorePage({ charities }) {
         </p>
         <section className={styles.explore_section}>
           <div className={styles.grid}>
-            <ResponsiveMasonry columnsCountBreakPoints={{350: 1, 925: 2, 1400: 3}}>
-              <Masonry gutter={"100px"}>
-                {charities.map((charity, key) => 
-                  <ExploreTile key={key} charity={charity} className={styles.exploreTile} />
-                )}
-              </Masonry>
-            </ResponsiveMasonry>
+            <InstantSearch searchClient={algolia} indexName={"donarity_charities"}>
+              <div className={styles.searchRefinement}>
+                <SearchInput className={styles.searchBar} />
+                <SortBy
+                  defaultRefinement="donarity_charities"
+                  items={[
+                    { value: 'donarity_charities', label: 'Name (alphabetical)' },
+                    { value: 'size_asc', label: 'Size asc.' },
+                    { value: 'size_desc', label: 'Size desc.' },
+                  ]}
+                />
+              </div>
+              <ExploreGrid charities={charities} />
+            </InstantSearch>
           </div>
         </section>
       </Layout>

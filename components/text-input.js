@@ -8,8 +8,7 @@ export default function TextInput({ value, active, placeholder, icon, number, cl
       <input type={number ? "number" : "text"}
              placeholder={placeholder}
              value={value}
-             onChange={(event) => onChange(event.target.value)}
-             onKeyUp={(event) => onChange(event.target.value)}
+             onChange={(event) => onChange(event.currentTarget.value)}
       />
     </div>
   )
