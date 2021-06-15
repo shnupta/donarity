@@ -21,44 +21,44 @@ class ManageRecurringDonations extends React.Component {
         (donation) => donation.frequency != DonationFrequency.Single
       ),
       donationsToRemove: [],
-      donationsToUpdate: [],
+      donationsToUpdate: new Map(),
     };
   }
 
   async deleteSubscriptions() {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/donations`,
-        {
-          method: "DELETE",
-          body: JSON.stringify(this.state.donationsToRemove),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.status != 200) {
-        console.error(response.statusText);
-        return;
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/donations`,
+      {
+        method: "DELETE",
+        body: JSON.stringify(this.state.donationsToRemove),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
+    );
+
+    if (response.status != 200) {
+      console.error(response.statusText);
+      return;
+    }
   }
 
   async updateSubscriptions() {
     const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/donations`,
-        {
-          method: "PUT",
-          body: JSON.stringify(this.state.donationsToUpdate),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.status != 200) {
-        console.error(response.statusText);
-        return;
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/donations`,
+      {
+        method: "PUT",
+        body: JSON.stringify(Array.from(this.state.donationsToUpdate.entries())),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
+    );
+
+    if (response.status != 200) {
+      console.error(response.statusText);
+      return;
+    }
   }
 
   async removeDonation(index) {
@@ -66,7 +66,7 @@ class ManageRecurringDonations extends React.Component {
     const donationToRemove = oldDonations[index];
     oldDonations.splice(index, 1);
 
-    this.state.donationsToRemove.push(donationToRemove)
+    this.state.donationsToRemove.push(donationToRemove);
 
     this.setState({
       editing: this.state.editing,
@@ -79,13 +79,14 @@ class ManageRecurringDonations extends React.Component {
     const oldDonations = JSON.parse(
       JSON.stringify(this.state.tempRecurringDonations)
     );
-    const donationToUpdate = oldDonations[index];
-    this.state.donationsToUpdate.push(donationToUpdate)
     oldDonations[index].amount = amount;
+    const oldMap = this.state.donationsToUpdate
+    oldMap.set(oldDonations[index].subscriptionId, oldDonations[index])
     this.setState({
       editing: this.state.editing,
       recurringDonations: this.state.recurringDonations,
       tempRecurringDonations: oldDonations,
+      donationsToUpdate: oldMap,
     });
   }
 
@@ -95,7 +96,7 @@ class ManageRecurringDonations extends React.Component {
       recurringDonations: this.state.recurringDonations,
       tempRecurringDonations: this.state.recurringDonations,
       donationsToRemove: [],
-      donationsToUpdate: [],
+      donationsToUpdate: new Map(),
     });
   }
 
@@ -105,7 +106,7 @@ class ManageRecurringDonations extends React.Component {
       recurringDonations: this.state.recurringDonations,
       tempRecurringDonations: this.state.recurringDonations,
       donationsToRemove: [],
-      donationsToUpdate: [],
+      donationsToUpdate: new Map(),
     });
   }
 
