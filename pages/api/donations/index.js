@@ -39,8 +39,13 @@ async function handlePut(subscriptions) {
 		});
 
 		const currentSubscription = await stripe.subscriptions.retrieve(subscription.subscriptionId)
-		const updatedSubscriptionItem = await stripe.subscriptionItems.update(currentSubscription.items.data[0].id, {
-			price: newPrice.id
+		const updatedSubscriptionItem = await stripe.subscriptions.update(currentSubscription.id, {
+			cancel_at_period_end: false,
+			proration_behavior: 'none',
+			items: [{
+				id: currentSubscription.items.data[0].id,
+				price: newPrice.id
+			}]
 		})
 
 
