@@ -48,6 +48,14 @@ export async function getServerSideProps(context) {
           charity: true,
         },
       },
+      subscriptions: {
+        where: {
+          active: true,
+        },
+        include: {
+          charity: true,
+        }
+      }
     },
   });
 
@@ -57,7 +65,14 @@ export async function getServerSideProps(context) {
     )
   );
 
+  const subscriptions = JSON.parse(
+    JSON.stringify(user.subscriptions, (key, value) =>
+      typeof value === "Decimal" ? value.toString() : value
+    )
+  );
+
   delete user.donations;
+  delete user.subscriptions
 
   const stripe = getServerStripe();
   const paymentMethods = await stripe.paymentMethods.list({
@@ -66,10 +81,10 @@ export async function getServerSideProps(context) {
   });
   const cards = paymentMethods.data;
 
-  return { props: { user, donations, cards } };
+  return { props: { user, donations, cards, subscriptions } };
 }
 
-export default function ProfilePage({ user, donations, cards }) {
+export default function ProfilePage({ user, donations, cards, subscriptions }) {
   const addNewPaymentMethod = async () => {
     const stripe = await getClientStripe();
 
@@ -137,7 +152,7 @@ export default function ProfilePage({ user, donations, cards }) {
           <SimpleSlider />
         </div>
         <div className={styles.section}>
-          <ManageRecurringDonations user={user} donations={donations} />
+          <ManageRecurringDonations user={user} subscriptions={subscriptions} />
         </div>
         <div className={styles.section}>
           <h1>Donation History</h1>

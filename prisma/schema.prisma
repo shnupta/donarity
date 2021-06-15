@@ -187,6 +187,7 @@ model Subscription {
   charity Charity @relation(fields: [charityId], references: [id])
   checkoutSession CheckoutSession?
   active Boolean @default(false)
+  createdAt DateTime          @default(now()) @map(name: "created_at")
 
   @@map(name: "subscriptions")
 }
