@@ -25,3 +25,7 @@
 img.iconOnly {
   padding: 0;
 }
+
+.disabled {
+  background-color: var(--donarity-dark-gray);
+}
