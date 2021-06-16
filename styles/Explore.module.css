@@ -10,3 +10,7 @@
 .searchRefinement .filterButton {
   background: var(--donarity-dark-gray);
 }
+
+.filterTile {
+  margin: 20px 0;
+}

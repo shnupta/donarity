@@ -17,6 +17,7 @@ import Modal from '../components/modal';
 import Button from '../components/button';
 import RangeSlider from '../components/range-slider';
 import SizeFilter from '../components/size-filter';
+import ScopeSelector from "../components/scope-selector";
 
 export const getServerSideProps = async (context) => {
   // Get the user's session based on the request
@@ -93,8 +94,8 @@ export default function ExplorePage({ charities }) {
                 <Button icon="/filter.svg" className={styles.filterButton} onClick={() => setFiltersOpen(true)}>Filter</Button>
                 <Modal open={filtersOpen} onClose={() => setFiltersOpen(false)}>
                   <h1>Filters</h1>
-                  <SizeFilter attribute="size" min={0} max={999999999} />
-                  <RefinementList attribute="scope" defaultRefinement={[]} operator="or" />
+                  <SizeFilter className={styles.filterTile} attribute="size" min={0} max={999999999} />
+                  <ScopeSelector className={styles.filterTile} attribute="scope" />
                 </Modal>
               </div>
               <ExploreGrid charities={charities} />
