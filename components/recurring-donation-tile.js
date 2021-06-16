@@ -15,7 +15,7 @@ export default function RecurringDonationTile({ donation, className, editing, on
   const [amount, setAmount] = React.useState(donation.amount);
 
   const handleAmountChanged = (newAmount) => {
-    if (newAmount != null) {
+    if (newAmount != null && newAmount != amount) {
       setAmount(newAmount);
       changeAmount(newAmount);
     }

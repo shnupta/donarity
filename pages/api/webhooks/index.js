@@ -25,34 +25,73 @@ async function handleCheckoutSessionCompleted(session) {
       },
     });
 
-    console.log("Got checkout session:");
-    console.log(checkoutSession);
-
-    const donation = await prisma.donation.create({
-      data: {
-        frequency: checkoutSession.donationFrequency,
-        amount: checkoutSession.amount,
-        charityId: checkoutSession.charityId,
-        userId: checkoutSession.userId,
-      },
-    });
-
-    console.log("Created donation:");
-    console.log(donation);
-
-    const updatedSession = await prisma.checkoutSession.update({
+    // No need to create a donation in here
+    let donation;
+    let subscription;
+    if (session.mode === "payment") {
+    donation = await prisma.donation.update({
       where: {
-        sessionId: session.id,
+        paymentIntentId: checkoutSession.paymentIntentId,
       },
       data: {
-        stripeCustomerId: session.customer,
-        donationId: donation.id,
         completed: true,
       },
     });
+    } else if (session.mode === "subscription") {
+      subscription = await prisma.subscription.create({
+        data: {
+          subscriptionId: session.subscription,
+          amount: session.metadata.amount,
+          frequency: session.metadata.frequency,
+          userId: parseInt(session.metadata.userId),
+          charityId: session.metadata.charityId,
+          active: true,
+        }
+      })
+
+      const newSession = await prisma.checkoutSession.update({
+        where: {
+          sessionId: session.id,
+        },
+        data: {
+          subscriptionId: session.subscription
+        }
+      })
+    }
   } catch (err) {
     console.error(err);
   }
+}
+
+async function handlePaymentIntentSucceeded(paymentIntent) {
+  if (paymentIntent.invoice) {
+    const invoice = await stripe.invoices.retrieve(paymentIntent.invoice)
+    const subscription = await prisma.subscription.findUnique({
+      where: {
+        subscriptionId: invoice.subscription
+      }
+    })
+    const donation = await prisma.donation.create({
+      data: {
+        paymentIntentId: paymentIntent.id,
+        completed: true,
+        frequency: subscription.frequency,
+        amount: subscription.amount,
+        charityId: subscription.charityId,
+        userId: subscription.userId,
+        subscriptionId: subscription.subscriptionId,
+        stripeCustomerId: paymentIntent.customer,
+      }
+    })
+  }
+}
+
+async function handlePaymentMethodAttached(paymentMethod) {
+  const customer = await stripe.customers.update(paymentMethod.customer, {
+    invoice_settings: {
+      default_payment_method: paymentMethod.id,
+    },
+  });
 }
 
 async function handler(req, res) {
@@ -76,8 +115,15 @@ async function handler(req, res) {
 
     if (event.type === "checkout.session.completed") {
       await handleCheckoutSessionCompleted(event.data.object);
+    } else if (event.type === "payment_intent.succeeded") {
+      await handlePaymentIntentSucceeded(event.data.object);
+    } else if (event.type === "payment_method.attached") {
+      await handlePaymentMethodAttached(event.data.object);
     }
     res.status(200).json({ received: true });
+  } else {
+    res.setHeader("Allow", "POST");
+    res.status(405).end("Method Not Allowed");
   }
 }
 
