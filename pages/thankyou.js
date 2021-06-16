@@ -65,21 +65,10 @@ export default function ThankYouPage({ checkoutSession }) {
         </Head>
         <Layout headerImg={checkoutSession.subscription.charity.image}>
           <PageTitle>
-            Thank you for your
-            {checkoutSession.subscription
-              ? ` ${checkoutSession.subscription.frequency}`
-              : ""}{" "}
-            donation to{" "}
-            {checkoutSession.subscription
-              ? checkoutSession.subscription.charity.name
-              : checkoutSession.donation.charity.name}
+            Thank you for your {` ${checkoutSession.subscription.frequency}`} donation to {checkoutSession.subscription.charity.name}
           </PageTitle>
           <h4>
-            Your £
-            {checkoutSession.subscription
-              ? checkoutSession.subscription.amount
-              : checkoutSession.donation.amount}{" "}
-            will make a big difference!
+            Your £{checkoutSession.subscription.amount} will make a big difference!
           </h4>
 
           <Button onClick={() => Router.push("/explore")}>Head Home</Button>
