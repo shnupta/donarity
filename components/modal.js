@@ -9,7 +9,7 @@ export default function Modal({ children, className, open, onClose }) {
   }
 
   return (
-    <div className={styles.container + (open ? " " + styles.open : "")} onClick={(event) => handleClick(event)}>
+    <div className={styles.container + (open ? " " + styles.open : "")} onMouseDown={(event) => handleClick(event)}>
       <div className={styles.modal + (className ? " " + className : "")}>
         <img onClick={() => onClose()} className={styles.close} src="/cross.svg" />
         <div className={styles.modalGuts}>

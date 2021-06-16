@@ -11,8 +11,12 @@ import { UserRole } from "@prisma/client";
 import React from "react";
 import { getSession } from "next-auth/client";
 import prisma from "lib/prisma";
-import { InstantSearch, SortBy } from 'react-instantsearch-dom';
+import { InstantSearch, SortBy, RefinementList } from 'react-instantsearch-dom';
 import algolia from 'lib/algolia';
+import Modal from '../components/modal';
+import Button from '../components/button';
+import RangeSlider from '../components/range-slider';
+import SizeFilter from '../components/size-filter';
 
 export const getServerSideProps = async (context) => {
   // Get the user's session based on the request
@@ -57,6 +61,10 @@ export const getServerSideProps = async (context) => {
 };
 
 export default function ExplorePage({ charities }) {
+
+  const [filtersOpen, setFiltersOpen] = React.useState(false);
+  const [filterRange, setFilterRange] = React.useState([0, 16])
+
   return (
     <>
       <Head>
@@ -77,11 +85,17 @@ export default function ExplorePage({ charities }) {
                 <SortBy
                   defaultRefinement="donarity_charities"
                   items={[
-                    { value: 'donarity_charities', label: 'Name (alphabetical)' },
+                    { value: 'donarity_charities', label: 'Name' },
                     { value: 'size_asc', label: 'Size asc.' },
                     { value: 'size_desc', label: 'Size desc.' },
                   ]}
                 />
+                <Button icon="/filter.svg" className={styles.filterButton} onClick={() => setFiltersOpen(true)}>Filter</Button>
+                <Modal open={filtersOpen} onClose={() => setFiltersOpen(false)}>
+                  <h1>Filters</h1>
+                  <SizeFilter attribute="size" min={0} max={999999999} />
+                  <RefinementList attribute="scope" defaultRefinement={[]} operator="or" />
+                </Modal>
               </div>
               <ExploreGrid charities={charities} />
             </InstantSearch>

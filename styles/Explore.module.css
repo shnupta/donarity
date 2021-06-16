@@ -6,3 +6,7 @@
   display: flex;
   margin: 50px 0;
 }
+
+.searchRefinement .filterButton {
+  background: var(--donarity-dark-gray);
+}
