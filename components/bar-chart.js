@@ -12,7 +12,7 @@ export default class BarChart extends React.Component {
           label: 'Donations',
           backgroundColor: 'rgba(64,182,97, 0.8)',
           borderColor: 'rgba(0,0,0,1)',
-          borderWidth: 2,
+          borderWidth: 0.1,
           data: props.data
         }
       ]

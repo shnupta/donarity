@@ -3,16 +3,20 @@ import Link from "next/link";
 import styles from "./manage-recurring-donations.module.css";
 import { DonationFrequency } from "@prisma/client";
 import RecurringDonationTile from "./recurring-donation-tile";
-import React from "react";
+import React, { setState } from "react";
+import Modal from '../components/modal';
 
 class ManageRecurringDonations extends React.Component {
+
   constructor(props) {
     super(props);
     this.removeDonation = this.removeDonation.bind(this);
     this.changeAmount = this.changeAmount.bind(this);
     this.cancel = this.cancel.bind(this);
     this.save = this.save.bind(this);
+    
     this.state = {
+      confirm: false,
       editing: false,
       recurringDonations: props.subscriptions.filter(
         (donation) => donation.frequency != DonationFrequency.Single
@@ -23,6 +27,17 @@ class ManageRecurringDonations extends React.Component {
       donationsToRemove: [],
       donationsToUpdate: new Map(),
     };
+
+    this.openConfirm = this.openConfirm.bind(this);
+    this.closeConfirm = this.closeConfirm.bind(this);
+  }
+
+  openConfirm() {
+    this.setState({confirm: true});
+  }
+
+  closeConfirm() {
+    this.setState({confirm: false});
   }
 
   async deleteSubscriptions() {
@@ -113,7 +128,6 @@ class ManageRecurringDonations extends React.Component {
   async save() {
     await this.deleteSubscriptions();
     await this.updateSubscriptions();
-
     this.setState({
       editing: false,
       recurringDonations: this.state.tempRecurringDonations,
@@ -121,6 +135,8 @@ class ManageRecurringDonations extends React.Component {
       donationsToRemove: [],
       donationsToUpdate: [],
     });
+    await this.closeConfirm();
+    
   }
 
   render() {
@@ -160,7 +176,7 @@ class ManageRecurringDonations extends React.Component {
         {recurringDonationTiles()}
         {this.state.editing && (
           <div className={styles.save}>
-            <Button onClick={this.save}>Save</Button>
+            <Button onClick={this.openConfirm}>Save</Button>
             <Button white onClick={this.cancel}>
               Cancel
             </Button>
@@ -169,6 +185,17 @@ class ManageRecurringDonations extends React.Component {
         <Link href={"/explore"}>
           <Button>Explore more charities</Button>
         </Link>
+        <Modal open={this.state.confirm} onClose={this.closeConfirm}>
+          <div className={styles.confirmParent}>
+            <div>
+              <h1>Are you sure?</h1>
+            </div>
+            <div>
+            <Button onClick={this.save} className={styles.confirmYes}>Yes</Button>
+            <Button onClick={this.closeConfirm} className={styles.confirmNo}>No</Button>
+            </div>
+          </div>
+        </Modal>
       </>
     );
   }

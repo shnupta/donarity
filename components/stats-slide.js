@@ -67,31 +67,28 @@ const mapMonthlyLabels = function(donations) {
   return uniqueItems;
 }
 
-function ColourLeftArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-        // <div
-        //     className="slick-arrow"
-        //     style={{...style, display: 'block', margin: '0.1em'}}
-        //     onClick={onClick}
-        // >
-        <Button className={className} icon="/arrow-left.svg"/>
-        // </div>
-  );
-}
+// function ColourLeftArrow(props) {
+//   const { className, style, onClick } = props;
+//   return (
+//         <div
+//             className={className}
+//             style={{...style, display: 'block', background: "red"}}
+//             onClick={onClick}
+//         />
+          
+//   );
+// }
 
-function ColourRightArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-        <div
-            className="slick-arrow"
-            style={{...style, display: 'block', margin: '10px auto'}}
-            onClick={onClick}
-        >
-        <Button className={className} icon="/arrow-right.svg"/>
-        </div>
-  );
-}
+// function ColourRightArrow(props) {
+//   const { className, style, onClick } = props;
+//   return (
+//         <div
+//             className={className}
+//             style={{...style, display: 'block', background: "red"}}
+//             onClick={onClick}
+//         />
+//   );
+// }
 
 export default class SimpleSlider extends Component {
   
@@ -109,8 +106,7 @@ export default class SimpleSlider extends Component {
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
-      prevArrow: <ColourLeftArrow />,
-      nextArrow: <ColourRightArrow />
+      arrows: false,
     };
 
 
