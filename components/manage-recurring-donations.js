@@ -27,7 +27,7 @@ class ManageRecurringDonations extends React.Component {
 
   async deleteSubscriptions() {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/donations`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/subscriptions`,
       {
         method: "DELETE",
         body: JSON.stringify(this.state.donationsToRemove),
@@ -45,7 +45,7 @@ class ManageRecurringDonations extends React.Component {
 
   async updateSubscriptions() {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/donations`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/subscriptions`,
       {
         method: "PUT",
         body: JSON.stringify(Array.from(this.state.donationsToUpdate.entries())),
