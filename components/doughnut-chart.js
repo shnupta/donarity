@@ -18,18 +18,10 @@ export default class DoughnutChart extends React.Component {
     }
 
     render() {
-        console.log(this.state);
         return (
             <div style={{maxWidth:"320px", maxHeight:"350px", margin:"0 auto"}}>
                 <Doughnut 
-                    data={this.state} 
-                    options={{
-                        title:{
-                            display:true,
-                            text:'Average Rainfall per month',
-                            fontSize:20
-                        },
-                      }}
+                    data={this.state}
                 />
             </div>
         )

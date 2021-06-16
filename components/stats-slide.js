@@ -4,6 +4,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import StatsTile from "./stats-tile";
 import { DonationFrequency } from '@prisma/client'
+import Button from './button'
+
+import styles from './stats-slide.module.css'
 
 const singleTotals = function(donations, name) {
   const total = donations.reduce((a, d) => {
@@ -13,6 +16,7 @@ const singleTotals = function(donations, name) {
 }
 
 const mapSingleTotals = function(donations) {
+
   const list = mapSingleLabels(donations);
   
   const mapTotal = list.map((d) => {
@@ -23,13 +27,14 @@ const mapSingleTotals = function(donations) {
 
 const monthlyTotals = function(donations, name) {
   const total = donations.reduce((a, d) => {
-    return a + (((d.frequency === DonationFrequency.Monthly) && (d.charity.name === name)) ? parseInt(d.amount) : 0);
+    return a + (((d.frequency === DonationFrequency.Monthly) && (d.charity.name === name)) ? parseFloat(d.amount) : 0);
   }, 0);
   return total;
 }
 
 const mapMonthlyTotals = function(donations) {
-  const list = mapSingleLabels(donations);
+  const list = mapMonthlyLabels(donations);
+  
   const mapTotal = list.map((d) => {
     return monthlyTotals(donations, d);
   });
@@ -58,12 +63,34 @@ const mapMonthlyLabels = function(donations) {
     }
   }
 
-  console.log('monthly totals:')
-  console.log(labels);
-  console.log('---');
-
   let uniqueItems = [...new Set(labels)];
   return uniqueItems;
+}
+
+function ColourLeftArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+        // <div
+        //     className="slick-arrow"
+        //     style={{...style, display: 'block', margin: '0.1em'}}
+        //     onClick={onClick}
+        // >
+        <Button className={className} icon="/arrow-left.svg"/>
+        // </div>
+  );
+}
+
+function ColourRightArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+        <div
+            className="slick-arrow"
+            style={{...style, display: 'block', margin: '10px auto'}}
+            onClick={onClick}
+        >
+        <Button className={className} icon="/arrow-right.svg"/>
+        </div>
+  );
 }
 
 export default class SimpleSlider extends Component {
@@ -81,13 +108,14 @@ export default class SimpleSlider extends Component {
       infinite: true,
       speed: 500,
       slidesToShow: 1,
-      slidesToScroll: 1
+      slidesToScroll: 1,
+      prevArrow: <ColourLeftArrow />,
+      nextArrow: <ColourRightArrow />
     };
-    var list = mapSingleTotals(this.state.donations)
-    console.log("donations:");
-    console.log(list);
+
+
     return (
-      <div>
+      <div className={styles.slide}>
         <Slider {...settings}>
           <div> {/* Total to each charity */}
             <StatsTile labels={mapSingleLabels(this.state.donations)} data={mapSingleTotals(this.state.donations)} bar={true} title={"Total of single donations"}/>

@@ -5,6 +5,10 @@ import DoughnutChart from './doughnut-chart';
 export default function StatsTile({labels, data, bar, title}) {
 
     const content = () => {
+        if (data.length === 0) {
+            return (<div style={{padding:"120px"}}><h1>No Data</h1></div>)
+        }
+
         if (bar === true) {
             return (<BarChart labels={labels} data={data}/>)
         } else {
