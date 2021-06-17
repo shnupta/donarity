@@ -9,8 +9,11 @@ const Hits = ({ hits, charities }) => {
   return (
     <ResponsiveMasonry columnsCountBreakPoints={{350: 1, 700: 2, 1100: 3}}>
       <Masonry gutter={"100px"}>
-        {matchingCharities.map((charity) => 
-          <ExploreTile key={charity.id} charity={charity} className={styles.exploreTile} />
+        {matchingCharities.map((charity) => {
+          if (charity != undefined) {
+          return <ExploreTile key={charity.id} charity={charity} className={styles.exploreTile} />
+          }
+        } 
         )}
       </Masonry>
     </ResponsiveMasonry>
