@@ -52,3 +52,33 @@
   text-align: right;
   border-radius: 10px;
 }
+
+.amountModal {
+  font-family: 'Dosis', sans-serif;
+  color: var(--donarity-green);
+  font-size: 6em;
+}
+.tansactionFreqModal {
+  font-family: 'Dosis', sans-serif;
+  color: var(--donarity-green);
+  font-size: 2.5em;
+  text-align: right;
+}
+.infoMainModal {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px auto;
+}
+.charityProfile {
+  width: 400px;
+  height: auto;
+}
+.infoDetailsModal {
+  display:flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  margin-bottom: -12px;
+}
+.extraDetails {
+  text-align: right;
+}

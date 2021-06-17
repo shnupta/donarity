@@ -143,6 +143,49 @@ async function numberOfUsersDonatedInLastMonth() {
 	return donatedUsers.length
 }
 
+
+async function mostPopularCharitiesThisMonth() {
+	const monthMillis = 2629800000;
+
+	const lastMonth = new Date(Date.now() - monthMillis)
+
+	const charities = await prisma.charity.findMany({
+		take: 10,
+		select: {
+			id: true,
+			name: true,
+		},
+		orderBy: {
+			donations: {
+				count: "desc"
+			}
+		}
+	})
+
+	return charities
+}
+
+async function leastPopularCharitiesThisMonth() {
+	const monthMillis = 2629800000;
+
+	const lastMonth = new Date(Date.now() - monthMillis)
+
+	const charities = await prisma.charity.findMany({
+		take: 10,
+		select: {
+			id: true,
+			name: true,
+		},
+		orderBy: {
+			donations: {
+				count: "asc"
+			}
+		}
+	})
+
+	return charities
+}
+
 export default async function handler(req, res) {
 	if (req.method === 'GET') {
 		var result = {}
@@ -157,6 +200,8 @@ export default async function handler(req, res) {
 		result.checkoutAbandonmentRate = await checkoutAbandonmentRate();
 		result.numberOfUsers = await numberOfUsers();
 		result.numberOfUsersDonatedInLastMonth = await numberOfUsersDonatedInLastMonth(); // Users who have made a donation in the last 30 days
+		result.mostPopularCharitiesThisMonth = await mostPopularCharitiesThisMonth();
+		result.leastPopularCharitiesThisMonth = await leastPopularCharitiesThisMonth();
 
 		res.status(200).json(result)
 		

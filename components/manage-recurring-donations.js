@@ -26,6 +26,8 @@ class ManageRecurringDonations extends React.Component {
       ),
       donationsToRemove: [],
       donationsToUpdate: new Map(),
+      donationsAll: props.donations.filter(
+        (donation) => donation.subscriptionId != null),
     };
 
     this.openConfirm = this.openConfirm.bind(this);
@@ -140,7 +142,18 @@ class ManageRecurringDonations extends React.Component {
     
   }
 
+  totalSpent(subId) {
+    let total = 0;
+    for (let i = 0; i < this.state.donationsAll.length; ++i) {
+      if (subId === this.state.donationsAll[i].subscriptionId) {
+        total += parseFloat(this.state.donationsAll[i].amount)
+      }
+    }
+    return total
+  } 
+
   render() {
+
     const recurringDonationTiles = () => {
       if (this.state.recurringDonations.length === 0) {
         return <p>Currently no recurring donations</p>;
@@ -157,6 +170,7 @@ class ManageRecurringDonations extends React.Component {
           changeAmount={(amount) => {
             this.changeAmount(key, amount);
           }}
+          netSpending={this.totalSpent(donation.subscriptionId)}
         />
       ));
     };
