@@ -7,6 +7,7 @@ import Router from "next/router";
 import prisma from "lib/prisma";
 import Confetti from "react-dom-confetti";
 import { useSession } from "next-auth/client";
+import { DonationFrequency } from ".prisma/client";
 
 const config = {
   angle: "90",
@@ -57,7 +58,9 @@ export default function ThankYouPage({ checkoutSession }) {
 
   let subscriptionPage;
   let donationPage;
+  let subscriptionFrequency;
   if (checkoutSession.subscription) {
+    subscriptionFrequency = checkoutSession.subscription.frequency === DonationFrequency.Monthly ? "monthly" : "annual"
     subscriptionPage = (
       <>
         <Head>
@@ -65,13 +68,22 @@ export default function ThankYouPage({ checkoutSession }) {
         </Head>
         <Layout headerImg={checkoutSession.subscription.charity.image}>
           <PageTitle>
-            Thank you for your {` ${checkoutSession.subscription.frequency}`} donation to {checkoutSession.subscription.charity.name}
+            Thank you for your {subscriptionFrequency} donation to {checkoutSession.subscription.charity.name}!
           </PageTitle>
           <h4>
-            Your £{checkoutSession.subscription.amount} will make a big difference!
+            Your £{checkoutSession.subscription.amount} will make a big
+            difference! Here's a big thank you from everyone at{" "}
+            {checkoutSession.donation.charity.name}.
           </h4>
 
-          <Button onClick={() => Router.push("/explore")}>Head Home</Button>
+          <p>
+            While you're here,{" "}
+            <ArrowLink href="/explore">
+              why not check out some other charities?
+            </ArrowLink>
+          </p>
+
+          <Button onClick={() => Router.push("/manage")}>Manage Donations</Button>
         </Layout>
       </>
     );
@@ -83,10 +95,11 @@ export default function ThankYouPage({ checkoutSession }) {
         </Head>
         <Layout headerImg={checkoutSession.donation.charity.image}>
           <PageTitle>
-            Thank you for your donation to{" "}
-            {checkoutSession.donation.charity.name}!
+            Thank you for your donation to {checkoutSession.donation.charity.name}!
           </PageTitle>
-          <div style={{alignItems: "center", marginLeft: "50%", width: "100%"}}>
+          <div
+            style={{ alignItems: "center", marginLeft: "50%", width: "100%" }}
+          >
             <Confetti active={!loading} config={config} />
           </div>
           <h4>
@@ -102,7 +115,7 @@ export default function ThankYouPage({ checkoutSession }) {
             </ArrowLink>
           </p>
 
-          <Button onClick={() => Router.push("/explore")}>Head Home</Button>
+          <Button onClick={() => Router.push("/manage")}>Manage Donations</Button>
         </Layout>
       </>
     );
@@ -115,6 +128,11 @@ export default function ThankYouPage({ checkoutSession }) {
       </>
     );
   } else {
-    return <>{donationPage}</>;
+    return (
+      <>
+        {donationPage}
+        <Confetti active={!loading} config={config} />
+      </>
+    );
   }
 }
