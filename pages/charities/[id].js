@@ -59,7 +59,7 @@ export default function CharityPage({ charity }) {
       </div>
       <div className={styles.extraInfo}>
         <CharityInfo charity={charity} />
-        {charity.links.length && 
+        {charity.links.length > 0 && 
         <div>
           <h2>Featured Links:</h2>
           {charity.links.map((link, key) => {
