@@ -183,7 +183,9 @@ class ManageRecurringDonations extends React.Component {
           </div>
         )}
         <Link href={"/explore"}>
-          <Button>Explore more charities</Button>
+          <a>
+            <Button>Explore more charities</Button>
+          </a>
         </Link>
         <Modal open={this.state.confirm} onClose={this.closeConfirm}>
           <div className={styles.confirmParent}>

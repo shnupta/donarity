@@ -144,7 +144,7 @@ export default function ProfilePage({ user, donations, cards, subscriptions }) {
             <img src={user.image} alt="No Image!" />
           </Col>
           <Col className={styles.userName} md={6}>
-            <div vertical layout>
+            <div>
               <h1>{user.name}</h1>
               <div
                 style={{

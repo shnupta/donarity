@@ -28,3 +28,7 @@
   flex-flow: row wrap;
   gap: 30px;
 }
+
+.section {
+  margin: 80px 0;
+}

@@ -44,7 +44,9 @@ export default function CharityPage({ charity }) {
       <ExtendedCharitySummary charity={charity} />
       <div className={styles.donateButtons}>
         <Link href={"/donate/" + charity.id}>
-          <Button>Donate</Button>
+          <a>
+            <Button>Donate</Button>
+          </a>
         </Link>
         <Button white>Add to split donation</Button>
       </div>
