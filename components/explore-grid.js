@@ -7,7 +7,7 @@ import styles from "./explore-grid.module.css";
 const Hits = ({ hits, charities }) => {
   const matchingCharities = hits.map((hit) =>charities.find(charity => charity.id === hit.objectID));
   return (
-    <ResponsiveMasonry columnsCountBreakPoints={{350: 1, 925: 2, 1400: 3}}>
+    <ResponsiveMasonry columnsCountBreakPoints={{350: 1, 700: 2, 1100: 3}}>
       <Masonry gutter={"100px"}>
         {matchingCharities.map((charity) => 
           <ExploreTile key={charity.id} charity={charity} className={styles.exploreTile} />
