@@ -74,27 +74,29 @@ model VerificationRequest {
 }
 
 model Charity {
-  id          String         @id @default(cuid())
-  name        String
-  tagline     String
-  logo        String
-  image       String
-  website     String
-  facebook    String?
-  twitter     String?
-  instagram   String?
-  linkedin    String?
-  description String         @default("")
-  donations   Donation[]
-  category    Category       @relation(fields: [categoryId], references: [id])
-  categoryId  Int @map(name: "category_id")
-  size        Int
-  scope       CharityScope
-  city        City           @relation(fields: [cityId], references: [id])
-  cityId      Int @map(name: "city_id")
-  links       FeaturedLink[]
-  user        User?
+  id            String         @id @default(cuid())
+  name          String
+  tagline       String
+  logo          String
+  image         String
+  website       String
+  facebook      String?
+  twitter       String?
+  instagram     String?
+  linkedin      String?
+  description   String         @default("")
+  donations     Donation[]
+  category      Category       @relation(fields: [categoryId], references: [id])
+  categoryId    Int @map(name: "category_id")
+  size          Int
+  scope         CharityScope
+  city          City           @relation(fields: [cityId], references: [id])
+  cityId        Int @map(name: "city_id")
+  links         FeaturedLink[]
+  user          User?
   subscriptions Subscription[]
+  featured      FeaturedCharity[]
+  projects      Project[]
 
   @@map(name: "charities")
 }
@@ -191,4 +193,25 @@ model Subscription {
   createdAt DateTime          @default(now()) @map(name: "created_at")
 
   @@map(name: "subscriptions")
+}
+
+model FeaturedCharity {
+  id            Int       @id @default(autoincrement())
+  charityId String @map(name: "charity_id")
+  charity       Charity   @relation(fields: [charityId], references: [id])
+  dateFeatured  DateTime  @default(now()) @map(name: "dateFeatured")
+
+  @@map(name: "featured_charities")
+}
+
+model Project {
+  id            Int       @id @default(autoincrement())
+  charityId String @map(name: "charity_id")
+  charity       Charity   @relation(fields: [charityId], references: [id])
+  name          String
+  description   String
+  link          String?
+  image         String
+
+  @@map(name: "projects")
 }

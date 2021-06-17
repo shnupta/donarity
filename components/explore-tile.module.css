@@ -44,6 +44,11 @@
   margin-bottom: 0;
 }
 
+.anchor:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
 @media only screen and (max-width: 850px) {
   .horizontal.tile {
     flex-flow: column nowrap;

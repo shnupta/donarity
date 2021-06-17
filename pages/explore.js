@@ -11,7 +11,7 @@ import { UserRole } from "@prisma/client";
 import React from "react";
 import { getSession } from "next-auth/client";
 import prisma from "lib/prisma";
-import { InstantSearch, ClearRefinements, MenuSelect } from 'react-instantsearch-dom';
+import { InstantSearch } from 'react-instantsearch-dom';
 import algolia from 'lib/algolia';
 import Modal from '../components/modal';
 import Button from '../components/button';
@@ -20,6 +20,7 @@ import SizeFilter from '../components/size-filter';
 import ScopeSelector from "../components/scope-selector";
 import CategorySelect from "../components/category-select";
 import SortBy from "../components/sort-by";
+import ExploreTile from "../components/explore-tile";
 
 export const getServerSideProps = async (context) => {
   // Get the user's session based on the request
@@ -40,33 +41,23 @@ export const getServerSideProps = async (context) => {
     },
   })
 
-  // let charitiesJson = charities;
-  // for (var i = 0; i < charitiesJson.length; i++) {
-  //   delete charitiesJson[i].logo;
-  //   delete charitiesJson[i].image;
-  //   delete charitiesJson[i].website;
-  //   delete charitiesJson[i].facebook;
-  //   delete charitiesJson[i].twitter;
-  //   delete charitiesJson[i].linkedin;
-  //   delete charitiesJson[i].instagram;
-  //   delete charitiesJson[i].categoryId;
-  //   delete charitiesJson[i].cityId;
-  //   delete charitiesJson[i].city.id;
-  //   delete charitiesJson[i].city.countryId;
-  //   delete charitiesJson[i].city.country.id;
-  //   delete charitiesJson[i].category.id;
-  //   charitiesJson[i].objectID = charitiesJson[i].id;
-  //   delete charitiesJson[i].id;
-  // }
-  // console.log(JSON.stringify(charitiesJson));
+  const featuredCharityObj = await prisma.featuredCharity.findFirst({
+    include: {
+      charity: true
+    },
+    orderBy: {
+      dateFeatured: "desc"
+    }
+  });
 
-  return { props: { charities } };
+  const featuredCharity = featuredCharityObj.charity;
+
+  return { props: { charities, featuredCharity } };
 };
 
-export default function ExplorePage({ charities }) {
+export default function ExplorePage({ charities, featuredCharity }) {
 
   const [filtersOpen, setFiltersOpen] = React.useState(false);
-  const [filterRange, setFilterRange] = React.useState([0, 16])
 
   return (
     <>
@@ -80,7 +71,11 @@ export default function ExplorePage({ charities }) {
           that you are excited about, all on this page. You can search, make use
           of various filters and explore by category!
         </p>
-        <section className={styles.explore_section}>
+        <section className={styles.section}>
+          <h1>Featured Charity</h1>
+          <ExploreTile horizontal charity={featuredCharity} />
+        </section>
+        <section className={styles.section}>
           <div className={styles.grid}>
             <InstantSearch searchClient={algolia} indexName={"donarity_charities"}>
               <div className={styles.searchRefinement}>
