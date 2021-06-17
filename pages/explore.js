@@ -18,6 +18,7 @@ import Button from '../components/button';
 import ClearFilters from '../components/clear-filters';
 import SizeFilter from '../components/size-filter';
 import ScopeSelector from "../components/scope-selector";
+import CategorySelect from "../components/category-select"
 
 export const getServerSideProps = async (context) => {
   // Get the user's session based on the request
@@ -93,8 +94,8 @@ export default function ExplorePage({ charities }) {
                 />
                 <Button icon="/filter.svg" className={styles.filterButton} onClick={() => setFiltersOpen(true)}>Filter</Button>
                 <Modal open={filtersOpen} onClose={() => setFiltersOpen(false)}>
-                  <h1>Filters</h1>
-                  <MenuSelect attribute="category.name" />
+                  <h1 className={styles.filtersTitle}>Filters</h1>
+                  <CategorySelect className={styles.filterTile} attribute="category.name" />
                   <SizeFilter className={styles.filterTile} attribute="size" min={0} max={999999999} />
                   <ScopeSelector className={styles.filterTile} attribute="scope" />
                   <ClearFilters className={styles.clear} />
