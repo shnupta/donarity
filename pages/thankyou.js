@@ -70,6 +70,11 @@ export default function ThankYouPage({ checkoutSession }) {
           <PageTitle>
             Thank you for your {subscriptionFrequency} donation to {checkoutSession.subscription.charity.name}!
           </PageTitle>
+          <div
+            style={{ alignItems: "center", marginLeft: "50%", width: "100%" }}
+          >
+            <Confetti active={!loading} config={config} />
+          </div>
           <h4>
             Your £{checkoutSession.subscription.amount} will make a big
             difference! Here's a big thank you from everyone at{" "}
@@ -124,14 +129,12 @@ export default function ThankYouPage({ checkoutSession }) {
     return (
       <>
         {subscriptionPage}
-        <Confetti active={!loading} config={config} />
       </>
     );
   } else {
     return (
       <>
         {donationPage}
-        <Confetti active={!loading} config={config} />
       </>
     );
   }
