@@ -116,6 +116,33 @@ async function checkoutAbandonmentRate() {
 	return (incompleteDonations.length + incompleteSubscriptions.length) / allCheckoutSessions.length
 }
 
+async function numberOfUsers() {
+	const users = await prisma.user.findMany()
+
+	return users.length
+}
+
+async function numberOfUsersDonatedInLastMonth() {
+	const monthMillis = 2629800000;
+
+	const lastMonth = new Date(Date.now() - monthMillis)
+
+	const donatedUsers = await prisma.user.findMany({
+		where: {
+			donations: {
+				some: {
+					completed: true,
+					createdAt: {
+						gte: lastMonth,
+					}
+				}
+			}
+		}
+	})
+
+	return donatedUsers.length
+}
+
 export default async function handler(req, res) {
 	if (req.method === 'GET') {
 		var result = {}
@@ -128,6 +155,8 @@ export default async function handler(req, res) {
 		result.totalNumberOfActiveSubscriptions = await totalNumberOfActiveSubscriptions();
 		result.totalMonthlySubscriptionRevenue = await totalMonthlySubscriptionRevenue();
 		result.checkoutAbandonmentRate = await checkoutAbandonmentRate();
+		result.numberOfUsers = await numberOfUsers();
+		result.numberOfUsersDonatedInLastMonth = await numberOfUsersDonatedInLastMonth(); // Users who have made a donation in the last 30 days
 
 		res.status(200).json(result)
 		
