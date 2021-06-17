@@ -23,7 +23,6 @@ const Filter = ({ min, max, currentRefinement, refine, className }) => {
         max={max ** (1/logScale)}
         value={[currentRefinement.min ** (1/logScale), currentRefinement.max ** (1/logScale)]}
         onChange={( newVal ) => {
-          console.log("new val: " + newVal);
           refine({ min: minValue(newVal[0] ** logScale), max: maxValue(newVal[1] ** logScale),});
         }}
       />

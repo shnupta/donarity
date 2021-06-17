@@ -2,9 +2,9 @@ import styles from './clear-filters.module.css';
 import Button from './button';
 import { connectCurrentRefinements } from 'react-instantsearch-dom';
 
-const MyClearFilters = ({ items, refine }) => {
+const MyClearFilters = ({ items, refine, className }) => {
   return (
-    <Button onClick={() => refine(items)} disabled={!items.length}>Clear Filters</Button>
+    <Button className={className} onClick={() => refine(items)} disabled={!items.length}>Clear Filters</Button>
   )
 }
 

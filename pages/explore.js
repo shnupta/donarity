@@ -11,13 +11,15 @@ import { UserRole } from "@prisma/client";
 import React from "react";
 import { getSession } from "next-auth/client";
 import prisma from "lib/prisma";
-import { InstantSearch, SortBy, ClearRefinements, MenuSelect } from 'react-instantsearch-dom';
+import { InstantSearch, ClearRefinements, MenuSelect } from 'react-instantsearch-dom';
 import algolia from 'lib/algolia';
 import Modal from '../components/modal';
 import Button from '../components/button';
 import ClearFilters from '../components/clear-filters';
 import SizeFilter from '../components/size-filter';
 import ScopeSelector from "../components/scope-selector";
+import CategorySelect from "../components/category-select";
+import SortBy from "../components/sort-by";
 
 export const getServerSideProps = async (context) => {
   // Get the user's session based on the request
@@ -82,19 +84,21 @@ export default function ExplorePage({ charities }) {
           <div className={styles.grid}>
             <InstantSearch searchClient={algolia} indexName={"donarity_charities"}>
               <div className={styles.searchRefinement}>
-                <SearchInput className={styles.searchBar} />
-                <SortBy
-                  defaultRefinement="donarity_charities"
-                  items={[
-                    { value: 'donarity_charities', label: 'Name' },
-                    { value: 'size_asc', label: 'Size asc.' },
-                    { value: 'size_desc', label: 'Size desc.' },
-                  ]}
-                />
-                <Button icon="/filter.svg" className={styles.filterButton} onClick={() => setFiltersOpen(true)}>Filter</Button>
+                <div className={styles.filterBar}>
+                  <SearchInput className={styles.searchBar} />
+                  <SortBy
+                    defaultRefinement="donarity_charities"
+                    items={[
+                      { value: 'donarity_charities', label: 'Name' },
+                      { value: 'size_asc', label: 'Size asc.' },
+                      { value: 'size_desc', label: 'Size desc.' },
+                    ]}
+                  />
+                  <Button icon="/filter.svg" className={styles.filterButton} onClick={() => setFiltersOpen(true)}>Filter</Button>
+                </div>
                 <Modal open={filtersOpen} onClose={() => setFiltersOpen(false)}>
-                  <h1>Filters</h1>
-                  <MenuSelect attribute="category.name" />
+                  <h1 className={styles.filtersTitle}>Filters</h1>
+                  <CategorySelect className={styles.filterTile} attribute="category.name" />
                   <SizeFilter className={styles.filterTile} attribute="size" min={0} max={999999999} />
                   <ScopeSelector className={styles.filterTile} attribute="scope" />
                   <ClearFilters className={styles.clear} />

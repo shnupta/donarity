@@ -3,7 +3,7 @@ import styles from './modal.module.css'
 export default function Modal({ children, className, open, onClose }) {
 
   const handleClick = (event) => {
-    if (event.target.className.includes(styles.container)) {
+    if (event.target === event.currentTarget) {
       onClose();
     }
   }
