@@ -44,6 +44,9 @@ export async function getServerSideProps(context) {
         where: {
           completed: true,
         },
+        orderBy: {
+          createdAt: 'desc',
+        },
         include: {
           charity: true,
         },
