@@ -80,7 +80,7 @@ export default function ExplorePage({ charities, featuredCharity }) {
             <InstantSearch searchClient={algolia} indexName={"donarity_charities"}>
               <div className={styles.searchRefinement}>
                 <div className={styles.filterBar}>
-                  {/* <SearchInput className={styles.searchBar} />
+                  <SearchInput className={styles.searchBar} />
                   <SortBy
                     defaultRefinement="donarity_charities"
                     items={[
@@ -89,7 +89,7 @@ export default function ExplorePage({ charities, featuredCharity }) {
                       { value: 'size_desc', label: 'Size desc.' },
                     ]}
                   />
-                  <Button icon="/filter.svg" className={styles.filterButton} onClick={() => setFiltersOpen(true)}>Filter</Button> */}
+                  <Button icon="/filter.svg" className={styles.filterButton} onClick={() => setFiltersOpen(true)}>Filter</Button>
                 </div>
                 <Modal open={filtersOpen} onClose={() => setFiltersOpen(false)}>
                   <h1 className={styles.filtersTitle}>Filters</h1>
