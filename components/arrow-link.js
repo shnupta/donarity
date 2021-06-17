@@ -1,7 +1,7 @@
 import styles from './arrow-link.module.css'
 import Link from 'next/link'
 
-export default function ArrowLink({ children, href, right, left, className, noAnchor }) {
+export default function ArrowLink({ children, href, right, left, className, noAnchor, click }) {
 
     if (!noAnchor) {
         return (
