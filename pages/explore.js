@@ -71,10 +71,10 @@ export default function ExplorePage({ charities, featuredCharity }) {
           that you are excited about, all on this page. You can search, make use
           of various filters and explore by category!
         </p>
-        {/* <section className={styles.section}>
+        <section className={styles.section}>
           <h1>Featured Charity</h1>
           <ExploreTile horizontal charity={featuredCharity} />
-        </section> */}
+        </section>
         <section className={styles.section}>
           <div className={styles.grid}>
             <InstantSearch searchClient={algolia} indexName={"donarity_charities"}>
