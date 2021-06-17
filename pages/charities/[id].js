@@ -7,6 +7,8 @@ import ExtendedCharitySummary from "../../components/extended-charity-summary"
 import CharityInfo from "../../components/charity-info"
 import Link from "next/link"
 import ArrowLink from "../../components/arrow-link";
+import ProjectTile from "../../components/project-tile";
+import ProjectSlider from "../../components/project-slider";
 
 export const getServerSideProps = async (context) => {
   // Find the model in prisma/schema.prisma
@@ -22,6 +24,11 @@ export const getServerSideProps = async (context) => {
         },
       },
       links: true,
+      projects: {
+        include: {
+          charity: true,
+        },
+      },
     },
   });
 
@@ -61,6 +68,13 @@ export default function CharityPage({ charity }) {
         </div>
         }
       </div>
+      {charity.projects.length > 0 &&
+        <div className={styles.projectsSection}>
+          <h1>Projects</h1>
+          <ProjectTile project={charity.projects[0]} />
+          {/* <ProjectSlider projects={charity.projects} /> */}
+        </div>
+      }
 
     </Layout>
   );
