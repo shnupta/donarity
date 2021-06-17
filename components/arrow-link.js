@@ -6,14 +6,14 @@ export default function ArrowLink({ children, href, right, left, className, noAn
     if (!noAnchor) {
         return (
             <Link href={href} passHref={true}>
-                <a className={styles.link + (right ? " " + styles.right : "") + (left ? " " + styles.left : "") + (className ? " " + className : "")}>
+                <a onClick={(click ? click : (() => {}))} className={styles.link + (right ? " " + styles.right : "") + (left ? " " + styles.left : "") + (className ? " " + className : "")}>
                     {children}
                 </a>
             </Link>
         )
     } else {
         return (
-            <div className={styles.link + (right ? " " + styles.right : "") + (left ? " " + styles.left : "") + (className ? " " + className : "")}>
+            <div onClick={(click ? click : (() => {}))} className={styles.link + (right ? " " + styles.right : "") + (left ? " " + styles.left : "") + (className ? " " + className : "")}>
                 {children}
             </div>
         )

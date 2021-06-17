@@ -78,7 +78,7 @@ export default function ThankYouPage({ checkoutSession }) {
           <h4>
             Your £{checkoutSession.subscription.amount} will make a big
             difference! Here's a big thank you from everyone at{" "}
-            {checkoutSession.donation.charity.name}.
+            {checkoutSession.subscription.charity.name}.
           </h4>
 
           <p>

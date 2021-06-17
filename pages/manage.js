@@ -9,6 +9,7 @@ import HistoryTile from "../components/history-tile";
 import ManageRecurringDonations from "../components/manage-recurring-donations";
 import SimpleSlider from "@components/stats-slide";
 import Button from "components/button";
+import CardTile from "components/card-tile"
 
 import prisma from "lib/prisma";
 
@@ -43,6 +44,9 @@ export async function getServerSideProps(context) {
       donations: {
         where: {
           completed: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
         },
         include: {
           charity: true,
@@ -123,7 +127,7 @@ export default function ProfilePage({ user, donations, cards, subscriptions }) {
     }
     var recentDonations = [];
     for (var i = 0; i < donations.length && i < 5; ++i) {
-      recentDonations.push(<HistoryTile donation={donations[i]} />);
+      recentDonations.push(<HistoryTile key={i} donation={donations[i]} />);
     }
     return recentDonations;
   };
@@ -131,6 +135,7 @@ export default function ProfilePage({ user, donations, cards, subscriptions }) {
     return a + parseFloat(d.amount);
   }, 0);
 
+  console.log(cards);
   
   return (
     <>
@@ -154,7 +159,7 @@ export default function ProfilePage({ user, donations, cards, subscriptions }) {
                 }}
               >
                 <h2>Total donations:</h2>
-                <h2>£{total}</h2>
+                <h2 style={{textAlign:"center"}}>£{total}</h2>
               </div>
             </div>
           </Col>
@@ -164,7 +169,7 @@ export default function ProfilePage({ user, donations, cards, subscriptions }) {
           <SimpleSlider donations={donations} />
         </div>
         <div className={styles.section}>
-          <ManageRecurringDonations user={user} subscriptions={subscriptions} />
+          <ManageRecurringDonations user={user} subscriptions={subscriptions} donations={donations}/>
         </div>
         <div className={styles.section}>
           <h1>Donation History</h1>
@@ -173,7 +178,7 @@ export default function ProfilePage({ user, donations, cards, subscriptions }) {
         <div className={styles.section}>
           <h1>Payment Methods</h1>
           {cards.map((card, i) => (
-            <div key={i}>{card.card.last4}</div>
+            <CardTile key={i} card={card} />
           ))}
           <Button onClick={() => addNewPaymentMethod()}>Add New Method</Button>
         </div>

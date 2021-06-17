@@ -21,7 +21,7 @@ export default class BarChart extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{maxHeight:"300px", maxWidth:"650px", margin:"0 auto"}}>
         <Bar
           data={this.state}
           options={{
@@ -30,7 +30,6 @@ export default class BarChart extends React.Component {
               position:'right'
             },
           }}
-          height={90}
         />
       </div>
     );

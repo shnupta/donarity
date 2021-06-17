@@ -26,6 +26,8 @@ class ManageRecurringDonations extends React.Component {
       ),
       donationsToRemove: [],
       donationsToUpdate: new Map(),
+      donationsAll: props.donations.filter(
+        (donation) => donation.subscriptionId != null),
     };
 
     this.openConfirm = this.openConfirm.bind(this);
@@ -123,6 +125,7 @@ class ManageRecurringDonations extends React.Component {
       donationsToRemove: [],
       donationsToUpdate: new Map(),
     });
+    this.closeConfirm();
   }
 
   async save() {
@@ -139,7 +142,18 @@ class ManageRecurringDonations extends React.Component {
     
   }
 
+  totalSpent(subId) {
+    let total = 0;
+    for (let i = 0; i < this.state.donationsAll.length; ++i) {
+      if (subId === this.state.donationsAll[i].subscriptionId) {
+        total += parseFloat(this.state.donationsAll[i].amount)
+      }
+    }
+    return total
+  } 
+
   render() {
+
     const recurringDonationTiles = () => {
       if (this.state.recurringDonations.length === 0) {
         return <p>Currently no recurring donations</p>;
@@ -156,9 +170,22 @@ class ManageRecurringDonations extends React.Component {
           changeAmount={(amount) => {
             this.changeAmount(key, amount);
           }}
+          netSpending={this.totalSpent(donation.subscriptionId)}
         />
       ));
     };
+
+    const deleted = (<div className={styles.deletedItems}>
+      {this.state.donationsToRemove.map((donation) => {
+        return (<h6>Removed: {donation.charity.name} - £{donation.amount}</h6>);
+      })}
+    </div>);
+
+    const updated = (<div className={styles.editedItems}>
+      {Array.from(this.state.donationsToUpdate.entries()).map((donation) => {
+        return (<h6>Edited: {donation[1].charity.name} - £{donation[1].amount}</h6>);
+      })}
+    </div>);
 
     return (
       <>
@@ -190,11 +217,16 @@ class ManageRecurringDonations extends React.Component {
         <Modal open={this.state.confirm} onClose={this.closeConfirm}>
           <div className={styles.confirmParent}>
             <div>
-              <h1>Are you sure?</h1>
+              <h1>Are you sure of your changes?</h1>
+            </div>
+            <div className={styles.edits}>
+              {deleted}
+              {updated}
             </div>
             <div>
-            <Button onClick={this.save} className={styles.confirmYes}>Yes</Button>
-            <Button onClick={this.closeConfirm} className={styles.confirmNo}>No</Button>
+              <Button onClick={this.save} className={styles.confirmYes}>Yes I'm Sure</Button>
+              <Button onClick={this.closeConfirm} white className={styles.confirmNo}>Go Back To Editing</Button>
+              <Button onClick={this.cancel} white className={styles.confirmCancel}>Cancel Changes</Button>
             </div>
           </div>
         </Modal>
