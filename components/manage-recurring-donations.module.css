@@ -17,12 +17,19 @@
 }
 
 .confirmParent > * {
-  margin: 2em 1em;
+  margin: 2em 2em;
 }
 
 .confirmYes {
+  margin-left: 0em;
+  margin-right: 1em;
+}
+.confirmCancel {
   margin: 0 1em;
 }
-.confirmYes {
-  margin: 0 1em;
+.deletedItems {
+  color: red;
+}
+.editedItems {
+  color: orange;
 }
