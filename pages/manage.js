@@ -159,7 +159,7 @@ export default function ProfilePage({ user, donations, cards, subscriptions }) {
                 }}
               >
                 <h2>Total donations:</h2>
-                <h2 style={{textAlign:"center"}}>£{total}</h2>
+                <h2 style={{textAlign:"right"}}>£{total}</h2>
               </div>
             </div>
           </Col>
