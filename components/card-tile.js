@@ -1,7 +1,7 @@
 import styles from "components/card-tile.module.css"
 import Col from 'react-bootstrap/Col'
 
-export default function CardTile({card }) {
+export default function CardTile({card}) {
     return (
         <div className={styles.tile}>
             <div className={styles.row}>

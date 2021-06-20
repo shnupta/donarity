@@ -8,6 +8,7 @@ import prisma from "lib/prisma";
 import Confetti from "react-dom-confetti";
 import { useSession } from "next-auth/client";
 import { DonationFrequency } from ".prisma/client";
+import SuggestionTile from "../components/suggestion-tile";
 
 const config = {
   angle: "90",
@@ -48,17 +49,85 @@ export async function getServerSideProps({ query }) {
     )
   );
 
+
+  //find users that have donated to common charity
+  //also need to check if it's subscription or donation
+  if (checkoutSession.subscription === null) {
+    var donation = await prisma.donation.findMany({
+      where: {
+        charity: checkoutSession.donation.charity,
+        NOT: {
+          userId: checkoutSession.donation.userId
+        },
+      }
+    })
+  } else {
+    var donation = await prisma.donation.findMany({
+      where: {
+        charity: checkoutSession.subscription.charity,
+        NOT: {
+          userId: checkoutSession.subscription.userId
+        },
+      }
+    })
+  }
+
+  donation = JSON.parse(
+    JSON.stringify(donation, (key, value) =>
+      typeof value === "Decimal" ? value.toString() : value
+    )
+  );
+
+  //grab the first user (or we can randomise this later)
+  //and grab the list of charities this user donates to 
+  //(apart from the one just donated to)
+  if (donation.length === 0) {
+    donation = null
+  } else {
+    var charities = await prisma.donation.findMany({
+      where: {
+        userId: donation[0].userId,
+        NOT: {
+          charityId: donation[0].charityId,
+        },
+      },
+      include: {
+        charity: true,
+      }
+    })
+  }
+
+  charities = JSON.parse(
+    JSON.stringify(charities, (key, value) =>
+      typeof value === "Decimal" ? value.toString() : value
+    )
+  );
+
   return {
-    props: { checkoutSession },
+    props: { checkoutSession, donation, charities },
   };
 }
 
-export default function ThankYouPage({ checkoutSession }) {
+export default function ThankYouPage({ checkoutSession, donation, charities }) {
   const [session, loading] = useSession();
 
   let subscriptionPage;
   let donationPage;
   let subscriptionFrequency;
+
+  let uniqueCharities = new Map();
+
+  if (charities != null) {
+    for (let i = 0; i < charities.length; ++i) {
+      if (!uniqueCharities.has(charities.charityId)) {
+        uniqueCharities.set(charities[i].charityId, charities[i]);
+      }
+    }
+  }
+
+  const list = Array.from(uniqueCharities)
+  console.log(list);
+
   if (checkoutSession.subscription) {
     subscriptionFrequency = checkoutSession.subscription.frequency === DonationFrequency.Monthly ? "monthly" : "annual"
     subscriptionPage = (
@@ -121,6 +190,11 @@ export default function ThankYouPage({ checkoutSession }) {
           </p>
 
           <Button onClick={() => Router.push("/manage")}>Manage Donations</Button>
+
+          <div style={{marginTop:"2em"}}>
+            <h1>Users who donated to {checkoutSession.donation.charity.name} also donated to:</h1>
+            {list.map((c) => (<SuggestionTile name={c[1].charity.name} img={c[1].charity.logo} charityId={c[1].charityId}/>))}
+          </div>
         </Layout>
       </>
     );
