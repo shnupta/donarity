@@ -3,14 +3,13 @@ import prisma from "lib/prisma";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const {
+    var {
       sessionId,
       userId,
       charityId,
       amount,
       frequency,
       paymentIntentId,
-      stripeCustomerId,
     } = req.body;
     let newCheckoutSession;
     let newDonation;
@@ -23,7 +22,6 @@ export default async function handler(req, res) {
           amount: amount,
           charityId: charityId,
           userId: userId,
-          stripeCustomerId: stripeCustomerId,
         },
       });
       }

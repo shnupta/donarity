@@ -29,14 +29,15 @@ async function handleCheckoutSessionCompleted(session) {
     let donation;
     let subscription;
     if (session.mode === "payment") {
-    donation = await prisma.donation.update({
-      where: {
-        paymentIntentId: checkoutSession.paymentIntentId,
-      },
-      data: {
-        completed: true,
-      },
-    });
+      donation = await prisma.donation.update({
+        where: {
+          paymentIntentId: checkoutSession.paymentIntentId,
+        },
+        data: {
+          completed: true,
+          stripeCustomerId: session.customer,
+        },
+      });
     } else if (session.mode === "subscription") {
       subscription = await prisma.subscription.create({
         data: {
@@ -46,17 +47,18 @@ async function handleCheckoutSessionCompleted(session) {
           userId: parseInt(session.metadata.userId),
           charityId: session.metadata.charityId,
           active: true,
-        }
-      })
+          stripeCustomerId: session.customer,
+        },
+      });
 
       const newSession = await prisma.checkoutSession.update({
         where: {
           sessionId: session.id,
         },
         data: {
-          subscriptionId: session.subscription
-        }
-      })
+          subscriptionId: session.subscription,
+        },
+      });
     }
   } catch (err) {
     console.error(err);
@@ -65,12 +67,12 @@ async function handleCheckoutSessionCompleted(session) {
 
 async function handlePaymentIntentSucceeded(paymentIntent) {
   if (paymentIntent.invoice) {
-    const invoice = await stripe.invoices.retrieve(paymentIntent.invoice)
+    const invoice = await stripe.invoices.retrieve(paymentIntent.invoice);
     const subscription = await prisma.subscription.findUnique({
       where: {
-        subscriptionId: invoice.subscription
-      }
-    })
+        subscriptionId: invoice.subscription,
+      },
+    });
     const donation = await prisma.donation.create({
       data: {
         paymentIntentId: paymentIntent.id,
@@ -81,8 +83,8 @@ async function handlePaymentIntentSucceeded(paymentIntent) {
         userId: subscription.userId,
         subscriptionId: subscription.subscriptionId,
         stripeCustomerId: paymentIntent.customer,
-      }
-    })
+      },
+    });
   }
 }
 
@@ -102,11 +104,7 @@ async function handler(req, res) {
     let event;
 
     try {
-      event = stripe.webhooks.constructEvent(
-        buf.toString(),
-        sig,
-        webhookSecret
-      );
+      event = stripe.webhooks.constructEvent(buf.toString(), sig, webhookSecret);
     } catch (err) {
       console.error(err.message);
       res.status(400).send(`Webhook error: ${err.message}`);
