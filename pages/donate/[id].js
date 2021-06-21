@@ -41,7 +41,7 @@ export default function DonatePage({ charity, session }) {
     // To come: projectId?
 
     const response = await fetch(
-      process.env.NEXT_PUBLIC_BASE_URL + "/api/checkout_sessions",
+      process.env.NEXT_PUBLIC_BASE_URL + "/api/checkout_sessions/",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
