@@ -226,6 +226,10 @@ export default function ThankYouPage({ checkoutSession, donation, charities }) {
           </p>
 
           {session && (<Button onClick={() => Router.push("/manage")}>Manage Donations</Button>)}
+          {!session && (<>
+            <h2 style={{fontWeight: 700, fontSize: "1.5em"}}>Create an account in 30 seconds to keep track of your donations in the future</h2>
+            <Button onClick={() => signIn("auth0", { callbackUrl: base_url + "/explore" })}>Sign Up!</Button>
+            </>)}
 
           <div style={{marginTop:"2em"}}>
             <h1>Users who donated to {checkoutSession.donation.charity.name} also donated to:</h1>
