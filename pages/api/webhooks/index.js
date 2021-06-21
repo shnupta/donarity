@@ -28,14 +28,15 @@ async function handleCheckoutSessionCompleted(session) {
     // No need to create a donation in here
     let donation;
     let subscription;
+    console.log(checkoutSession)
     if (session.mode === "payment") {
     donation = await prisma.donation.update({
       where: {
         paymentIntentId: checkoutSession.paymentIntentId,
-        stripeCustomerId: session.customer,
       },
       data: {
         completed: true,
+        stripeCustomerId: session.customer,
       },
     });
     } else if (session.mode === "subscription") {
