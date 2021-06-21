@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@374&display=swap');
+.tile {
+    width: 100%;
+    padding: 20px 30px;
+    border-radius: 15px;
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25); 
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
+    margin: 20px auto;
+}
+
+.tile h1 {
+    font-family: 'Dosis', sans-serif;
+    font-size: 1.4em;
+    text-align: center;
+}
+
+.tile img {
+    display: block;
+    margin: 0 auto;
+    max-height: 5em;
+}
+
+.row {
+    height: 100%;
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.arrow {
+    text-align: right;
+}

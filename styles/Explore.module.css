@@ -1,0 +1,34 @@
+.searchBar {
+  width: 300px;
+}
+
+.searchRefinement {
+  display: flex;
+  margin: 50px 0;
+}
+
+.searchRefinement .filterButton {
+  background: var(--donarity-dark-gray);
+}
+
+.filterTile {
+  margin: 20px 0;
+}
+
+.filtersTitle {
+  margin-bottom: 40px;
+}
+
+.clear {
+  margin-top: 20px;
+}
+
+.filterBar {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 30px;
+}
+
+.section {
+  margin: 50px 0 80px 0;
+}

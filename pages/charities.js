@@ -1,6 +1,6 @@
-
 import Head from 'next/head'
 import Layout from '../components/layout'
+import PageTitle from '../components/page-title'
 
 export default function CharitiesPage()  {
     return (
@@ -9,7 +9,7 @@ export default function CharitiesPage()  {
             <title>Charities</title>
         </Head>
         <Layout>
-            <h1>Charities</h1>
+            <PageTitle>Charities</PageTitle>
         </Layout>
         </>
     )

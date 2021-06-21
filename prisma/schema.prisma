@@ -1,0 +1,217 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["orderByRelation", "selectRelationCount"]
+}
+
+model Account {
+  id                 Int       @id @default(autoincrement())
+  compoundId         String    @unique @map(name: "compound_id")
+  userId             Int       @map(name: "user_id")
+  providerType       String    @map(name: "provider_type")
+  providerId         String    @map(name: "provider_id")
+  providerAccountId  String    @map(name: "provider_account_id")
+  refreshToken       String?   @map(name: "refresh_token")
+  accessToken        String?   @map(name: "access_token")
+  accessTokenExpires DateTime? @map(name: "access_token_expires")
+  createdAt          DateTime  @default(now()) @map(name: "created_at")
+  updatedAt          DateTime  @default(now()) @map(name: "updated_at")
+
+  @@index([providerAccountId], name: "providerAccountId")
+  @@index([providerId], name: "providerId")
+  @@index([userId], name: "userId")
+  @@map(name: "accounts")
+}
+
+model Session {
+  id           Int      @id @default(autoincrement())
+  userId       Int      @map(name: "user_id")
+  expires      DateTime
+  sessionToken String   @unique @map(name: "session_token")
+  accessToken  String   @unique @map(name: "access_token")
+  createdAt    DateTime @default(now()) @map(name: "created_at")
+  updatedAt    DateTime @default(now()) @map(name: "updated_at")
+
+  @@map(name: "sessions")
+}
+
+model User {
+  id            Int        @id @default(autoincrement())
+  name          String?
+  email         String?    @unique
+  emailVerified DateTime?  @map(name: "email_verified")
+  image         String?
+  createdAt     DateTime   @default(now()) @map(name: "created_at")
+  updatedAt     DateTime   @default(now()) @map(name: "updated_at")
+  donations     Donation[]
+  userRole      UserRole   @default(User) @map(name: "user_role")
+  charityId     String?    @map(name: "charity_id")
+  charity       Charity?   @relation(fields: [charityId], references: [id])
+  stripeCustomerId String? @map(name: "stripe_customer_id")
+  subscriptions Subscription[]
+
+  @@map(name: "users")
+}
+
+enum UserRole {
+  User
+  Charity
+}
+
+model VerificationRequest {
+  id         Int      @id @default(autoincrement())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  createdAt  DateTime @default(now()) @map(name: "created_at")
+  updatedAt  DateTime @default(now()) @map(name: "updated_at")
+
+  @@map(name: "verification_requests")
+}
+
+model Charity {
+  id            String         @id @default(cuid())
+  name          String
+  tagline       String
+  logo          String
+  image         String
+  website       String
+  facebook      String?
+  twitter       String?
+  instagram     String?
+  linkedin      String?
+  description   String         @default("")
+  donations     Donation[]
+  category      Category       @relation(fields: [categoryId], references: [id])
+  categoryId    Int @map(name: "category_id")
+  size          Int
+  scope         CharityScope
+  city          City           @relation(fields: [cityId], references: [id])
+  cityId        Int @map(name: "city_id")
+  links         FeaturedLink[]
+  user          User?
+  subscriptions Subscription[]
+  featured      FeaturedCharity[]
+  projects      Project[]
+
+  @@map(name: "charities")
+}
+
+model Donation {
+  id        Int               @id @default(autoincrement())
+  paymentIntentId String @map(name: "payment_intent_id") @unique
+  completed Boolean @default(false)
+  frequency DonationFrequency
+  amount    Decimal
+  charity   Charity           @relation(fields: [charityId], references: [id])
+  charityId String            @map(name: "charity_id")
+  user      User?             @relation(fields: [userId], references: [id])
+  userId    Int?              @map(name: "user_id")
+  createdAt DateTime          @default(now()) @map(name: "created_at")
+  checkoutSession CheckoutSession?
+  subscriptionId String? @map(name: "subscription_id")
+  subscription Subscription? @relation(fields: [subscriptionId], references: [subscriptionId])
+  stripeCustomerId String @map(name: "stripe_customer_id")
+
+  @@map(name: "donations")
+}
+
+model City {
+  id        Int       @id @default(autoincrement())
+  charities Charity[]
+  name      String
+  country   Country   @relation(fields: [countryId], references: [id])
+  countryId Int @map(name: "country_id")
+
+  @@map(name: "cities")
+}
+
+model Country {
+  id     Int    @id @default(autoincrement())
+  name   String @unique
+  cities City[]
+
+  @@map(name: "countries")
+}
+
+model FeaturedLink {
+  id        Int     @id @default(autoincrement())
+  charity   Charity @relation(fields: [charityId], references: [id])
+  charityId String @map(name: "charity_id")
+  text      String
+  url       String
+
+  @@map(name: "featured_links")
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String
+  charities Charity[]
+
+  @@map(name: "categories")
+}
+
+enum DonationFrequency {
+  Single
+  Monthly
+  Annually
+}
+
+enum CharityScope {
+  Regional
+  National
+  International
+}
+
+model CheckoutSession {
+  sessionId String @id @map(name: "session_id")
+  paymentIntentId String? @map(name: "payment_intent_id")
+  donation Donation? @relation(fields: [paymentIntentId], references: [paymentIntentId])
+  subscriptionId String? @map(name: "subscription_id")
+  subscription Subscription? @relation(fields: [subscriptionId], references: [subscriptionId])
+  createdAt DateTime          @default(now()) @map(name: "created_at")
+
+  @@map(name: "checkout_sessions")
+}
+
+model Subscription {
+  subscriptionId String @id @map(name: "subscription_id")
+  donations Donation[]
+  frequency DonationFrequency
+  amount Decimal
+  userId Int @map(name: "user_id")
+  user User @relation(fields: [userId], references: [id])
+  charityId String @map(name: "charity_id")
+  charity Charity @relation(fields: [charityId], references: [id])
+  checkoutSession CheckoutSession?
+  active Boolean @default(false)
+  createdAt DateTime          @default(now()) @map(name: "created_at")
+
+  @@map(name: "subscriptions")
+}
+
+model FeaturedCharity {
+  id            Int       @id @default(autoincrement())
+  charityId String @map(name: "charity_id")
+  charity       Charity   @relation(fields: [charityId], references: [id])
+  dateFeatured  DateTime  @default(now()) @map(name: "dateFeatured")
+
+  @@map(name: "featured_charities")
+}
+
+model Project {
+  id            Int       @id @default(autoincrement())
+  charityId String @map(name: "charity_id")
+  charity       Charity   @relation(fields: [charityId], references: [id])
+  name          String
+  description   String
+  link          String?
+  image         String
+
+  @@map(name: "projects")
+}

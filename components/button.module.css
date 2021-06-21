@@ -1,0 +1,31 @@
+.button {
+  height: 60px;
+  padding: 0 20px;
+  color: white;
+  background: var(--donarity-green);
+  border: none;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25); 
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
+  display: inline-block;
+  font-weight: 700;
+  font-size: 1.2em;
+}
+
+.button img {
+  height: 25px;
+  padding: 0 20px 0 0;
+}
+
+.white {
+  color: black;
+  background-color: white;
+}
+
+img.iconOnly {
+  padding: 0;
+}
+
+.disabled {
+  background-color: var(--donarity-dark-gray);
+}

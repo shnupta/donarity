@@ -1,6 +1,11 @@
-.section {
-  padding: 100px;
-}
 .subcomponent_title {
   margin-top: 50px;
+}
+
+.vertical {
+  width: 400px;
+}
+
+.horizontal {
+  width: 100%;
 }

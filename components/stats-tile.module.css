@@ -1,0 +1,15 @@
+@import url('https://fonstats.googleapis.com/css2?family=Dosis:wght@374&display=swap');
+
+.tile {
+    width: 100%;
+    max-height: 400px;
+    padding: 24px 40px;
+    margin: 20px auto;
+}
+
+.content {
+    align-items: center;
+    text-align: center;
+    color: var(--donarity-green);
+    font-family: 'Dosis', sans-serif;;
+}

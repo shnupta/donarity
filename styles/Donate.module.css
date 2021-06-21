@@ -1,0 +1,30 @@
+.main_container {
+    margin: auto;
+}
+.column {
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.frequency {
+    padding: 5px 0;
+}
+
+.frequency button {
+    background-color: var(--donarity-green);
+    border-color: var(--donarity-green);
+}
+
+.donate {
+    background-color: var(--donarity-green);
+    border-color: var(--donarity-green);
+    margin: 5px 0;
+}
+
+.summary {
+    margin-bottom: 30px;
+}
+
+.or {
+    margin: 30px 0;
+}

@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@374&display=swap');
+.scrollSection {
+    padding: 10rem;
+    align-items: center;
+}
+.component_title {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    font-family: 'Dosis', sans-serif;
+    color: var(--donarity-green);
+}
+.subscriptions {
+    color: var(--donarity-green);
+    font-family: 'Dosis', sans-serif;
+    text-align:left;
+    padding-left: 20px;
+}
+.subscriptions h2 {
+    font-size: 3rem;
+}
+.subscriptions li {
+    list-style-type: none;
+    font-size: 1.6rem;
+}
+.button {
+    margin: 0 auto;
+    background-color: var(--donarity-green);
+    border-color: var(--donarity-green-darkened);
+    margin-top: 1em;
+    margin-bottom: 1.5em;
+}

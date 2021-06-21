@@ -1,0 +1,26 @@
+.amountButtons {
+  margin-right: 20px;
+}
+
+.amountSection {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.buttonSection {
+  margin-top: 20px;
+}
+
+.payButton {
+  margin-top: 20px;
+}
+
+@media only screen and (max-width: 560px) {
+  .break {
+    flex-basis: 100%;
+    width: 0;
+  }
+  .amountButtons {
+    margin-bottom: 10px;
+  }
+}

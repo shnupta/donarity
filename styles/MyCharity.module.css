@@ -1,0 +1,54 @@
+.donateButtons {
+  margin: 50px 0;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 20px;
+}
+
+.extraInfo {
+  margin: 60px 0 30px 0;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 50px;
+  align-items: center;
+}
+
+.extraInfo h2 {
+  font-weight: 700;
+}
+
+.extraInfo a {
+  display: block;
+}
+
+.settings {
+  margin-bottom: 30px;
+}
+
+.modal label {
+  font-weight: 700;
+  display: block;
+}
+
+.tagline {
+  height: 100px;
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.description {
+  height: 200px;
+}
+
+div.smallInput {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+div.smallInput input {
+  color: black;
+}
+
+.button {
+  margin-right: 20px;
+}
