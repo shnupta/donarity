@@ -15,8 +15,6 @@ export const config = {
   },
 };
 
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
 async function handleCheckoutSessionCompleted(session) {
   try {
     const checkoutSession = await prisma.checkoutSession.findUnique({
@@ -28,17 +26,16 @@ async function handleCheckoutSessionCompleted(session) {
     // No need to create a donation in here
     let donation;
     let subscription;
-    console.log(checkoutSession)
     if (session.mode === "payment") {
-    donation = await prisma.donation.update({
-      where: {
-        paymentIntentId: checkoutSession.paymentIntentId,
-      },
-      data: {
-        completed: true,
-        stripeCustomerId: session.customer,
-      },
-    });
+      donation = await prisma.donation.update({
+        where: {
+          paymentIntentId: checkoutSession.paymentIntentId,
+        },
+        data: {
+          completed: true,
+          stripeCustomerId: session.customer,
+        },
+      });
     } else if (session.mode === "subscription") {
       subscription = await prisma.subscription.create({
         data: {
@@ -49,17 +46,17 @@ async function handleCheckoutSessionCompleted(session) {
           charityId: session.metadata.charityId,
           active: true,
           stripeCustomerId: session.customer,
-        }
-      })
+        },
+      });
 
       const newSession = await prisma.checkoutSession.update({
         where: {
           sessionId: session.id,
         },
         data: {
-          subscriptionId: session.subscription
-        }
-      })
+          subscriptionId: session.subscription,
+        },
+      });
     }
   } catch (err) {
     console.error(err);
@@ -68,12 +65,12 @@ async function handleCheckoutSessionCompleted(session) {
 
 async function handlePaymentIntentSucceeded(paymentIntent) {
   if (paymentIntent.invoice) {
-    const invoice = await stripe.invoices.retrieve(paymentIntent.invoice)
+    const invoice = await stripe.invoices.retrieve(paymentIntent.invoice);
     const subscription = await prisma.subscription.findUnique({
       where: {
-        subscriptionId: invoice.subscription
-      }
-    })
+        subscriptionId: invoice.subscription,
+      },
+    });
     const donation = await prisma.donation.create({
       data: {
         paymentIntentId: paymentIntent.id,
@@ -84,8 +81,8 @@ async function handlePaymentIntentSucceeded(paymentIntent) {
         userId: subscription.userId,
         subscriptionId: subscription.subscriptionId,
         stripeCustomerId: paymentIntent.customer,
-      }
-    })
+      },
+    });
   }
 }
 
@@ -99,16 +96,15 @@ async function handlePaymentMethodAttached(paymentMethod) {
 
 async function handler(req, res) {
   if (req.method === "POST") {
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
     const buf = await buffer(req);
     const sig = req.headers["stripe-signature"];
-    console.log(sig)
-    console.log(webhookSecret)
 
     let event;
 
     try {
       event = stripe.webhooks.constructEvent(
-        buf.toString(),
+        buf,
         sig,
         webhookSecret
       );
