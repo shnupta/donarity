@@ -10,7 +10,7 @@ export default function SuggestionTile({name, img, charityId}) {
             <div className={styles.row}>
                 <Col><img src={img} alt={name}/></Col>
                 <Col><h1>{name}</h1></Col>
-                <Col><ArrowLink right href={"/charities/" + charityId}>Read more</ArrowLink></Col>
+                <Col><ArrowLink className={styles.arrow} right href={"/charities/" + charityId}>Read more</ArrowLink></Col>
             </div>
         </div>
     );

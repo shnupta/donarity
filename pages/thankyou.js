@@ -125,8 +125,38 @@ export default function ThankYouPage({ checkoutSession, donation, charities }) {
     }
   }
 
+  //console.log(checkoutSession)
+
   const list = Array.from(uniqueCharities)
-  console.log(list);
+  const listDisplay = [];
+
+  console.log(list)
+  
+  for (let i = 0; i < list.length && listDisplay.length < 3; ++i){
+    // console.log(list[i][1].charity.categoryId);
+    // console.log(checkoutSession.donation.charity.categoryId);
+    if (checkoutSession.donation != null) {
+      if (checkoutSession.donation.charity.categoryId === list[i][1].charity.categoryId) {
+        listDisplay.push(list[i][1]);
+      }
+    } else {
+      if (checkoutSession.subscription.charity.categoryId === list[i][1].charity.categoryId) {
+        listDisplay.push(list[i][1]);
+      }
+    }
+  }
+
+  for (let j = 0; j < list.length && listDisplay.length < 3; ++j) {
+    if (checkoutSession.donation != null) {
+      if (checkoutSession.donation.charity.categoryId != list[j][1].charity.categoryId) {
+        listDisplay.push(list[j][1]);
+      }
+    } else {
+      if (checkoutSession.subscription.charity.categoryId != list[j][1].charity.categoryId) {
+        listDisplay.push(list[j][1]);
+      }
+    }
+  }
 
   if (checkoutSession.subscription) {
     subscriptionFrequency = checkoutSession.subscription.frequency === DonationFrequency.Monthly ? "monthly" : "annual"
@@ -158,6 +188,10 @@ export default function ThankYouPage({ checkoutSession, donation, charities }) {
           </p>
 
           <Button onClick={() => Router.push("/manage")}>Manage Donations</Button>
+          <div style={{marginTop:"2em"}}>
+            <h1>Users who donated to {checkoutSession.subscription.charity.name} also donated to:</h1>
+            {listDisplay.map((c, i) => (<SuggestionTile key={i} name={c.charity.name} img={c.charity.logo} charityId={c.charityId}/>))}
+          </div>
         </Layout>
       </>
     );
@@ -193,7 +227,7 @@ export default function ThankYouPage({ checkoutSession, donation, charities }) {
 
           <div style={{marginTop:"2em"}}>
             <h1>Users who donated to {checkoutSession.donation.charity.name} also donated to:</h1>
-            {list.map((c) => (<SuggestionTile name={c[1].charity.name} img={c[1].charity.logo} charityId={c[1].charityId}/>))}
+            {listDisplay.map((c, i) => (<SuggestionTile key={i} name={c.charity.name} img={c.charity.logo} charityId={c.charityId}/>))}
           </div>
         </Layout>
       </>
