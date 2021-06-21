@@ -15,6 +15,8 @@ export const config = {
   },
 };
 
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
 async function handleCheckoutSessionCompleted(session) {
   try {
     const checkoutSession = await prisma.checkoutSession.findUnique({
@@ -96,18 +98,16 @@ async function handlePaymentMethodAttached(paymentMethod) {
 
 async function handler(req, res) {
   if (req.method === "POST") {
-    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
     const buf = await buffer(req);
     const sig = req.headers["stripe-signature"];
 
     let event;
 
     try {
-      event = stripe.webhooks.constructEvent(
-        buf,
-        sig,
-        webhookSecret
-      );
+      console.log(buf);
+      console.log(sig);
+      console.log(webhookSecret);
+      event = stripe.webhooks.constructEvent(buf, sig, webhookSecret);
     } catch (err) {
       console.error(err.message);
       res.status(400).send(`Webhook error: ${err.message}`);
