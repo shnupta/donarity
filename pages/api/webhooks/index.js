@@ -104,10 +104,7 @@ async function handler(req, res) {
     let event;
 
     try {
-      console.log(buf);
-      console.log(sig);
-      console.log(webhookSecret);
-      event = stripe.webhooks.constructEvent(buf, sig, webhookSecret);
+      event = stripe.webhooks.constructEvent(buf.toString(), sig, webhookSecret);
     } catch (err) {
       console.error(err.message);
       res.status(400).send(`Webhook error: ${err.message}`);
