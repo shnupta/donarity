@@ -183,7 +183,7 @@ export default function ThankYouPage({ checkoutSession, donation, charities }) {
             </ArrowLink>
           </p>
 
-          <Button onClick={() => Router.push("/manage")}>Manage Donations</Button>
+          {session && (<Button onClick={() => Router.push("/manage")}>Manage Donations</Button>)}
           <div style={{marginTop:"2em"}}>
             <h1>Users who donated to {checkoutSession.subscription.charity.name} also donated to:</h1>
             {listDisplay.map((c, i) => (<SuggestionTile key={i} name={c.charity.name} img={c.charity.logo} charityId={c.charityId}/>))}
@@ -219,7 +219,7 @@ export default function ThankYouPage({ checkoutSession, donation, charities }) {
             </ArrowLink>
           </p>
 
-          <Button onClick={() => Router.push("/manage")}>Manage Donations</Button>
+          {session && (<Button onClick={() => Router.push("/manage")}>Manage Donations</Button>)}
 
           <div style={{marginTop:"2em"}}>
             <h1>Users who donated to {checkoutSession.donation.charity.name} also donated to:</h1>
