@@ -13,6 +13,8 @@
   font-size: 1.3em;
   font-weight: 700;
   font-family: 'filson-pro', sans-serif;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .tile select:focus {

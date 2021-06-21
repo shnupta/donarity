@@ -30,7 +30,11 @@
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-  gap: 10px 20px;
+  margin: -10px -20px;
+}
+
+.links > * {
+  margin: 10px 20px;
 }
 
 .social {

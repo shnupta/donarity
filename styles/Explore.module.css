@@ -26,7 +26,11 @@
 .filterBar {
   display: flex;
   flex-flow: row wrap;
-  gap: 30px;
+  margin: -15px;
+}
+
+.filterBar > * {
+  margin: 15px;
 }
 
 .section {
