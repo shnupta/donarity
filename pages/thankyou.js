@@ -6,7 +6,7 @@ import Button from "../components/button";
 import Router from "next/router";
 import prisma from "lib/prisma";
 import Confetti from "react-dom-confetti";
-import { useSession } from "next-auth/client";
+import { signIn, useSession } from "next-auth/client";
 import { DonationFrequency } from ".prisma/client";
 import SuggestionTile from "../components/suggestion-tile";
 
@@ -115,6 +115,8 @@ export default function ThankYouPage({ checkoutSession, donation, charities }) {
   let donationPage;
   let subscriptionFrequency;
 
+  const base_url = process.env.NEXT_PUBLIC_BASE_URL;
+
   let uniqueCharities = new Map();
 
   if (charities != null) {
@@ -184,6 +186,10 @@ export default function ThankYouPage({ checkoutSession, donation, charities }) {
           </p>
 
           {session && (<Button onClick={() => Router.push("/manage")}>Manage Donations</Button>)}
+          {!session && (<>
+            <h2 style={{fontWeight: 700, fontSize: "1.5em"}}>Create an account in 30 seconds to keep track of your donations in the future</h2>
+            <Button onClick={() => signIn("auth0", { callbackUrl: base_url + "/explore" })}>Sign Up!</Button>
+            </>)}
           <div style={{marginTop:"2em"}}>
             <h1>Users who donated to {checkoutSession.subscription.charity.name} also donated to:</h1>
             {listDisplay.map((c, i) => (<SuggestionTile key={i} name={c.charity.name} img={c.charity.logo} charityId={c.charityId}/>))}
