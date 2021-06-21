@@ -7,7 +7,7 @@ import SearchInput from "../components/search-input"
 
 import styles from "../styles/Explore.module.css";
 
-import { UserRole } from "@prisma/client";
+import { DonationFrequency, UserRole } from "@prisma/client";
 import React from "react";
 import { getSession } from "next-auth/client";
 import prisma from "lib/prisma";
@@ -39,11 +39,32 @@ export const getServerSideProps = async (context) => {
     orderBy: {
       name: 'asc',
     },
+    include: {
+      subscriptions: {
+        select: {
+          subscriptionId: true,
+        },
+        where: {
+          active: true,
+        },
+      },
+    },
   })
 
   const featuredCharityObj = await prisma.featuredCharity.findFirst({
     include: {
-      charity: true
+      charity: {
+        include: {
+          subscriptions: {
+            select: {
+              subscriptionId: true,
+            },
+            where: {
+              active: true,
+            },
+          },
+        },
+      },
     },
     orderBy: {
       dateFeatured: "desc"

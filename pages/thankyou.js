@@ -129,12 +129,8 @@ export default function ThankYouPage({ checkoutSession, donation, charities }) {
 
   const list = Array.from(uniqueCharities)
   const listDisplay = [];
-
-  console.log(list)
   
   for (let i = 0; i < list.length && listDisplay.length < 3; ++i){
-    // console.log(list[i][1].charity.categoryId);
-    // console.log(checkoutSession.donation.charity.categoryId);
     if (checkoutSession.donation != null) {
       if (checkoutSession.donation.charity.categoryId === list[i][1].charity.categoryId) {
         listDisplay.push(list[i][1]);
