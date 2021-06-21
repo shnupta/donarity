@@ -100,7 +100,9 @@ async function handlePaymentMethodAttached(paymentMethod) {
 async function handler(req, res) {
   if (req.method === "POST") {
     const buf = await buffer(req);
+    console.log(buf)
     const sig = req.headers["stripe-signature"];
+    console.log(req.headers)
 
     let event;
 
