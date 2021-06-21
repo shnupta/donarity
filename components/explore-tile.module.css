@@ -49,6 +49,22 @@
   color: inherit;
 }
 
+.footer {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer .subscriptionNumber {
+  margin: 0;
+  color: var(--donarity-green);
+}
+
+.seeMore {
+  margin-right: 30px;
+}
+
 @media only screen and (max-width: 850px) {
   .horizontal.tile {
     flex-flow: column nowrap;
