@@ -2,7 +2,6 @@ import styles from './sort-by.module.css';
 import { connectSortBy } from 'react-instantsearch-dom';
 
 const MySortBy = ({ className, items, refine, createURL }) => {
-  console.log(JSON.stringify(items));
   return (
     <div className={styles.tile + (className ? " " + className : "")}>
       <select onChange={event => {event.preventDefault; refine(event.currentTarget.value)}}>

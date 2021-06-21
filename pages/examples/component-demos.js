@@ -16,7 +16,6 @@ export async function getServerSideProps(context) {
 };
 
 export default function ComponentDemos({ charity }) {
-  console.log("Hello!!\nThe Charity is\n" + charity);
   return (
     <>
     <Head>

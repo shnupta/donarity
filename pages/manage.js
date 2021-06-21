@@ -134,8 +134,6 @@ export default function ProfilePage({ user, donations, cards, subscriptions }) {
   const total = donations.reduce(function (a, d) {
     return a + parseFloat(d.amount);
   }, 0);
-
-  console.log(cards);
   
   return (
     <>

@@ -126,7 +126,6 @@ export default function ThankYouPage({ checkoutSession, donation, charities }) {
   }
 
   const list = Array.from(uniqueCharities)
-  console.log(list);
 
   if (checkoutSession.subscription) {
     subscriptionFrequency = checkoutSession.subscription.frequency === DonationFrequency.Monthly ? "monthly" : "annual"
