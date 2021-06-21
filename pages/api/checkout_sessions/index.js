@@ -68,12 +68,10 @@ export default async function handler(req, res) {
       const params = {
         payment_method_types: ["card"],
         line_items: line_items,
-        client_reference_id: req.body.userId,
         mode:
           frequency === DonationFrequency.Single ? "payment" : "subscription",
         success_url: `${req.headers.origin}/thankyou?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${req.headers.origin}/explore`, // TODO: Change this
-        customer: customerId,
         metadata: {
           charityId: charityId,
           userId: userId,
@@ -81,6 +79,13 @@ export default async function handler(req, res) {
           amount: amount
         },
       };
+      if (customerId) {
+        params.customer = customerId;
+      }
+      if (userId) {
+        params.client_reference_id = userId;
+      }
+
       const checkoutSession = await stripe.checkout.sessions.create(params);
 
       res.status(200).json(checkoutSession);

@@ -115,7 +115,7 @@ model Donation {
   checkoutSession CheckoutSession?
   subscriptionId String? @map(name: "subscription_id")
   subscription Subscription? @relation(fields: [subscriptionId], references: [subscriptionId])
-  stripeCustomerId String @map(name: "stripe_customer_id")
+  stripeCustomerId String? @map(name: "stripe_customer_id")
 
   @@map(name: "donations")
 }

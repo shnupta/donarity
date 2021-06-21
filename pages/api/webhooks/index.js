@@ -32,6 +32,7 @@ async function handleCheckoutSessionCompleted(session) {
     donation = await prisma.donation.update({
       where: {
         paymentIntentId: checkoutSession.paymentIntentId,
+        stripeCustomerId: session.customer,
       },
       data: {
         completed: true,
@@ -46,6 +47,7 @@ async function handleCheckoutSessionCompleted(session) {
           userId: parseInt(session.metadata.userId),
           charityId: session.metadata.charityId,
           active: true,
+          stripeCustomerId: session.customer,
         }
       })
 
