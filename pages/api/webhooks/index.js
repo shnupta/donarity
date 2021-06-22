@@ -39,7 +39,10 @@ async function handleCheckoutSessionCompleted(session) {
         },
       });
     } else if (session.mode === "subscription") {
-      subscription = await prisma.subscription.create({
+      subscription = await prisma.subscription.update({
+        where: {
+          id: checkoutSession.subscriptionId,
+        },
         data: {
           subscriptionId: session.subscription,
           amount: session.metadata.amount,
@@ -47,16 +50,6 @@ async function handleCheckoutSessionCompleted(session) {
           userId: parseInt(session.metadata.userId),
           charityId: session.metadata.charityId,
           active: true,
-          stripeCustomerId: session.customer,
-        },
-      });
-
-      const newSession = await prisma.checkoutSession.update({
-        where: {
-          sessionId: session.id,
-        },
-        data: {
-          subscriptionId: session.subscription,
         },
       });
     }
@@ -71,8 +64,9 @@ async function handlePaymentIntentSucceeded(paymentIntent) {
     const subscription = await prisma.subscription.findUnique({
       where: {
         subscriptionId: invoice.subscription,
-      },
+      }
     });
+    // The subscription might not have been created yet
     const donation = await prisma.donation.create({
       data: {
         paymentIntentId: paymentIntent.id,
@@ -81,7 +75,7 @@ async function handlePaymentIntentSucceeded(paymentIntent) {
         amount: subscription.amount,
         charityId: subscription.charityId,
         userId: subscription.userId,
-        subscriptionId: subscription.subscriptionId,
+        subscriptionId: subscription.id,
         stripeCustomerId: paymentIntent.customer,
       },
     });

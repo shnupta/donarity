@@ -113,8 +113,8 @@ model Donation {
   userId    Int?              @map(name: "user_id")
   createdAt DateTime          @default(now()) @map(name: "created_at")
   checkoutSession CheckoutSession?
-  subscriptionId String? @map(name: "subscription_id")
-  subscription Subscription? @relation(fields: [subscriptionId], references: [subscriptionId])
+  subscriptionId Int? @map(name: "subscription_id")
+  subscription Subscription? @relation(fields: [subscriptionId], references: [id])
   stripeCustomerId String? @map(name: "stripe_customer_id")
 
   @@map(name: "donations")
@@ -172,15 +172,16 @@ model CheckoutSession {
   sessionId String @id @map(name: "session_id")
   paymentIntentId String? @map(name: "payment_intent_id")
   donation Donation? @relation(fields: [paymentIntentId], references: [paymentIntentId])
-  subscriptionId String? @map(name: "subscription_id")
-  subscription Subscription? @relation(fields: [subscriptionId], references: [subscriptionId])
+  subscriptionId Int? @map(name: "subscription_id")
+  subscription Subscription? @relation(fields: [subscriptionId], references: [id])
   createdAt DateTime          @default(now()) @map(name: "created_at")
 
   @@map(name: "checkout_sessions")
 }
 
 model Subscription {
-  subscriptionId String @id @map(name: "subscription_id")
+  id Int @id @default(autoincrement())
+  subscriptionId String? @unique @map(name: "subscription_id")
   donations Donation[]
   frequency DonationFrequency
   amount Decimal
