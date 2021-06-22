@@ -10,9 +10,11 @@ export default async function handler(req, res) {
       amount,
       frequency,
       paymentIntentId,
+      stripeCustomerId,
     } = req.body;
     let newCheckoutSession;
     let newDonation;
+    let newSubscription;
     try {
       if (frequency === DonationFrequency.Single) {
       newDonation = await prisma.donation.create({
@@ -24,12 +26,23 @@ export default async function handler(req, res) {
           userId: userId,
         },
       });
+      } else {
+        newSubscription = await prisma.subscription.create({
+          data: {
+            active: false,
+            frequency: frequency,
+            amount: amount,
+            charityId: charityId,
+            userId: userId,
+          }
+        })
       }
 
       newCheckoutSession = await prisma.checkoutSession.create({
         data: {
           sessionId: sessionId,
-          paymentIntentId: paymentIntentId,
+          paymentIntentId: newDonation ? paymentIntentId : null,
+          subscriptionId: newSubscription ? newSubscription.id : null,
         },
       });
     } catch (err) {

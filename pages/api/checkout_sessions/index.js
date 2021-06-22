@@ -34,7 +34,7 @@ export default async function handler(req, res) {
             ? process.env.MONTHLY_PRODUCT_ID
             : process.env.ANNUAL_PRODUCT_ID,
       });
-    }
+    } 
 
     let line_items;
     if (frequency === DonationFrequency.Single) {
@@ -76,7 +76,7 @@ export default async function handler(req, res) {
           charityId: charityId,
           userId: userId,
           frequency: frequency,
-          amount: amount
+          amount: amount,
         },
       };
       if (customerId) {
