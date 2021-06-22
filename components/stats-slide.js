@@ -114,16 +114,16 @@ export default class SimpleSlider extends Component {
       <div className={styles.slide}>
         <Slider {...settings}>
           <div> {/* Total to each charity */}
-            <StatsTile labels={mapSingleLabels(this.state.donations)} data={mapSingleTotals(this.state.donations)} bar={true} title={"Total of single donations"}/>
+            <StatsTile labels={mapSingleLabels(this.state.donations)} data={mapSingleTotals(this.state.donations)} bar={true} title={"Total single donations"}/>
           </div>
           <div> {/* Percentage to each charity */}
-            <StatsTile labels={mapMonthlyLabels(this.state.donations)} data={mapMonthlyTotals(this.state.donations)} bar={true} title={"Total of monthly donations"}/>
+            <StatsTile labels={mapMonthlyLabels(this.state.donations)} data={mapMonthlyTotals(this.state.donations)} bar={true} title={"Total monthly donations"}/>
           </div>
           <div>
-            <StatsTile labels={mapSingleLabels(this.state.donations)} data={mapSingleTotals(this.state.donations)} bar={false} title={"Total of single donations"}/>
+            <StatsTile labels={mapSingleLabels(this.state.donations)} data={mapSingleTotals(this.state.donations)} bar={false} title={"Total single donations"}/>
           </div>
           <div>
-            <StatsTile labels={mapMonthlyLabels(this.state.donations)} data={mapMonthlyTotals(this.state.donations)} bar={false} title={"Total of single donations"}/>
+            <StatsTile labels={mapMonthlyLabels(this.state.donations)} data={mapMonthlyTotals(this.state.donations)} bar={false} title={"Total monthly donations"}/>
           </div>
         </Slider>
       </div>
